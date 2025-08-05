@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "helmets",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "more_stuff:rose_gold_ingot"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "X X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rose_golden_helmet"
+  }
+}

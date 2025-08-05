@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": [
+    {
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "item": "more_stuff:emerald_axe"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:netherite_axe"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  }
+}

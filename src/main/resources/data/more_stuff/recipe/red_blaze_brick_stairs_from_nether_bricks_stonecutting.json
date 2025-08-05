@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "more_stuff:red_blaze_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "more_stuff:red_blaze_brick_stairs"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "description": {
+    "translate": "enchantment.more_stuff.sacrification_curse"
+  },
+  "supported_items": "#minecraft:enchantable/durability",
+  "primary_items": "#minecraft:enchantable/tools",
+  "weight": 1,
+  "max_level": 1,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 11
+  },
+  "max_cost": {
+    "base": 21,
+    "per_level_above_first": 11
+  },
+  "anvil_cost": 1,
+  "slots": [
+    "mainhand",
+    "offhand",
+    "body",
+    "head",
+    "chest",
+    "legs",
+    "feet"
+  ]
+}

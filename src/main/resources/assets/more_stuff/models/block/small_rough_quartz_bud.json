@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "more_stuff:block/small_rough_quartz_bud"
+  }
+}

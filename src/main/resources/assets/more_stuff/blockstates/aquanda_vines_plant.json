@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "berries=false": {
+      "model": "more_stuff:block/aquanda_vines_plant"
+    },
+    "berries=true": {
+      "model": "more_stuff:block/aquanda_vines_plant_lit"
+    }
+  }
+}

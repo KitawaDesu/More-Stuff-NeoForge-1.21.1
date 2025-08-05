@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "life_token_stuff",
+  "ingredients": [
+    {
+      "item": "more_stuff:life_shard"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "more_stuff:life_bit"
+  }
+}

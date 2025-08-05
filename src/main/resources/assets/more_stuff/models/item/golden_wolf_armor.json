@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "more_stuff:item/golden_wolf_armor",
+    "layer1": "more_stuff:item/golden_wolf_armor_overlay"
+  }
+}

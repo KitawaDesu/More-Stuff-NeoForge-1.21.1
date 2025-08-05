@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "leggings",
+  "pattern": [
+    "XXX",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": "minecraft:chain"
+  },
+  "result": {
+    "id": "minecraft:chainmail_leggings",
+    "count": 1,
+    "components": {
+      "minecraft:rarity": "common"
+    }
+  }
+}

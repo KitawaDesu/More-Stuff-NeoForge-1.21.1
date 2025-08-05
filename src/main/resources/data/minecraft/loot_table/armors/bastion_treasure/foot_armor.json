@@ -1,0 +1,37 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_boots",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_boots",
+          "weight": 1,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_boots",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_boots",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:emerald_boots",
+          "weight": 8,
+          "functions": []
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/bastion_treasure/foot_armor"
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "more_stuff:block/stripped_ebony_stem",
+    "particle": "more_stuff:block/stripped_ebony_stem"
+  },
+  "render_type": "solid"
+}

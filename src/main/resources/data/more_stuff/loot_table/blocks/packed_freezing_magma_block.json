@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:packed_freezing_magma_block"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "more_stuff:blocks/packed_freezing_magma_block"
+}

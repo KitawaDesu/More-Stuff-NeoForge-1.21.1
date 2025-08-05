@@ -1,0 +1,33 @@
+{
+  "parent": "block/button_pressed",
+  "textures": {
+        "main": "more_stuff:block/aquanda_planks_overlay",
+        "particle": "more_stuff:block/aquanda_planks_overlay",
+        "tint": "more_stuff:block/aquanda_planks_overlay"
+	},
+    "elements": [
+        {   "from": [ 5, 0, 6 ],
+            "to": [ 11, 1.02, 10 ],
+            "faces": {
+                "down":  { "uv": [ 5,  6, 11, 10 ], "texture": "#main", "tintindex": -1, "cullface": "down" },
+                "up":    { "uv": [ 5,  6, 11, 10 ], "texture": "#main", "tintindex": -1 },
+                "north": { "uv": [ 5, 14, 11, 15 ], "texture": "#main", "tintindex": -1 },
+                "south": { "uv": [ 5, 14, 11, 15 ], "texture": "#main", "tintindex": -1 },
+                "west":  { "uv": [ 6, 14, 10, 15 ], "texture": "#main", "tintindex": -1 },
+                "east":  { "uv": [ 6, 14, 10, 15 ], "texture": "#main", "tintindex": -1 }
+            }
+        },
+        {   "from": [ 5, 0, 6 ],
+            "to": [ 11, 1.02, 10 ],
+            "faces": {
+                "down":  { "uv": [ 5,  6, 11, 10 ], "texture": "#tint", "tintindex": 0, "cullface": "down" },
+                "up":    { "uv": [ 5,  6, 11, 10 ], "texture": "#tint", "tintindex": 0 },
+                "north": { "uv": [ 5, 14, 11, 15 ], "texture": "#tint", "tintindex": 0 },
+                "south": { "uv": [ 5, 14, 11, 15 ], "texture": "#tint", "tintindex": 0 },
+                "west":  { "uv": [ 6, 14, 10, 15 ], "texture": "#tint", "tintindex": 0 },
+                "east":  { "uv": [ 6, 14, 10, 15 ], "texture": "#tint", "tintindex": 0 }
+            }
+        }
+    ],
+  "render_type": "solid"
+}

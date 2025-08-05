@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "more_stuff:block/warped_nether_bricks"
+  }
+}

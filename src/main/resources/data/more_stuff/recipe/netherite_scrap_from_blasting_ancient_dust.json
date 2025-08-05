@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "group": "netherite_scrap",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "more_stuff:ancient_dust"
+  },
+  "result": {
+    "id": "minecraft:netherite_scrap"
+  }
+}

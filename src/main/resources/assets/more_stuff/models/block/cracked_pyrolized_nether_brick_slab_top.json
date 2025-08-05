@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "more_stuff:block/cracked_pyrolized_nether_bricks",
+    "side": "more_stuff:block/cracked_pyrolized_nether_bricks",
+    "top": "more_stuff:block/cracked_pyrolized_nether_bricks"
+  }
+}

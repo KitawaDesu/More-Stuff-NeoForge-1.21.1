@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "more_stuff:item/rosarite_elytra"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "damaged": 1135
+            },
+            "model": "more_stuff:item/damaged_rosarite_elytra"
+        }
+    ]
+}

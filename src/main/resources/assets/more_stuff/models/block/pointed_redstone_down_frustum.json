@@ -1,0 +1,7 @@
+{
+  "parent": "more_stuff:block/pointed_crude_redstone",
+  "textures": {
+    "cross": "more_stuff:block/pointed_crude_redstone_down_frustum"
+  },
+  "render_type": "cutout"
+}

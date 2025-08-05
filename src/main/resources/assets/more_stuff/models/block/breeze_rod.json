@@ -1,0 +1,32 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"1": "more_stuff:block/breeze_rod",
+		"particle": "more_stuff:block/breeze_rod"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -1, 0]},
+			"faces": {
+				"north": {"uv": [6, 0, 8, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"south": {"uv": [8, 0, 6, 16], "texture": "#1"},
+				"west": {"uv": [4, 0, 6, 16], "texture": "#1"},
+				"up": {"uv": [8, 0, 10, 2], "texture": "#1", "cullface": "up"},
+				"down": {"uv": [10, 0, 12, 2], "texture": "#1"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"head": {
+			"rotation": [-60, 0, 0],
+			"translation": [0, 5, -9]
+		}
+	}
+}

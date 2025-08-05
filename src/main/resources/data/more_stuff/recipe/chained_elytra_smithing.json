@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:chain"
+  },
+  "base": {
+    "item": "minecraft:elytra"
+  },
+  "result": {
+    "count": 1,
+    "id": "more_stuff:chained_elytra"
+  },
+  "template": {
+    "item": "more_stuff:elytra_upgrade_smithing_template"
+  }
+}

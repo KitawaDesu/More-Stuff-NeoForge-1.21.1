@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "maces",
+  "pattern": [
+    " # ",
+    " I "
+  ],
+  "key": {
+    "#": "#minecraft:wooden_tool_materials",
+    "I": "minecraft:stick"
+  },
+  "result": {
+    "id": "more_stuff:wooden_mace",
+    "count": 1,
+    "components": {}
+  }
+}

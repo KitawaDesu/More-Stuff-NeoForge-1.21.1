@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "more_stuff:block/packed_frozen_netherrack",
+    "particle": "more_stuff:block/packed_frozen_netherrack"
+  },
+  "render_type": "solid"
+}

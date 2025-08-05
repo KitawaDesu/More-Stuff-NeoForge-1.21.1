@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 50,
+  "experience": 1,
+  "ingredient": {
+    "item": "more_stuff:ancient_bamboo"
+  },
+  "result": {
+    "id": "more_stuff:ancient_chunk"
+  }
+}

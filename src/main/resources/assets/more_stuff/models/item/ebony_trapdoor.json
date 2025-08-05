@@ -1,0 +1,8 @@
+{
+  "parent": "block/template_orientable_trapdoor_bottom",
+  "textures": {
+    "texture": "more_stuff:block/ebony_trapdoor",
+    "particle": "more_stuff:block/ebony_trapdoor"
+  },
+  "render_type": "cutout_mipped"
+}

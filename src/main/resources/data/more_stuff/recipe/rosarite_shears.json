@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "more_stuff:rosarite_ingot"
+  },
+  "base": [
+    {
+      "item": "more_stuff:diamond_shears"
+    },
+    {
+      "item": "more_stuff:emerald_shears"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rosarite_shears"
+  },
+  "template": {
+    "item": "more_stuff:rosarite_upgrade_smithing_template"
+  }
+}

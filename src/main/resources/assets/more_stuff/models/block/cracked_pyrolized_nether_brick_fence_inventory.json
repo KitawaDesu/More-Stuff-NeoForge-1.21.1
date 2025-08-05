@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_inventory",
+  "textures": {
+    "texture": "more_stuff:block/cracked_pyrolized_nether_bricks"
+  }
+}

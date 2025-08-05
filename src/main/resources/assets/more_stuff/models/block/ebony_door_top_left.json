@@ -1,0 +1,9 @@
+{
+  "parent": "block/door_top_left",
+  "textures": {
+    "particle": "more_stuff:block/ebony_door_bottom",
+    "bottom": "more_stuff:block/ebony_door_bottom",
+    "top": "more_stuff:block/ebony_door_top"
+  },
+  "render_type": "solid"
+}

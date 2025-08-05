@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rose_gold_ingots",
+  "ingredients": [
+    {
+      "item": "copper_ingot"
+    },
+    {
+      "item": "copper_ingot"
+    },
+    {
+      "item": "copper_ingot"
+    },
+    {
+      "item": "copper_ingot"
+    },
+    {
+      "item": "gold_ingot"
+    },
+    {
+      "item": "gold_ingot"
+    },
+    {
+      "item": "gold_ingot"
+    },
+    {
+      "item": "gold_ingot"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "id": "more_stuff:rose_gold_ingot"
+  }
+}

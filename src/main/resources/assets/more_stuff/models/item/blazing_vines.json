@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "more_stuff:block/blazing_vines_plant"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

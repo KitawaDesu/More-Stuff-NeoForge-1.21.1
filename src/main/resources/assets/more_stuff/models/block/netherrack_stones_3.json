@@ -1,0 +1,6 @@
+{
+    "parent": "more_stuff:block/stones_3",
+    "textures": {
+        "flowerbed": "more_stuff:block/netherrack_stones"
+    }
+}

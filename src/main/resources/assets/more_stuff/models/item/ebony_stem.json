@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "more_stuff:block/ebony_stem_top",
+    "side": "more_stuff:block/ebony_stem"
+  }
+}

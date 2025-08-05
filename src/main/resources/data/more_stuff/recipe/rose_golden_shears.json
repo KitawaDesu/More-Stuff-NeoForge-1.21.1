@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shears",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "more_stuff:rose_gold_ingot"
+    }
+  },
+  "pattern": [
+    " #",
+    "# "
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rose_golden_shears"
+  }
+}

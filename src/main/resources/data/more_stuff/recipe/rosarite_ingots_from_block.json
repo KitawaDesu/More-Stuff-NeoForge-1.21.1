@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rosarite_ingots",
+  "ingredients": [
+    {
+      "item": "more_stuff:rosarite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "more_stuff:rosarite_ingot"
+  }
+}

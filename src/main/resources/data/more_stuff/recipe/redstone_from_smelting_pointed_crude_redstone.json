@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1,
+  "group": "redstone",
+  "ingredient": "more_stuff:pointed_crude_redstone",
+  "result": {
+    "id": "minecraft:redstone"
+  }
+}

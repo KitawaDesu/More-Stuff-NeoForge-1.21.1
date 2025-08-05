@@ -1,0 +1,59 @@
+{
+  "type": "minecraft:block_column",
+  "config": {
+    "direction": "up",
+    "allowed_placement": {
+      "type": "minecraft:matching_blocks",
+      "blocks": "minecraft:air"
+    },
+    "prioritize_tip": true,
+    "layers": [
+      {
+        "height": {
+          "type": "minecraft:uniform",
+          "min_inclusive": 3,
+          "max_inclusive": 12
+        },
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "more_stuff:pyrolized_bamboo_stalk",
+            "Properties": {
+              "age": "1",
+              "leaves": "none",
+              "stage": "1"
+            }
+          }
+        }
+      },
+      {
+        "height": 2,
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "more_stuff:pyrolized_bamboo_stalk",
+            "Properties": {
+              "age": "1",
+              "leaves": "small",
+              "stage": "1"
+            }
+          }
+        }
+      },
+      {
+        "height": 2,
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "more_stuff:pyrolized_bamboo_stalk",
+            "Properties": {
+              "age": "1",
+              "leaves": "large",
+              "stage": "1"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

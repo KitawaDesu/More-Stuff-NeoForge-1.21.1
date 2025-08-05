@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "more_stuff:block/pyrolized_blaze_brick_pillar_top",
+    "up": "more_stuff:block/pyrolized_blaze_brick_pillar_top",
+    "north": "more_stuff:block/pyrolized_blaze_brick_pillar",
+    "east": "more_stuff:block/pyrolized_blaze_brick_pillar",
+    "south": "more_stuff:block/pyrolized_blaze_brick_pillar",
+    "west": "more_stuff:block/pyrolized_blaze_brick_pillar",
+    "particle": "more_stuff:block/pyrolized_blaze_brick_pillar_top"
+  },
+  "render_type": "solid"
+}

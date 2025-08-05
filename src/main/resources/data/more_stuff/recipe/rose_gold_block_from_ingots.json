@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "rose_gold_blocks",
+  "key": {
+    "#": {
+      "item": "more_stuff:rose_gold_ingot"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rose_gold_block"
+  }
+}

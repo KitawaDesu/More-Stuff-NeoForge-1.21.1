@@ -1,0 +1,28 @@
+{
+  "values": [
+    "more_stuff:rough_emerald_block",
+    "more_stuff:rough_lapis_block",
+    "more_stuff:rough_diamond_block",
+    "more_stuff:rough_quartz_block",
+    "more_stuff:budding_rough_emerald",
+    "more_stuff:budding_rough_lapis",
+    "more_stuff:budding_rough_diamond",
+    "more_stuff:budding_rough_quartz",
+    "more_stuff:small_rough_emerald_bud",
+    "more_stuff:small_rough_lapis_bud",
+    "more_stuff:small_rough_diamond_bud",
+    "more_stuff:small_rough_quartz_bud",
+    "more_stuff:medium_rough_emerald_bud",
+    "more_stuff:medium_rough_lapis_bud",
+    "more_stuff:medium_rough_diamond_bud",
+    "more_stuff:medium_rough_quartz_bud",
+    "more_stuff:large_rough_emerald_bud",
+    "more_stuff:large_rough_lapis_bud",
+    "more_stuff:large_rough_diamond_bud",
+    "more_stuff:large_rough_quartz_bud",
+    "more_stuff:rough_emerald_cluster",
+    "more_stuff:rough_lapis_cluster",
+    "more_stuff:rough_diamond_cluster",
+    "more_stuff:rough_quartz_cluster"
+  ]
+}

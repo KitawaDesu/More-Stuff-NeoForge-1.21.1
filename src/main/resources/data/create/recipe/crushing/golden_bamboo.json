@@ -1,0 +1,26 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "more_stuff:golden_bamboo"
+    }
+  ],
+  "processing_time": 175,
+  "results": [
+    {
+      "chance": 0.0075,
+      "count": 2,
+      "id": "more_stuff:golden_dust"
+    },
+    {
+      "chance": 0.015,
+      "count": 3,
+      "id": "more_stuff:golden_dust"
+    },
+    {
+      "chance": 0.1,
+      "count": 1,
+      "id": "more_stuff:golden_dust"
+    }
+  ]
+}

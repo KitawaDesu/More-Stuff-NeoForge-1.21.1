@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "more_stuff:block/emberstone_0"
+    },
+    "age=1": {
+      "model": "more_stuff:block/emberstone_1"
+    },
+    "age=2": {
+      "model": "more_stuff:block/emberstone_2"
+    },
+    "age=3": {
+      "model": "more_stuff:block/emberstone_3"
+    }
+  }
+}

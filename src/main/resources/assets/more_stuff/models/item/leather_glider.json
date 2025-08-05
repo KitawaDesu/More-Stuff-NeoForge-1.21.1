@@ -1,0 +1,15 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "more_stuff:item/leather_glider",
+        "layer1": "more_stuff:item/leather_glider_overlay"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "damaged": 63
+            },
+            "model": "more_stuff:item/broken_leather_glider"
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "more_stuff:block/blazing_reeds_middle"
+  }
+}

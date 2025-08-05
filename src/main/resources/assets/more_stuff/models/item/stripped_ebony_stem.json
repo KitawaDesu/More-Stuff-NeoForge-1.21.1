@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "more_stuff:block/stripped_ebony_stem_top",
+    "up": "more_stuff:block/stripped_ebony_stem_top",
+    "north": "more_stuff:block/stripped_ebony_stem",
+    "east": "more_stuff:block/stripped_ebony_stem",
+    "south": "more_stuff:block/stripped_ebony_stem",
+    "west": "more_stuff:block/stripped_ebony_stem",
+    "particle": "more_stuff:block/stripped_ebony_stem_top"
+  },
+  "render_type": "solid"
+}

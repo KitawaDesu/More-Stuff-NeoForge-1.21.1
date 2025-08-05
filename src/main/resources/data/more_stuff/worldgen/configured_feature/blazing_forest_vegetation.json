@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:nether_forest_vegetation",
+  "config": {
+    "state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 174,
+          "data": {
+            "Name": "more_stuff:blazing_roots"
+          }
+        },
+        {
+          "weight": 22,
+          "data": {
+            "Name": "more_stuff:ebony_fungus"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:warped_fungus"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:crimson_fungus"
+          }
+        }
+      ]
+    },
+    "spread_width": 8,
+    "spread_height": 4
+  }
+}

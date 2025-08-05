@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/tinted_cross",
+  "textures": {
+    "cross": "more_stuff:block/aquanda_kelp"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

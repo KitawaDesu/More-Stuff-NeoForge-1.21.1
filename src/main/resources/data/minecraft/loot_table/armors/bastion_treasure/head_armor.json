@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_helmet",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_helmet",
+          "weight": 1,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_helmet",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_helmet",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:emerald_helmet",
+          "weight": 8,
+          "functions": []
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/bastion_treasure/head_armor"
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_horse_armor",
+          "weight": 2,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_horse_armor",
+          "weight": 1,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_horse_armor",
+          "weight": 12,
+          "functions": []
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/bastion/horse_armor"
+}

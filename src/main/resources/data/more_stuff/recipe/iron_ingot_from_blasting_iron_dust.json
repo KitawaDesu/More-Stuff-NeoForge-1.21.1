@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.25,
+  "group": "iron_ingot",
+  "ingredient": {
+    "item": "more_stuff:iron_dust"
+  },
+  "result": {
+    "id": "minecraft:iron_ingot"
+  }
+}

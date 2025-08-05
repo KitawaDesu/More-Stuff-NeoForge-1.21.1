@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "chestplates",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "create:zinc_ingot"
+    }
+  },
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:zinc_chestplate"
+  }
+}

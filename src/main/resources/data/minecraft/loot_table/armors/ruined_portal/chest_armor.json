@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_chestplate",
+          "weight": 12
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/ruined_portal/chest_armor"
+}

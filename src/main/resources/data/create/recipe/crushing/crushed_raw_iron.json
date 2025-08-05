@@ -1,0 +1,25 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "create:crushed_raw_iron"
+    }
+  ],
+  "processing_time": 175,
+  "results": [
+    {
+      "chance": 0.03,
+      "count": 2,
+      "id": "more_stuff:iron_dust"
+    },
+    {
+      "chance": 0.05,
+      "count": 3,
+      "id": "more_stuff:iron_dust"
+    },
+    {
+      "count": 1,
+      "id": "more_stuff:iron_dust"
+    }
+  ]
+}

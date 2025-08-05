@@ -1,0 +1,8 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "more_stuff:item/blazing_sprouts",
+    "particle": "more_stuff:item/blazing_sprouts"
+  },
+  "render_type": "cutout"
+}

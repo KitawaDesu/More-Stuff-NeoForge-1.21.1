@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "block": "more_stuff:aquanda_vines",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "berries": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:aquanda_berries"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "more_stuff:blocks/aquanda_vines"
+}

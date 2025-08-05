@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "chestplates",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "id": "more_stuff:leather_glider",
+    "count": 1,
+    "components": {}
+  }
+}

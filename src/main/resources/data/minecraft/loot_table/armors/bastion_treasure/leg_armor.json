@@ -1,0 +1,37 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_leggings",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_leggings",
+          "weight": 1,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_leggings",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_leggings",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:emerald_leggings",
+          "weight": 8,
+          "functions": []
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/bastion_treasure/leg_armor"
+}

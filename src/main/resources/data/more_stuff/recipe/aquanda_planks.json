@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "more_stuff:aquanda_stems"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "more_stuff:aquanda_planks"
+  }
+}

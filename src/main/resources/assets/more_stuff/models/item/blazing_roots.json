@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "more_stuff:item/blazing_roots"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

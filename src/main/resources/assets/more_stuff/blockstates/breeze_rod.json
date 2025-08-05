@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "more_stuff:block/breeze_rod",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "more_stuff:block/breeze_rod"
+    },
+    "axis=z": {
+      "model": "more_stuff:block/breeze_rod",
+      "x": 90
+    }
+  }
+}

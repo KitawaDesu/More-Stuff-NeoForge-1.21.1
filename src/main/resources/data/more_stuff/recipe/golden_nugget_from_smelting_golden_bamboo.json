@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1,
+  "ingredient": {
+    "item": "more_stuff:golden_bamboo"
+  },
+  "result": {
+    "id": "minecraft:gold_nugget"
+  }
+}

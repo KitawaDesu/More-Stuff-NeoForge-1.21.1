@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "chestplates",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:emerald_chestplate"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "more_stuff:rosarite_ingot"
+  },
+  "base": [
+    {
+      "item": "minecraft:diamond_leggings"
+    },
+    {
+      "item": "more_stuff:emerald_leggings"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rosarite_leggings"
+  },
+  "template": {
+    "item": "more_stuff:rosarite_upgrade_smithing_template"
+  }
+}

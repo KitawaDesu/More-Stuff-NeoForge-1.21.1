@@ -1,0 +1,21 @@
+{
+  "feature": "more_stuff:freezing_magma_delta",
+  "placement": [
+    {
+      "type": "count",
+      "count": 125
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "below_top": 0
+      }
+    },
+    {
+      "type": "biome"
+    }
+  ]
+}

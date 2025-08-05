@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:netherrack",
+    "minecraft:basalt",
+    "minecraft:blackstone",
+    "minecraft:smooth_basalt",
+    "more_stuff:pyrolized_netherrack",
+    "more_stuff:frozen_netherrack",
+    "more_stuff:packed_frozen_netherrack",
+    "more_stuff:blue_frozen_netherrack",
+    "#more_stuff:creates_upward_bubble_columns"
+  ]
+}

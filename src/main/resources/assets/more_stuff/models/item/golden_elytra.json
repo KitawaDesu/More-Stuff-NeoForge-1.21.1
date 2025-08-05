@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "more_stuff:item/golden_elytra"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "damaged": 543
+            },
+            "model": "more_stuff:item/damaged_golden_elytra"
+        }
+    ]
+}

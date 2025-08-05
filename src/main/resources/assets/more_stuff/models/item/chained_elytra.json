@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "more_stuff:item/chained_elytra"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "damaged": 671
+            },
+            "model": "more_stuff:item/broken_chained_elytra"
+        }
+    ]
+}

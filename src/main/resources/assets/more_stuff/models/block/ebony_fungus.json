@@ -1,0 +1,8 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "more_stuff:item/ebony_fungus",
+    "particle": "more_stuff:item/ebony_fungus"
+  },
+  "render_type": "cutout"
+}

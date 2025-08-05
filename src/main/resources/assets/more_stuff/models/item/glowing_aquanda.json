@@ -1,0 +1,9 @@
+{
+  "parent": "more_stuff:block/template_glowing_aquanda",
+	"textures": {
+		"inner_core": "more_stuff:block/glowing_aquanda_gel",
+		"side": "more_stuff:block/aquanda_side",
+		"top": "more_stuff:block/aquanda_gel"
+	},
+  "render_type": "minecraft:translucent"
+}

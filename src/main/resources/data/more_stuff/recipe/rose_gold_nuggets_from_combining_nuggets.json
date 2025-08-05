@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rose_gold_nuggets",
+  "ingredients": [
+    {
+      "item": "more_stuff:copper_nugget"
+    },
+    {
+      "item": "more_stuff:copper_nugget"
+    },
+    {
+      "item": "more_stuff:copper_nugget"
+    },
+    {
+      "item": "more_stuff:copper_nugget"
+    },
+    {
+      "item": "gold_nugget"
+    },
+    {
+      "item": "gold_nugget"
+    },
+    {
+      "item": "gold_nugget"
+    },
+    {
+      "item": "gold_nugget"
+    }
+  ],
+  "result": {
+    "id": "more_stuff:rose_gold_nugget",
+    "count": 8
+  }
+}

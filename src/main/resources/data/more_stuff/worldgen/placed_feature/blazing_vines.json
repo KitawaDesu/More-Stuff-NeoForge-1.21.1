@@ -1,0 +1,76 @@
+{
+  "feature": "more_stuff:blazing_vines",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 188
+    },
+    {
+      "type": "minecraft:random_offset",
+      "xz_spread": {
+        "type": "minecraft:uniform",
+        "min_inclusive": -8,
+        "max_inclusive": 8
+      },
+      "y_spread": 0
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": 34
+        },
+        "max_inclusive": {
+          "below_top": 10
+        }
+      }
+    },
+    {
+      "type": "minecraft:environment_scan",
+      "direction_of_search": "down",
+      "max_steps": 12,
+      "target_condition": {
+        "type": "minecraft:has_sturdy_face",
+        "offset": [
+          0,
+          -1,
+          0
+        ],
+        "direction": "up"
+      },
+      "allowed_search_condition": {
+        "type": "minecraft:matching_blocks",
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "blocks": "minecraft:air"
+      }
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:not",
+        "predicate": {
+          "type": "minecraft:matching_fluids",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "fluids": [
+            "minecraft:flowing_lava",
+            "minecraft:lava",
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

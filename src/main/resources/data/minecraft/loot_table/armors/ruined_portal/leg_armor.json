@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_leggings",
+          "weight": 12
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/ruined_portal/leg_armor"
+}

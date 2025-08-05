@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "more_stuff:block/warped_blaze_brick_slab"
+    },
+    "type=double": {
+      "model": "minecraft:block/warped_blaze_bricks"
+    },
+    "type=top": {
+      "model": "more_stuff:block/warped_blaze_brick_slab_top"
+    }
+  }
+}

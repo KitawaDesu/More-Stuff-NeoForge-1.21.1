@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "more_stuff:rosarite_ingot"
+  },
+  "base": [
+    {
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "item": "more_stuff:emerald_axe"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rosarite_axe"
+  },
+  "template": {
+    "item": "more_stuff:rosarite_upgrade_smithing_template"
+  }
+}

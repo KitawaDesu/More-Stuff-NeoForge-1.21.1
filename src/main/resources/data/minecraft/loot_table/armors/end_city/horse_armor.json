@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:leather_horse_armor",
+          "weight": 1,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_horse_armor",
+          "weight": 3,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_horse_armor",
+          "weight": 3,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:chainmail_horse_armor",
+          "weight": 5,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_horse_armor",
+          "weight": 5,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_horse_armor",
+          "weight": 6,
+          "functions": []
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:emerald_horse_armor",
+          "weight": 6,
+          "functions": []
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/end_city/horse_armor"
+}

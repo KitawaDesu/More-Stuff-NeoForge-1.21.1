@@ -1,0 +1,93 @@
+{
+  "pools": [
+    {
+      "rolls": 10,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:leather_wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.3706
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.4873
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:chainmail_wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.129
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.0127
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:iron_wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.0127
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:diamond_wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.004
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:emerald_wolf_armor",
+          "weight": 1,
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.004
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/fence_side",
+  "textures": {
+    "texture": "more_stuff:block/pyrolized_nether_bricks",
+    "particle": "more_stuff:block/pyrolized_nether_bricks"
+  },
+  "render_type": "solid"
+}

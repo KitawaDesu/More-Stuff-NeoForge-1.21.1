@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "N": {
+      "item": "more_stuff:red_nether_brick"
+    },
+    "W": {
+      "item": "minecraft:blaze_powder"
+    }
+  },
+  "pattern": [
+    "NW",
+    "WN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:red_blaze_bricks"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "more_stuff:block/pyrolized_blaze_brick_slab"
+    },
+    "type=double": {
+      "model": "minecraft:block/pyrolized_blaze_bricks"
+    },
+    "type=top": {
+      "model": "more_stuff:block/pyrolized_blaze_brick_slab_top"
+    }
+  }
+}

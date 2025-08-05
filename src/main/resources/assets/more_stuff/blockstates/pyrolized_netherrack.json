@@ -1,0 +1,78 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "more_stuff:block/pyrolized_netherrack"
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 90
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 180
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 270
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "y": 90
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "y": 270
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "more_stuff:block/pyrolized_netherrack",
+        "x": 270,
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_side",
+  "textures": {
+    "texture": "more_stuff:block/cracked_warped_nether_bricks"
+  }
+}

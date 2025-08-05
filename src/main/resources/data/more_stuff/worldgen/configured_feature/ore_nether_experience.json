@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:ore",
+  "config": {
+    "size": 10,
+    "targets": [
+      {
+        "state": {
+          "Name": "more_stuff:nether_experience_ore"
+        },
+        "target": {
+          "block": "minecraft:netherrack",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
+          "Name": "more_stuff:pyrolized_experience_ore"
+        },
+        "target": {
+          "block": "more_stuff:pyrolized_netherrack",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
+          "Name": "more_stuff:frozen_experience_ore"
+        },
+        "target": {
+          "block": "more_stuff:frozen_netherrack",
+          "predicate_type": "minecraft:block_match"
+        }
+      }
+    ],
+    "discard_chance_on_air_exposure": 0
+  }
+}

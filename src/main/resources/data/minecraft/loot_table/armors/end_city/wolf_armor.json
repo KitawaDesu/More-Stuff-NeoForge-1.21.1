@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:leather_wolf_armor",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:wolf_armor",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:copper_wolf_armor",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:iron_wolf_armor",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:chainmail_wolf_armor",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:golden_wolf_armor",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:diamond_wolf_armor",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:emerald_wolf_armor",
+          "weight": 7
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/end_city/wolf_armor"
+}

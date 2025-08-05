@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "helmets",
+  "pattern": [
+    "XXX",
+    "X X"
+  ],
+  "key": {
+    "X": "minecraft:chain"
+  },
+  "result": {
+    "id": "minecraft:chainmail_helmet",
+    "count": 1,
+    "components": {
+      "minecraft:rarity": "common"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "rosarite_blocks",
+  "key": {
+    "#": {
+      "item": "more_stuff:rosarite_ingot"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rosarite_block"
+  }
+}

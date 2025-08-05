@@ -1,0 +1,12 @@
+{
+    "parent": "more_stuff:block/full_drawers_tinted",
+    "textures": {
+        "particle": "#front",
+        "down": "#top",
+        "up": "#top",
+        "north": "#front",
+        "east": "#side",
+        "south": "#side",
+        "west": "#side"
+    }
+}

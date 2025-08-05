@@ -1,0 +1,8 @@
+{
+  "parent": "block/button_pressed",
+  "textures": {
+    "particle": "more_stuff:block/ebony_planks",
+    "texture": "more_stuff:block/ebony_planks"
+  },
+  "render_type": "solid"
+}

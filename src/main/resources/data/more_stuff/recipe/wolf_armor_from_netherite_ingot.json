@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "minecraft:netherite_upgrade_smithing_template",
+  "base": "more_stuff:diamond_wolf_armor",
+  "addition": "#minecraft:netherite_tool_materials",
+  "result": {
+    "id": "more_stuff:netherite_wolf_armor",
+    "count": 1,
+    "components": {}
+  }
+}

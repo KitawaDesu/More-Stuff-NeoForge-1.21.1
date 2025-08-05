@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 50,
+  "experience": 1,
+  "ingredient": {
+    "item": "more_stuff:copper_bamboo"
+  },
+  "result": {
+    "id": "more_stuff:copper_nugget"
+  }
+}

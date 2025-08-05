@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:packed_frozen_netherrack"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "more_stuff:blocks/packed_frozen_netherrack"
+}

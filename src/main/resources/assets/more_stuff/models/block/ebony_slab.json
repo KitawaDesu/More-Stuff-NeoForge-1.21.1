@@ -1,0 +1,10 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "particle": "more_stuff:block/ebony_planks",
+    "bottom": "more_stuff:block/ebony_planks",
+    "top": "more_stuff:block/ebony_planks",
+    "side": "more_stuff:block/ebony_planks"
+  },
+  "render_type": "solid"
+}

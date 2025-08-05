@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "more_stuff:pyrolized_netherrack"
+  },
+  "result": {
+    "id": "more_stuff:pyrolized_nether_brick"
+  }
+}

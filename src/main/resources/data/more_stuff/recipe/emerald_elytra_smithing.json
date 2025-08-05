@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:emerald"
+  },
+  "base": {
+    "tag": "more_stuff:upgrades_to_diamond_level_elytra"
+  },
+  "result": {
+    "count": 1,
+    "id": "more_stuff:emerald_elytra"
+  },
+  "template": {
+    "item": "more_stuff:elytra_upgrade_smithing_template"
+  }
+}

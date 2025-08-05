@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": "more_stuff:rose_gold_ingot",
+    "N": "more_stuff:rose_gold_nugget"
+  },
+  "pattern": [
+    "N",
+    "I",
+    "N"
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rose_golden_chain"
+  }
+}

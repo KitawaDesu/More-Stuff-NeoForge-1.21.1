@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1,
+  "group": "quartz",
+  "ingredient": "more_stuff:rough_quartz_clump",
+  "result": {
+    "id": "minecraft:quartz"
+  }
+}

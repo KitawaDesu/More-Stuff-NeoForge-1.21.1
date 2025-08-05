@@ -1,0 +1,19 @@
+{
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "#minecraft:cave_vines",
+    "minecraft:dirt",
+    "minecraft:grass_block",
+    "minecraft:podzol",
+    "minecraft:coarse_dirt",
+    "minecraft:mycelium",
+    "minecraft:rooted_dirt",
+    "minecraft:moss_block",
+    "minecraft:pale_moss_block",
+    "minecraft:mud",
+    "minecraft:muddy_mangrove_roots",
+    "minecraft:sand",
+    "minecraft:gravel",
+    "minecraft:clay"
+  ]
+}

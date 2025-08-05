@@ -1,0 +1,11 @@
+{
+  "parent": "block/grass_block",
+  "textures": {
+    "bottom": "more_stuff:block/pyrolized_netherrack",
+    "top": "more_stuff:block/blazing_nylium",
+    "side": "more_stuff:block/blazing_nylium_side",
+    "overlay": "more_stuff:block/blazing_nylium_side",
+    "particle": "more_stuff:block/pyrolized_netherrack"
+  },
+  "render_type": "cutout_mipped"
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": [
+    {
+      "item": "more_stuff:diamond_shears"
+    },
+    {
+      "item": "more_stuff:emerald_shears"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:netherite_shears"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  }
+}

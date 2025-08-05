@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "more_stuff:item/golden_bamboo"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

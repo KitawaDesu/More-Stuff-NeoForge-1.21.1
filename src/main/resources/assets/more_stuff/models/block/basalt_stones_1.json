@@ -1,0 +1,6 @@
+{
+    "parent": "more_stuff:block/stones_1",
+    "textures": {
+        "flowerbed": "more_stuff:block/basalt_stones"
+    }
+}

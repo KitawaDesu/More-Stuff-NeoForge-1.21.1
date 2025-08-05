@@ -1,0 +1,18 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:armors/bastion_treasure/wolf_armor"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:armors/bastion_treasure/horse_armor"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/bastion_treasure/animal_armor"
+}

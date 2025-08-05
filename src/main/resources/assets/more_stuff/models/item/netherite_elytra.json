@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "more_stuff:item/netherite_elytra"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "damaged": 1023
+            },
+            "model": "more_stuff:item/damaged_netherite_elytra"
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "more_stuff:item/elytra_upgrade_smithing_template"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1,
+  "group": "copper_ingot",
+  "ingredient": {
+    "item": "more_stuff:nether_gold_ore"
+  },
+  "result": {
+    "id": "minecraft:copper_ingot"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=true": {
+      "model": "more_stuff:block/blazing_reeds_top"
+    },
+    "top=false": {
+      "model": "more_stuff:block/blazing_reeds_middle"
+    }
+  }
+}

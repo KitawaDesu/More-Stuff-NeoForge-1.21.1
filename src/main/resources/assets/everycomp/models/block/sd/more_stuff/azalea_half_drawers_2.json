@@ -1,0 +1,10 @@
+{
+    "parent": "more_stuff:block/half_drawers_orientable",
+    "textures": {
+        "top": "more_stuff:block/azalea_drawers_side_h",
+        "front": "more_stuff:block/azalea_drawers_front_2",
+        "back": "more_stuff:block/azalea_drawers_side",
+        "side": "more_stuff:block/azalea_drawers_side_v",
+        "trim": "more_stuff:block/azalea_drawers_trim"
+    }
+}

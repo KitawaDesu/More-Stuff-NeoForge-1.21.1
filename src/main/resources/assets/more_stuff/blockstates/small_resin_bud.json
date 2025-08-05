@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "more_stuff:block/small_resin_bud",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "more_stuff:block/small_resin_bud",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "more_stuff:block/small_resin_bud",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "more_stuff:block/small_resin_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "more_stuff:block/small_resin_bud"
+    },
+    "facing=west": {
+      "model": "more_stuff:block/small_resin_bud",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
