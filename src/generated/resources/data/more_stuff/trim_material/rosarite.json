@@ -1,0 +1,12 @@
+{
+  "asset_name": "rosarite",
+  "description": {
+    "color": "#F06E94",
+    "translate": "trim_material.more_stuff.rosarite"
+  },
+  "ingredient": "more_stuff:rosarite_ingot",
+  "item_model_index": 0.75,
+  "override_armor_materials": {
+    "more_stuff:rosarite": "rosarite_darker"
+  }
+}

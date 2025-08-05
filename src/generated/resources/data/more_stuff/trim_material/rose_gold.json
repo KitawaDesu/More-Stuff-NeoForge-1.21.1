@@ -1,0 +1,12 @@
+{
+  "asset_name": "rose_gold",
+  "description": {
+    "color": "#F06E94",
+    "translate": "trim_material.more_stuff.rose_gold"
+  },
+  "ingredient": "more_stuff:rose_gold_ingot",
+  "item_model_index": 0.85,
+  "override_armor_materials": {
+    "more_stuff:rose_gold": "rose_gold_darker"
+  }
+}

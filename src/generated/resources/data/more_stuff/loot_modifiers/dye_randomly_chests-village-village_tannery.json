@@ -1,0 +1,9 @@
+{
+  "type": "more_stuff:dye_randomly",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/village/village_tannery"
+    }
+  ]
+}

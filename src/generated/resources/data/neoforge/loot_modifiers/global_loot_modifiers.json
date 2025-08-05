@@ -1,0 +1,32 @@
+{
+  "entries": [
+    "more_stuff:dye_randomly_chests-underwater_ruin_small",
+    "more_stuff:dye_randomly_chests-bastion_bridge",
+    "more_stuff:dye_randomly_chests-bastion_hoglin_stable",
+    "more_stuff:dye_randomly_chests-abandoned_mineshaft",
+    "more_stuff:dye_randomly_chests-igloo_chest",
+    "more_stuff:dye_randomly_chests-woodland_mansion",
+    "more_stuff:dye_randomly_chests-nether_bridge",
+    "more_stuff:dye_randomly_chests-shipwreck_treasure",
+    "more_stuff:dye_randomly_chests-shipwreck_map",
+    "more_stuff:dye_randomly_chests-stronghold_crossing",
+    "more_stuff:dye_randomly_chests-buried_treasure",
+    "more_stuff:dye_randomly_chests-pillager_outpost",
+    "more_stuff:dye_randomly_chests-village-village_tannery",
+    "more_stuff:dye_randomly_chests-ancient_city",
+    "more_stuff:dye_randomly_chests-end_city_treasure",
+    "more_stuff:dye_randomly_chests-underwater_ruin_big",
+    "more_stuff:dye_randomly_chests-bastion_other",
+    "more_stuff:dye_randomly_chests-ruined_portal",
+    "more_stuff:dye_randomly_chests-bastion_treasure",
+    "more_stuff:dye_randomly_chests-spawn_bonus_chest",
+    "more_stuff:dye_randomly_chests-simple_dungeon",
+    "more_stuff:dye_randomly_chests-shipwreck_supply",
+    "more_stuff:dye_randomly_chests-stronghold_corridor",
+    "more_stuff:dye_randomly_chests-village-village_weaponsmith",
+    "more_stuff:dye_randomly_chests-stronghold_library",
+    "more_stuff:dye_randomly_chests-jungle_temple",
+    "more_stuff:dye_randomly_chests-desert_pyramid"
+  ],
+  "replace": false
+}

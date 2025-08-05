@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "minecraft:basalt_deltas",
+  "features": "more_stuff:ore_copper_deltas",
+  "step": "underground_ores"
+}

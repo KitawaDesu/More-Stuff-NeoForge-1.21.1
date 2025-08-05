@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "more_stuff:ore_iron_nether",
+  "step": "underground_ores"
+}
