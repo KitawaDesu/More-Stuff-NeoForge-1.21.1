@@ -1,0 +1,6 @@
+// 1.21.1	2025-05-11T07:41:43.8992667	Tags for minecraft:worldgen/biome mod id more_stuff
+83a91226bfb6f5ceb781a86941b8877c95b0843f data/minecraft/tags/worldgen/biome/has_structure/bastion_remnant.json
+574c8af9873946922ba6ec99813989469fc10521 data/minecraft/tags/worldgen/biome/has_structure/nether_fossil.json
+fbecff012c62d259de378926745032ff2c3b7349 data/minecraft/tags/worldgen/biome/has_structure/ocean_monument.json
+83a91226bfb6f5ceb781a86941b8877c95b0843f data/minecraft/tags/worldgen/biome/is_nether.json
+fbecff012c62d259de378926745032ff2c3b7349 data/minecraft/tags/worldgen/biome/is_ocean.json

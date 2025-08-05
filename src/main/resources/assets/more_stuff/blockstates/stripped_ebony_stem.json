@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "more_stuff:block/stripped_ebony_stem",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "more_stuff:block/stripped_ebony_stem"
+    },
+    "axis=z": {
+      "model": "more_stuff:block/stripped_ebony_stem",
+      "x": 90
+    }
+  }
+}

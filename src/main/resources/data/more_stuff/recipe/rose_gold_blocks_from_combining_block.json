@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rose_gold_blocks",
+  "ingredients": [
+    {
+      "item": "#more_stuff:copper_blocks"
+    },
+    {
+      "item": "#more_stuff:copper_blocks"
+    },
+    {
+      "item": "#more_stuff:copper_blocks"
+    },
+    {
+      "item": "#more_stuff:copper_blocks"
+    },
+    {
+      "item": "gold_block"
+    },
+    {
+      "item": "gold_block"
+    },
+    {
+      "item": "gold_block"
+    },
+    {
+      "item": "gold_block"
+    }
+  ],
+  "result": {
+    "id": "more_stuff:rose_gold_block",
+    "count": 8
+  }
+}

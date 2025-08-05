@@ -1,0 +1,10 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "particle": "more_stuff:block/pyrolized_nether_bricks",
+    "bottom": "more_stuff:block/pyrolized_nether_bricks",
+    "top": "more_stuff:block/pyrolized_nether_bricks",
+    "side": "more_stuff:block/pyrolized_nether_bricks"
+  },
+  "render_type": "solid"
+}

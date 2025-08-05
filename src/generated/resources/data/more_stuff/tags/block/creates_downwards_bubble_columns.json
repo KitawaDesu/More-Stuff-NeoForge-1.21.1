@@ -1,0 +1,8 @@
+{
+  "values": [
+    "minecraft:magma_block",
+    "more_stuff:blazing_magma_block",
+    "more_stuff:freezing_magma_block",
+    "#chipped:magma_block"
+  ]
+}

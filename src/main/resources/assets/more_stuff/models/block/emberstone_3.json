@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "more_stuff:block/emberstone_3",
+    "particle": "more_stuff:block/emberstone_3"
+  },
+  "render_type": "solid"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:golden_wolf_armor",
+          "weight": 14
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/ruined_portal/wolf_armor"
+}

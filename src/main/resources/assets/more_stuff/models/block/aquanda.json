@@ -1,0 +1,8 @@
+{
+  "parent": "more_stuff:block/template_aquanda",
+  "textures": {
+    "side": "more_stuff:block/aquanda_side",
+    "top": "more_stuff:block/aquanda_top"
+  },
+  "render_type": "translucent"
+}

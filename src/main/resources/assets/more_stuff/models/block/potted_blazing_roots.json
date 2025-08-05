@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "textures": {
+    "plant": "more_stuff:block/blazing_roots_pot"
+  }
+}

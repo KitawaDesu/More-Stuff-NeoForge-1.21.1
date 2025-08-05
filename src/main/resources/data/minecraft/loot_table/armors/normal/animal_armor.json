@@ -1,0 +1,18 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:armors/normal/wolf_armor"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:armors/normal/horse_armor"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/normal/animal_armor"
+}

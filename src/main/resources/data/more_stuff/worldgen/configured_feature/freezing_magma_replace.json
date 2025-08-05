@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:noise_provider",
+      "seed": 0,
+      "noise": {
+        "firstOctave": -8,
+        "amplitudes": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0.013333333333333334
+        ]
+      },
+      "scale": 6,
+      "states": [
+        {
+          "Name": "minecraft:smooth_basalt"
+        },
+        {
+          "Name": "more_stuff:freezing_magma_block"
+        },
+        {
+          "Name": "more_stuff:freezing_magma_block"
+        },
+        {
+          "Name": "minecraft:smooth_basalt"
+        },
+        {
+          "Name": "more_stuff:freezing_magma_block"
+        },
+        {
+          "Name": "minecraft:smooth_basalt"
+        }
+      ]
+    }
+  }
+}

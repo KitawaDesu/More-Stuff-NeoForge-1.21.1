@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "more_stuff:block/large_rough_diamond_bud"
+  }
+}

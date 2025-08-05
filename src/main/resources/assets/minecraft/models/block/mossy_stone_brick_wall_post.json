@@ -1,0 +1,34 @@
+{
+    "textures": {
+        "main": "block/mossy_stone_bricks",
+        "particle": "block/mossy_particle",
+        "tint": "block/mossy_stone_bricks_tint"
+    },
+    "elements": [
+        {   "from": [ 4, 0, 4 ],
+            "to": [ 12, 16, 12 ],
+            "faces": {
+                "down":  { "texture": "#main", "tintindex": -1, "cullface": "down" },
+                "up":    { "texture": "#main", "tintindex": -1, "cullface": "up" },
+                "north": { "texture": "#main", "tintindex": -1 },
+                "south": { "texture": "#main", "tintindex": -1 },
+                "west":  { "texture": "#main", "tintindex": -1 },
+                "east":  { "texture": "#main", "tintindex": -1 }
+            },
+            "__comment": "Center post"
+        },
+        {   "from": [ 4, 0, 4 ],
+            "to": [ 12, 16, 12 ],
+            "faces": {
+                "down":  { "texture": "#tint", "tintindex": 0, "cullface": "down" },
+                "up":    { "texture": "#tint", "tintindex": 0, "cullface": "up" },
+                "north": { "texture": "#tint", "tintindex": 0 },
+                "south": { "texture": "#tint", "tintindex": 0 },
+                "west":  { "texture": "#tint", "tintindex": 0 },
+                "east":  { "texture": "#tint", "tintindex": 0 }
+            },
+            "__comment": "Center post"
+        }
+    ],
+  "render_type": "minecraft:cutout"
+}

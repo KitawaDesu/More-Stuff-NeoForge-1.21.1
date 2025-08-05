@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "more_stuff:rosarite_ingot"
+  },
+  "base": [
+    {
+      "item": "minecraft:diamond_chestplate"
+    },
+    {
+      "item": "more_stuff:emerald_chestplate"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rosarite_chestplate"
+  },
+  "template": {
+    "item": "more_stuff:rosarite_upgrade_smithing_template"
+  }
+}

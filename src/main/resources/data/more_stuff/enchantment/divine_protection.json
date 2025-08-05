@@ -1,0 +1,88 @@
+{
+  "description": {
+    "translate": "enchantment.more_stuff.divine_protection"
+  },
+  "exclusive_set": "#minecraft:exclusive_set/armor",
+  "supported_items": "#minecraft:enchantable/armor",
+  "weight": 1,
+  "max_level": 5,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 8
+  },
+  "max_cost": {
+    "base": 18,
+    "per_level_above_first": 8
+  },
+  "anvil_cost": 2,
+  "slots": [
+    "armor",
+    "body"
+  ],
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "id": "minecraft:enchantment.fire_protection",
+        "attribute": "minecraft:generic.burning_time",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": -0.15,
+          "per_level_above_first": -0.15
+        },
+        "operation": "add_multiplied_base"
+      },
+      {
+        "id": "minecraft:enchantment.blast_protection",
+        "attribute": "minecraft:generic.explosion_knockback_resistance",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.15,
+          "per_level_above_first": 0.15
+        },
+        "operation": "add_multiplied_base"
+      },
+      {
+        "id": "minecraft:generic.knockback_resistance",
+        "attribute": "minecraft:generic.knockback_resistance",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.15,
+          "per_level_above_first": 0.15
+        },
+        "operation": "add_multiplied_base"
+      }
+    ],
+    "minecraft:damage_protection": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": {
+            "type": "minecraft:linear",
+            "base": 1,
+            "per_level_above_first": 1
+          }
+        },
+        "requirements": {
+          "condition": "minecraft:all_of",
+          "terms": [
+            {
+              "condition": "minecraft:damage_source_properties",
+              "predicate": {
+                "tags": [
+                  {
+                    "id": "more_stuff:divine_protection_protects_from",
+                    "expected": true
+                  },
+                  {
+                    "id": "minecraft:bypasses_invulnerability",
+                    "expected": false
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "more_stuff:block/nether_copper_ore"
+  }
+}

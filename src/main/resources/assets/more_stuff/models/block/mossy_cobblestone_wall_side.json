@@ -1,0 +1,32 @@
+{
+    "textures": {
+        "main": "block/mossy_cobblestone",
+        "particle": "block/mossy_particle",
+        "tint": "block/mossy_cobblestone_tint"
+    },
+    "elements": [
+        {   "from": [ 5, 0, 0 ],
+            "to": [ 11, 14, 8 ],
+            "faces": {
+                "down":  { "texture": "#main", "tintindex": -1, "cullface": "down" },
+                "up":    { "texture": "#main", "tintindex": -1 },
+                "north": { "texture": "#main", "tintindex": -1, "cullface": "north" },
+                "west":  { "texture": "#main", "tintindex": -1 },
+                "east":  { "texture": "#main", "tintindex": -1 }
+            },
+            "__comment": "main"
+        },
+        {   "from": [ 5, 0, 0 ],
+            "to": [ 11, 14, 8 ],
+            "faces": {
+                "down":  { "texture": "#tint", "tintindex": 0, "cullface": "down" },
+                "up":    { "texture": "#tint", "tintindex": 0 },
+                "north": { "texture": "#tint", "tintindex": 0, "cullface": "north" },
+                "west":  { "texture": "#tint", "tintindex": 0 },
+                "east":  { "texture": "#tint", "tintindex": 0 }
+            },
+            "__comment": "tint"
+        }
+    ],
+  "render_type": "minecraft:cutout"
+}

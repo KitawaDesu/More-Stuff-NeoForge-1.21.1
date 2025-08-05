@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "Maces",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "more_stuff:rose_gold_block"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " # ",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rose_golden_mace"
+  }
+}

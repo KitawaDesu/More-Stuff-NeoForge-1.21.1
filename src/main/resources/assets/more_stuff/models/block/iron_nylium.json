@@ -1,0 +1,11 @@
+{
+  "parent": "block/grass_block",
+  "textures": {
+    "bottom": "minecraft:block/netherrack",
+    "top": "more_stuff:block/iron_nylium",
+    "side": "more_stuff:block/iron_nylium_side",
+    "overlay": "more_stuff:block/iron_nylium_side",
+    "particle": "minecraft:block/netherrack"
+  },
+  "render_type": "cutout_mipped"
+}

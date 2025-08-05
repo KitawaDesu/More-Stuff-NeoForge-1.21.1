@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "chestplates",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:leather_chestplate"
+  }
+}

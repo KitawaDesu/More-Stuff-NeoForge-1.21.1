@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "more_stuff:ebony_stems"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "more_stuff:ebony_planks"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "more_stuff:crushed_ancient_debris"
+    }
+  ],
+  "processing_time": 700,
+  "results": [
+    {
+      "chance": 0.015,
+      "count": 2,
+      "id": "more_stuff:ancient_dust"
+    },
+    {
+      "chance": 0.025,
+      "count": 3,
+      "id": "more_stuff:ancient_dust"
+    },
+    {
+      "count": 1,
+      "id": "more_stuff:ancient_dust"
+    }
+  ]
+}

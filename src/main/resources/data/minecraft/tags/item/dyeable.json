@@ -1,0 +1,12 @@
+{
+  "values": [
+    "minecraft:leather_helmet",
+    "minecraft:leather_chestplate",
+    "minecraft:leather_leggings",
+    "minecraft:leather_boots",
+    "minecraft:leather_horse_armor",
+    "more_stuff:leather_glider",
+    "#more_stuff:wolf_armor",
+    "#more_stuff:hoglin_armor"
+  ]
+}

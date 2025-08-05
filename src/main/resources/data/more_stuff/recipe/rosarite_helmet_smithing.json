@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "more_stuff:rosarite_ingot"
+  },
+  "base": [
+    {
+      "item": "minecraft:diamond_helmet"
+    },
+    {
+      "item": "more_stuff:emerald_helmet"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:rosarite_helmet"
+  },
+  "template": {
+    "item": "more_stuff:rosarite_upgrade_smithing_template"
+  }
+}

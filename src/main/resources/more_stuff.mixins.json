@@ -1,0 +1,51 @@
+{
+  "required": true,
+  "package": "net.kitawa.more_stuff.util.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AnimalArmorItemMixin",
+    "BlockColumnFeatureMixin",
+    "BlockMixin",
+    "BoggedMxin",
+    "BubbleColumnMixin",
+    "DrownedMixin",
+    "EvokerMixin",
+    "FeatureMixin",
+    "HoglinMixin",
+    "IBlockExtensionMixin",
+    "IllusionerMixin",
+    "ItemMixin",
+    "MobMixin",
+    "MushroomCowMixin",
+    "NetherWartBlockMixin",
+    "PiglinBruteMixin",
+    "PiglinMixin",
+    "PillagerMixin",
+    "PowderSnowBlockMixin",
+    "RaiderMixin",
+    "SheepMixin",
+    "SimpleBlockFeatureMixin",
+    "SnowGolemMixin",
+    "VegetationPatchFeatureMixin",
+    "VexMixin",
+    "VillagerMixin",
+    "VindicatorMixin",
+    "WitchMixin",
+    "WitherSkeletonMixin",
+    "WolfMixin",
+    "ZoglinMixin",
+    "ZombieMixin",
+    "ZombifiedPiglinMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "CapeRendererMixin",
+    "IllagerRenderMixin",
+    "ModelLayersAccessor",
+    "VillagerRendererMixin",
+    "WitchRendererMixin",
+    "WolfArmorLayerMixin"
+  ]
+}

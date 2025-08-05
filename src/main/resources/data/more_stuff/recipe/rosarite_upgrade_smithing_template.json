@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "more_stuff:rose_gold_ingot"
+    },
+    "C": {
+      "item": "more_stuff:pyrolized_netherrack"
+    },
+    "S": {
+      "item": "more_stuff:rosarite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "id": "more_stuff:rosarite_upgrade_smithing_template"
+  }
+}

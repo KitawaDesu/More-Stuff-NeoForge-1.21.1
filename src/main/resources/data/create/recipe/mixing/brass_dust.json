@@ -1,0 +1,17 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "more_stuff:copper_dust"
+    },
+    {
+      "item": "more_stuff:zinc_dust"
+    }
+  ],
+  "results": [
+    {
+      "count": 2,
+      "id": "more_stuff:brass_dust"
+    }
+  ]
+}

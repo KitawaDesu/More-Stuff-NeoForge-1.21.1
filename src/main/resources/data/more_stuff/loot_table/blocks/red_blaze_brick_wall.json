@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:red_blaze_brick_wall"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "more_stuff:blocks/red_blaze_brick_wall"
+}

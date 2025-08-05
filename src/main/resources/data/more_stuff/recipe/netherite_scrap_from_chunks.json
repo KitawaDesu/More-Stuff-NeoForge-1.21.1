@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "more_stuff:ancient_chunk"
+    }
+  },
+  "result": {
+    "id": "minecraft:netherite_scrap"
+  }
+}

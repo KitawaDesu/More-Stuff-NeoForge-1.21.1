@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "more_stuff:block/warped_blaze_bricks"
+  }
+}

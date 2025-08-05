@@ -1,0 +1,18 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:armors/ruined_portal/wolf_armor"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:armors/ruined_portal/horse_armor"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:armors/ruined_portal/animal_armor"
+}

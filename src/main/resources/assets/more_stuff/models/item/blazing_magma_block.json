@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "more_stuff:block/blazing_magma",
+    "particle": "more_stuff:block/blazing_magma"
+  },
+  "render_type": "solid"
+}

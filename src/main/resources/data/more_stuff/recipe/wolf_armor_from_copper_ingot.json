@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "wolf_armor",
+  "pattern": [
+    "X  ",
+    "XXX",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "id": "more_stuff:copper_wolf_armor",
+    "count": 1,
+    "components": {}
+  }
+}

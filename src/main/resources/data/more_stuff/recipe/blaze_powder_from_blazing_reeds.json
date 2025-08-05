@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "blaze_powder",
+  "ingredients": [
+    {
+      "item": "more_stuff:blazing_reeds"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:blaze_powder"
+  }
+}
