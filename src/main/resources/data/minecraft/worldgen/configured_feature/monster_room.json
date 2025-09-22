@@ -1,0 +1,79 @@
+{
+  "type": "more_stuff:monster_room",
+  "config": {
+    "cobbled_replacements": [
+      {
+        "tag": "#minecraft:stone_ore_replaceables",
+        "block": "minecraft:cobblestone"
+      },
+      {
+        "tag": "#minecraft:deepslate_ore_replaceables",
+        "block": "minecraft:cobbled_deepslate"
+      }
+    ],
+    "mossy_replacements": [
+      {
+        "tag": "#minecraft:stone_ore_replaceables",
+        "block": "minecraft:mossy_cobblestone"
+      },
+      {
+        "tag": "#minecraft:deepslate_ore_replaceables",
+        "block": "minecraft:cobbled_deepslate"
+      }
+    ],
+    "spawner_block": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:spawner"
+      }
+    },
+    "container_block": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 50,
+          "data": {
+            "Name": "minecraft:chest"
+          }
+        },
+        {
+          "weight": 37,
+          "data": {
+            "Name": "minecraft:barrel"
+          }
+        },
+        {
+          "weight": 13,
+          "data": {
+            "Name": "minecraft:trapped_chest"
+          }
+        }
+      ]
+    },
+    "trap_block": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 90,
+          "data": {
+            "Name": "minecraft:dispenser"
+          }
+        },
+        {
+          "weight": 10,
+          "data": {
+            "Name": "minecraft:tnt"
+          }
+        }
+      ]
+    },
+    "container_loot": "minecraft:chests/simple_dungeon",
+    "trap_loot": "more_stuff:chests/dungeon_trap",
+    "mobs": [
+      "minecraft:skeleton",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:spider"
+    ]
+  }
+}

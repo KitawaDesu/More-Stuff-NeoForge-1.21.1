@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:waxed_stonecutting",
+  "ingredient": {
+    "tag": "more_stuff:waxed_exposed_copper_blocks"
+  },
+  "result": {
+    "count": 1,
+    "id": "more_stuff:waxed_exposed_copper_pillar"
+  }
+}

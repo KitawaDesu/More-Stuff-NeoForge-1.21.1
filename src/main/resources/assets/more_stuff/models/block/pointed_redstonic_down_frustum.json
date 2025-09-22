@@ -1,0 +1,6 @@
+{
+  "parent": "more_stuff:block/pointed_redstonic",
+  "textures": {
+    "cross": "more_stuff:block/pointed_redstonic_down_frustum"
+  }
+}

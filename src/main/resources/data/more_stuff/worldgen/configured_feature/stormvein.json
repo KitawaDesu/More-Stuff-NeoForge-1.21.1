@@ -1,0 +1,21 @@
+{
+  "type": "more_stuff:stormvein",
+  "config": {
+    "block_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": { "Name": "more_stuff:stormvein" }
+    },
+    "anchor_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": { "Name": "more_stuff:anchor_block" }
+    },
+    "start_mode": "floor",
+    "anchor_target": {
+      "predicate_type": "minecraft:tag_match",
+      "tag": "minecraft:base_stone_overworld"
+    },
+    "min_length": 10,
+    "max_length": 15,
+    "extra_anchor_chance": 0.05
+  }
+}

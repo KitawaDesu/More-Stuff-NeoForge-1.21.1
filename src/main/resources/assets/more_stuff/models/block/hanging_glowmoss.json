@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "more_stuff:block/hanging_glowmoss_tip"
+  },
+  "render_type": "minecraft:cutout"
+}

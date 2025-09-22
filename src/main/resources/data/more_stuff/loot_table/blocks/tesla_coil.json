@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:tesla_coil",
+          "functions": [],
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "more_stuff:tesla_coil",
+              "properties": {
+                "top": "false"
+              }
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "more_stuff:blocks/tesla_coil"
+}

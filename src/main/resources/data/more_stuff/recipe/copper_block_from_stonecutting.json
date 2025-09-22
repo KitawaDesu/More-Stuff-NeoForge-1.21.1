@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "more_stuff:unaffected_copper_blocks"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:copper_block"
+  }
+}

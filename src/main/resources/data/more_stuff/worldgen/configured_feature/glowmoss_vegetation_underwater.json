@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "more_stuff:glowshroom",
+            "Properties": {
+              "waterlogged": "false"
+            }
+          },
+          "weight": 11
+        },
+        {
+          "data": {
+            "Name": "more_stuff:glowmoss_carpet",
+            "Properties": {
+              "waterlogged": "false",
+              "level": "7"
+            }
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "Name": "minecraft:seagrass"
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "Name": "minecraft:tall_seagrass",
+            "Properties": {
+              "half": "lower"
+            }
+          },
+          "weight": 10
+        }
+      ]
+    }
+  }
+}

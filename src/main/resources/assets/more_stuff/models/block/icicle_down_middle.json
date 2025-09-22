@@ -1,0 +1,6 @@
+{
+  "parent": "more_stuff:block/icicle",
+  "textures": {
+    "cross": "more_stuff:block/icicle_down_middle"
+  }
+}

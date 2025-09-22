@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "C  ",
+    "C  ",
+    "   "
+  ],
+  "key": {
+    "C": {
+      "item": "weathered_copper"
+    }
+  },
+  "result": {
+    "id": "more_stuff:weathered_copper_pillar",
+    "count": 2
+  }
+}

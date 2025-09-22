@@ -1,0 +1,41 @@
+{
+  "feature": "more_stuff:huge_glowshroom",
+  "placement": [
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 24
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "state": {
+          "Name": "more_stuff:glowshroom"
+        }
+      }
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:not",
+        "predicate": {
+          "type": "minecraft:matching_fluids",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "fluids": "minecraft:lava"
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

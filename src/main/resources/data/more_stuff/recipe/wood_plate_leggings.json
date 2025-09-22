@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "leggings",
+  "category": "equipment",
+  "key": {
+    "X": [
+      {
+        "item": "minecraft:leather"
+      },
+      {
+        "item": "minecraft:rabbit_hide"
+      }
+    ],
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "XWX",
+    "W W",
+    "W W"
+  ],
+  "result": {
+    "components": {
+      "minecraft:dyed_color": {
+        "rgb": 12096607
+      }
+    },
+    "count": 1,
+    "id": "more_stuff:wood_plate_leggings"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "more_stuff:huge_glowshroom",
+  "config": {
+    "cap_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "more_stuff:glowshroom_block"
+      }
+    },
+    "stem_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:mushroom_stem"
+      }
+    },
+    "foliage_radius": 3,
+
+    "bend_start": 2,
+    "bend_frequency": 2,
+    "max_bend": 3,
+    "bend_chance": 3,
+    "bend_amount": 1,
+    "random_bend_direction": true,
+    "bend_direction": null
+  }
+}

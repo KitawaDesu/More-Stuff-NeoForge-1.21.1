@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rose_gold_ingots",
+  "ingredients": [
+    {
+      "item": "more_stuff:rose_gold_door"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "more_stuff:rose_gold_ingot"
+  }
+}

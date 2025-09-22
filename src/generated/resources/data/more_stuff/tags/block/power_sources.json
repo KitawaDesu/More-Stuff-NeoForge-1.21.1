@@ -1,0 +1,9 @@
+{
+  "values": [
+    "more_stuff:anchor_block",
+    "more_stuff:redstonic_block",
+    "minecraft:redstone_block",
+    "minecraft:redstone_torch",
+    "minecraft:redstone_wall_torch"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "more_stuff:block/voltaic_slate_1"
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_1_mirrored"
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_1",
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_1_mirrored",
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_2"
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_2_mirrored"
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_2",
+        "y": 180
+      },
+      {
+        "model": "more_stuff:block/voltaic_slate_2_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

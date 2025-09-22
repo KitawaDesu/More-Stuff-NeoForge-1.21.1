@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:waxed_stonecutting",
+  "ingredient": {
+    "tag": "more_stuff:waxed_unaffected_copper_blocks"
+  },
+  "result": {
+    "count": 2,
+    "id": "minecraft:waxed_cut_copper_slab"
+  }
+}

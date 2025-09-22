@@ -1,0 +1,49 @@
+{
+  "multipart": [
+    { "when": { "core": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_core" }
+    },
+
+    { "when": { "end_point": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_core" }
+    },
+
+    { "when": { "down": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_arm" }
+    },
+    { "when": { "up": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_arm", "x": 180 }
+    },
+    { "when": { "north": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_arm", "x": 270 }
+    },
+    { "when": { "south": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_arm", "x": 90 }
+    },
+    { "when": { "east": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_arm", "x": 90, "y": 270 }
+    },
+    { "when": { "west": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_arm", "x": 90, "y": 90 }
+    },
+
+    { "when": { "anchor_down": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_anchor" }
+    },
+    { "when": { "anchor_up": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_anchor", "x": 180 }
+    },
+    { "when": { "anchor_north": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_anchor", "x": 270 }
+    },
+    { "when": { "anchor_south": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_anchor", "x": 90 }
+    },
+    { "when": { "anchor_east": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_anchor", "x": 90, "y": 270 }
+    },
+    { "when": { "anchor_west": "true" },
+      "apply": { "model": "more_stuff:block/stormvein_anchor", "x": 90, "y": 90 }
+    }
+  ]
+}

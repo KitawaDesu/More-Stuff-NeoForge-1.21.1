@@ -1,0 +1,12 @@
+{
+  "type": "more_stuff:multi_face_surface",
+  "config": {
+    "block": "more_stuff:ice_sheet",
+    "can_be_placed_on": "#more_stuff:ice_sheet_placeable",
+    "can_place_on_ceiling": true,
+    "can_place_on_floor": true,
+    "can_place_on_wall": true,
+    "search_range": 6,
+    "chance_of_spreading": 1
+  }
+}

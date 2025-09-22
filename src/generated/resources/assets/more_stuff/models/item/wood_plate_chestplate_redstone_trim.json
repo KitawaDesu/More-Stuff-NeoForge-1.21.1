@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "more_stuff:item/wood_plate_chestplate",
+    "layer1": "more_stuff:item/wood_plate_chestplate_overlay",
+    "layer2": "minecraft:trims/items/chestplate_trim_redstone"
+  }
+}

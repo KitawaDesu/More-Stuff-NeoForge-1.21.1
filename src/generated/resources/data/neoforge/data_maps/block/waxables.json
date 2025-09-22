@@ -1,0 +1,28 @@
+{
+  "values": {
+    "more_stuff:copper_pillar": {
+      "waxed": "more_stuff:waxed_copper_pillar"
+    },
+    "more_stuff:cut_copper_bricks": {
+      "waxed": "more_stuff:waxed_cut_copper_bricks"
+    },
+    "more_stuff:exposed_copper_pillar": {
+      "waxed": "more_stuff:waxed_exposed_copper_pillar"
+    },
+    "more_stuff:exposed_cut_copper_bricks": {
+      "waxed": "more_stuff:waxed_exposed_cut_copper_bricks"
+    },
+    "more_stuff:oxidized_copper_pillar": {
+      "waxed": "more_stuff:waxed_oxidized_copper_pillar"
+    },
+    "more_stuff:oxidized_cut_copper_bricks": {
+      "waxed": "more_stuff:waxed_oxidized_cut_copper_bricks"
+    },
+    "more_stuff:weathered_copper_pillar": {
+      "waxed": "more_stuff:waxed_weathered_copper_pillar"
+    },
+    "more_stuff:weathered_cut_copper_bricks": {
+      "waxed": "more_stuff:waxed_weathered_cut_copper_bricks"
+    }
+  }
+}

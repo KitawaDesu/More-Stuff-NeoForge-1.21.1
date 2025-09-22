@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "C  ",
+    "C  ",
+    "   "
+  ],
+  "key": {
+    "C": {
+      "item": "waxed_oxidized_copper"
+    }
+  },
+  "result": {
+    "id": "more_stuff:waxed_oxidized_copper_pillar",
+    "count": 2
+  }
+}

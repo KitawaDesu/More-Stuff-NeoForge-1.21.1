@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "G",
+    "G"
+  ],
+  "key": {
+    "G": {
+      "item": "more_stuff:cut_rose_gold_slab"
+    }
+  },
+  "result": {
+    "id": "more_stuff:chiseled_rose_gold",
+    "count": 1
+  }
+}

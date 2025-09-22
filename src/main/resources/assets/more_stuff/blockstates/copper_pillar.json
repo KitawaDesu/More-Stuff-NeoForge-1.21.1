@@ -1,0 +1,31 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "more_stuff:block/copper_pillar",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "y"
+      },
+      "apply": {
+        "model": "more_stuff:block/copper_pillar"
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "more_stuff:block/copper_pillar",
+        "x": 90
+      }
+    }
+  ]
+}

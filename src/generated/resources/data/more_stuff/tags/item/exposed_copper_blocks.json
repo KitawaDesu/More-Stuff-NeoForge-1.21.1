@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:exposed_copper",
+    "minecraft:exposed_chiseled_copper",
+    "minecraft:exposed_cut_copper",
+    "more_stuff:exposed_copper_pillar",
+    "more_stuff:exposed_cut_copper_bricks"
+  ]
+}

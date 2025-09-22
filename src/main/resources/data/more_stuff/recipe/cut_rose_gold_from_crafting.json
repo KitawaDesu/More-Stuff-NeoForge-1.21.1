@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GG ",
+    "GG ",
+    "   "
+  ],
+  "key": {
+    "G": {
+      "item": "more_stuff:rose_gold_block"
+    }
+  },
+  "result": {
+    "id": "more_stuff:cut_rose_gold",
+    "count": 4
+  }
+}

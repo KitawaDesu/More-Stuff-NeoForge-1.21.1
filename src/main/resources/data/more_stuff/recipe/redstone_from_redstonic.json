@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "group": "carpet",
+  "ingredient": {
+    "item": "more_stuff:pointed_redstonic"
+  },
+  "result": {
+    "id": "minecraft:redstone"
+  },
+  "experience": 0.1,
+  "cookingtime": 50
+}

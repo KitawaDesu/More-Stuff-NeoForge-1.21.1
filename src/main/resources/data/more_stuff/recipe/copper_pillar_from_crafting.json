@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "C  ",
+    "C  ",
+    "   "
+  ],
+  "key": {
+    "C": {
+      "item": "copper_block"
+    }
+  },
+  "result": {
+    "id": "more_stuff:copper_pillar",
+    "count": 2
+  }
+}

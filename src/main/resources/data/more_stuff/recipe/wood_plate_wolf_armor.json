@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "wolf_armor",
+  "pattern": [
+    "X  ",
+    "WWX",
+    "W W"
+  ],
+  "key": {
+    "X": [
+      {
+        "item": "minecraft:leather"
+      },
+      {
+        "item": "minecraft:rabbit_hide"
+      }
+    ],
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "id": "more_stuff:wood_plate_wolf_armor",
+    "count": 1,
+    "components": {
+      "minecraft:dyed_color": {
+        "rgb": 12096607
+      }
+    }
+  }
+}

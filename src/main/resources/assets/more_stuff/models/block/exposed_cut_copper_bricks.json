@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "more_stuff:block/exposed_cut_copper_bricks",
+    "particle": "more_stuff:block/exposed_cut_copper_bricks"
+  },
+  "render_type": "solid"
+}

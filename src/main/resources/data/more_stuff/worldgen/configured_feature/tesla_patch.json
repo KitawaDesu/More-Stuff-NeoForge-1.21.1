@@ -1,0 +1,7 @@
+{
+  "type": "more_stuff:tesla_patch",
+  "config": {
+    "side_anchor_chance": 0.5,
+    "stormvein_chance": 0.1
+  }
+}

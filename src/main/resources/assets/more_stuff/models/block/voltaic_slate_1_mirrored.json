@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_mirrored_all",
+  "textures": {
+    "all": "more_stuff:block/voltaic_slate_1"
+  }
+}

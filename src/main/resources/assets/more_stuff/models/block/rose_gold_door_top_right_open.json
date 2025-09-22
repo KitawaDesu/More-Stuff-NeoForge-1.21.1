@@ -1,0 +1,21 @@
+{
+  "parent": "block/door_top_right_open",
+    "ambientocclusion": false,
+    "textures": {
+        "main": "more_stuff:block/rose_gold_door_top",
+        "particle": "more_stuff:block/rose_gold_door_top"
+	},
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 3, 16, 16 ],
+            "faces": {
+                "up":    { "uv": [  0,  0, 16,  3 ], "texture": "#main", "tintindex": -1, "cullface": "up", "rotation": 90 },
+                "north": { "uv": [  3,  0,  0, 16 ], "texture": "#main", "tintindex": -1, "cullface": "north" },
+                "south": { "uv": [  3,  0,  0, 16 ], "texture": "#main", "tintindex": -1, "cullface": "south" },
+                "west":  { "uv": [  0,  0, 16, 16 ], "texture": "#main", "tintindex": -1, "cullface": "west" },
+                "east":  { "uv": [ 16,  0,  0, 16 ], "texture": "#main", "tintindex": -1 }
+            }
+        }
+    ],
+  "render_type": "cutout"
+}

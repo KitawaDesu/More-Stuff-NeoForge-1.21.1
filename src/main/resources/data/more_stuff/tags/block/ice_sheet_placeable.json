@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "#minecraft:base_stone_nether",
+    "#minecraft:nylium",
+    "#minecraft:logs",
+    "#minecraft:planks",
+    "#minecraft:sand",
+    "#minecraft:dirt",
+    "#minecraft:leaves",
+    "#minecraft:stone_bricks",
+    "#minecraft:wooden_slabs",
+    "#minecraft:wooden_stairs",
+    "#minecraft:wooden_fences",
+    "#minecraft:ice",
+    "minecraft:clay",
+    "minecraft:gravel",
+    "minecraft:end_stone",
+    "minecraft:purpur_block",
+    "minecraft:prismarine",
+    "minecraft:dripstone_block",
+    "minecraft:calcite",
+    "minecraft:tuff",
+    "minecraft:moss_block",
+    "minecraft:mud",
+    "minecraft:water",
+    "#more_stuff:structure_blocks"
+  ]
+}
