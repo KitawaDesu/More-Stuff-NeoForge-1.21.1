@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff;
 
 import com.mojang.logging.LogUtils;
+import net.kitawa.more_stuff.blocks.ModBlockEntities;
 import net.kitawa.more_stuff.compat.create.blocks.CreateCompatBlocks;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatTeiredElytraLayer;
 import net.kitawa.more_stuff.blocks.ModBlocks;
@@ -10,9 +11,7 @@ import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.items.life_tokens.LifeTokenItems;
 import net.kitawa.more_stuff.items.util.TeiredElytraLayer;
 import net.kitawa.more_stuff.items.util.VexElytraLayer;
-import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
-import net.kitawa.more_stuff.util.configs.LifeBitDropsConfig;
-import net.kitawa.more_stuff.util.configs.MoreStuffGeneralConfig;
+import net.kitawa.more_stuff.util.configs.*;
 import net.kitawa.more_stuff.util.events.MoreStuffClientEvents;
 import net.kitawa.more_stuff.util.loot.ModLootModifiers;
 import net.kitawa.more_stuff.util.mob_armor.ModLayerDefinitions;
@@ -21,6 +20,7 @@ import net.kitawa.more_stuff.util.mob_armor.layers.HoglinArmorLayer;
 import net.kitawa.more_stuff.util.mob_armor.layers.ZoglinArmorLayer;
 import net.kitawa.more_stuff.worldgen.biome.ModTerrablenderAPI;
 import net.kitawa.more_stuff.worldgen.biome.surface.ModSurfaceRules;
+import net.kitawa.more_stuff.worldgen.ModFeatures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -52,6 +52,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -59,9 +60,10 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import org.slf4j.Logger;
 import terrablender.api.SurfaceRuleManager;
+
+import static org.apache.commons.lang3.ArrayUtils.add;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(MoreStuff.MOD_ID)
@@ -73,6 +75,7 @@ public class MoreStuff {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public MoreStuff(IEventBus modEventBus, ModContainer modContainer) {
+        MainConfig.registerConfigs();
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modEventBus.register(MoreStuffClientEvents.class);
@@ -83,26 +86,24 @@ public class MoreStuff {
 
         ModLootModifiers.register(modEventBus);
 
-        LifeTokensConfig.setup();
-        LifeBitDropsConfig.setup();
-        MoreStuffGeneralConfig.setup();
+        ShockPriorityConfig.setup();
+        // Removed manual bootstrap call here!
 
         // Register content
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
+        LifeTokenItems.register(modEventBus);
+        ModDamageSources.register(modEventBus);
+        ModFeatures.FEATURES.register(modEventBus);
 
         if (ModList.get().isLoaded("create")) {
             CreateCompatItems.register(modEventBus);
             CreateCompatBlocks.register(modEventBus);
         }
-
-        if (LifeTokensConfig.CONFIG.addLifeTokens()) {
-            LifeTokenItems.register(modEventBus);
-        }
         // Register this class to listen to global events
         NeoForge.EVENT_BUS.register(this);
     }
-
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             // Move TerraBlender-related registration here to ensure it's initialized
@@ -110,7 +111,6 @@ public class MoreStuff {
             // Surface rules
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MoreStuff.MOD_ID, ModSurfaceRules.overworld());
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.NETHER, MoreStuff.MOD_ID, ModSurfaceRules.nether());
-
         });
     }
 
@@ -164,6 +164,14 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.COPPER_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.GOLDEN_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.GOLDEN_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.ANCIENT_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.NETHER_WART.asItem().getDefaultInstance(), ModItems.WARPED_WART.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.POINTED_DRIPSTONE.asItem().getDefaultInstance(), ModBlocks.ICICLE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ICICLE.asItem().getDefaultInstance(), ModBlocks.ICE_SHEET.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ICE_SHEET.asItem().getDefaultInstance(), ModBlocks.REDSTONIC_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.REDSTONIC_BLOCK.asItem().getDefaultInstance(), ModBlocks.POINTED_REDSTONIC.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.SCULK_SENSOR.asItem().getDefaultInstance(), ModBlocks.VOLTAIC_SLATE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.VOLTAIC_SLATE.asItem().getDefaultInstance(), ModBlocks.ANCHOR_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ANCHOR_BLOCK.asItem().getDefaultInstance(), ModBlocks.STORMVEIN.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.STORMVEIN.asItem().getDefaultInstance(), ModBlocks.TESLA_COIL.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(ModBlocks.FROZEN_IRON_ORE.get().asItem().getDefaultInstance(), CreateCompatBlocks.NETHER_ZINC_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -183,6 +191,9 @@ public class MoreStuff {
             event.insertAfter(ModItems.RED_NETHER_BRICK.get().getDefaultInstance(), ModItems.WARPED_NETHER_BRICK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.WARPED_NETHER_BRICK.get().getDefaultInstance(), ModItems.PYROLIZED_NETHER_BRICK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.NETHER_WART.asItem().getDefaultInstance(), ModItems.WARPED_WART.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.EXPERIENCE_BOTTLE.getDefaultInstance(), LifeTokenItems.LIFE_BIT.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(LifeTokenItems.LIFE_BIT.get().getDefaultInstance(), LifeTokenItems.LIFE_SHARD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(LifeTokenItems.LIFE_SHARD.get().getDefaultInstance(), LifeTokenItems.LIFE_TOKEN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(Items.RAW_GOLD.getDefaultInstance(), BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "raw_zinc")).getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -195,11 +206,6 @@ public class MoreStuff {
                 event.insertAfter(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "zinc_ingot")).getDefaultInstance(), BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "brass_ingot")).getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(Items.ANCIENT_DEBRIS.getDefaultInstance(), CreateCompatItems.CRUSHED_ANCIENT_DEBRIS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatItems.CRUSHED_ANCIENT_DEBRIS.get().getDefaultInstance(), CreateCompatItems.ANCIENT_DUST.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            }
-            if (LifeTokensConfig.CONFIG.addLifeTokens()) {
-                event.insertAfter(Items.EXPERIENCE_BOTTLE.getDefaultInstance(), LifeTokenItems.LIFE_BIT.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(LifeTokenItems.LIFE_BIT.get().getDefaultInstance(), LifeTokenItems.LIFE_SHARD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(LifeTokenItems.LIFE_SHARD.get().getDefaultInstance(), LifeTokenItems.LIFE_TOKEN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
@@ -246,6 +252,15 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.AQUANDA_PRESSURE_PLATE.asItem().getDefaultInstance(), ModBlocks.AQUANDA_BUTTON.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             event.insertAfter(Items.LIGHT_WEIGHTED_PRESSURE_PLATE.getDefaultInstance(), ModBlocks.ROSE_GOLD_BLOCK.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ROSE_GOLD_BLOCK.asItem().getDefaultInstance(), ModBlocks.CHISELED_ROSE_GOLD.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CHISELED_ROSE_GOLD.asItem().getDefaultInstance(), ModBlocks.ROSE_GOLD_GRATE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ROSE_GOLD_GRATE.asItem().getDefaultInstance(), ModBlocks.CUT_ROSE_GOLD_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_ROSE_GOLD_BRICKS.asItem().getDefaultInstance(), ModBlocks.ROSE_GOLD_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ROSE_GOLD_PILLAR.asItem().getDefaultInstance(), ModBlocks.CUT_ROSE_GOLD.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_ROSE_GOLD.asItem().getDefaultInstance(), ModBlocks.CUT_ROSE_GOLD_STAIRS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_ROSE_GOLD_STAIRS.asItem().getDefaultInstance(), ModBlocks.CUT_ROSE_GOLD_SLAB.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_ROSE_GOLD_SLAB.asItem().getDefaultInstance(), ModBlocks.ROSE_GOLD_DOOR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ROSE_GOLD_DOOR.asItem().getDefaultInstance(), ModBlocks.ROSE_GOLD_TRAPDOOR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             event.insertAfter(Items.NETHERITE_BLOCK.getDefaultInstance(), ModBlocks.ROSARITE_BLOCK.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
@@ -318,6 +333,25 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.PYROLIZED_BLAZE_BRICK_STAIRS.asItem().getDefaultInstance(), ModBlocks.PYROLIZED_BLAZE_BRICK_SLAB.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.PYROLIZED_BLAZE_BRICK_SLAB.asItem().getDefaultInstance(), ModBlocks.PYROLIZED_BLAZE_BRICK_WALL.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.PYROLIZED_BLAZE_BRICK_WALL.asItem().getDefaultInstance(), ModBlocks.PYROLIZED_BLAZE_BRICK_FENCE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.EXPOSED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.EXPOSED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.WEATHERED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.WEATHERED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.OXIDIZED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.OXIDIZED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(ModBlocks.CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.EXPOSED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.EXPOSED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.WEATHERED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WEATHERED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.OXIDIZED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.OXIDIZED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Blocks.WAXED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.WAXED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.WAXED_EXPOSED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.WAXED_EXPOSED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.WAXED_WEATHERED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.WAXED_WEATHERED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.WAXED_OXIDIZED_COPPER_GRATE.asItem().getDefaultInstance(), ModBlocks.WAXED_OXIDIZED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(ModBlocks.WAXED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.WAXED_EXPOSED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_EXPOSED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.WAXED_WEATHERED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_WEATHERED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.WAXED_OXIDIZED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_OXIDIZED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.insertAfter(Items.IRON_HOE.getDefaultInstance(), ModItems.COPPER_SHOVEL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -420,6 +454,17 @@ public class MoreStuff {
             event.insertAfter(ModItems.EMERALD_HORSE_ARMOR.get().getDefaultInstance(), ModItems.NETHERITE_HORSE_ARMOR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.NETHERITE_HORSE_ARMOR.get().getDefaultInstance(), ModItems.ROSARITE_HORSE_ARMOR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(ModItems.LEATHER_WOLF_ARMOR.get().getDefaultInstance(), ModItems.TURTLE_SCUTE_WOLF_ARMOR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.SHIELD.getDefaultInstance(), ModItems.STONE_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.STONE_SHIELD.get().getDefaultInstance(), ModItems.LAPIS_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.LAPIS_SHIELD.get().getDefaultInstance(), ModItems.QUARTZ_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.QUARTZ_SHIELD.get().getDefaultInstance(), ModItems.COPPER_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.COPPER_SHIELD.get().getDefaultInstance(), ModItems.IRON_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.IRON_SHIELD.get().getDefaultInstance(), ModItems.GOLDEN_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.GOLDEN_SHIELD.get().getDefaultInstance(), ModItems.ROSE_GOLDEN_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.ROSE_GOLDEN_SHIELD.get().getDefaultInstance(), ModItems.DIAMOND_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.DIAMOND_SHIELD.get().getDefaultInstance(), ModItems.EMERALD_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.EMERALD_SHIELD.get().getDefaultInstance(), ModItems.NETHERITE_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.NETHERITE_SHIELD.get().getDefaultInstance(), ModItems.ROSARITE_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(ModItems.IRON_WOLF_ARMOR.get().getDefaultInstance(), CreateCompatItems.ZINC_WOLF_ARMOR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(ModItems.COPPER_WOLF_ARMOR.get().getDefaultInstance(), CreateCompatItems.BRASS_WOLF_ARMOR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -441,6 +486,8 @@ public class MoreStuff {
                 event.insertAfter(ModItems.COPPER_HORSE_ARMOR.get().getDefaultInstance(), CreateCompatItems.BRASS_HORSE_ARMOR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatItems.BRASS_SWORD.get().getDefaultInstance(), CreateCompatItems.BRASS_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatItems.ZINC_SWORD.get().getDefaultInstance(), CreateCompatItems.ZINC_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.IRON_SHIELD.get().getDefaultInstance(), CreateCompatItems.ZINC_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.COPPER_SHIELD.get().getDefaultInstance(), CreateCompatItems.BRASS_SHIELD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
             event.insertAfter(Items.WOODEN_SWORD.getDefaultInstance(), ModItems.WOODEN_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.STONE_SWORD.getDefaultInstance(), ModItems.STONE_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -465,7 +512,6 @@ public class MoreStuff {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
     }
-
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
@@ -631,6 +677,29 @@ public class MoreStuff {
                         CauldronInteraction.WATER.map().put(ModItems.ROSARITE_WOLF_ARMOR.get(), CauldronInteraction.DYED_ITEM);
                         CauldronInteraction.WATER.map().put(ModItems.EMERALD_WOLF_ARMOR.get(), CauldronInteraction.DYED_ITEM);
                         CauldronInteraction.WATER.map().put(ModItems.TURTLE_SCUTE_WOLF_ARMOR.get(), CauldronInteraction.DYED_ITEM);
+
+                CauldronInteraction.WATER.map().put(ModItems.WOOD_PLATE_HELMET.get(), CauldronInteraction.DYED_ITEM);
+                CauldronInteraction.WATER.map().put(ModItems.WOOD_PLATE_CHESTPLATE.get(), CauldronInteraction.DYED_ITEM);
+                CauldronInteraction.WATER.map().put(ModItems.WOOD_PLATE_LEGGINGS.get(), CauldronInteraction.DYED_ITEM);
+                CauldronInteraction.WATER.map().put(ModItems.WOOD_PLATE_BOOTS.get(), CauldronInteraction.DYED_ITEM);
+
+                // 🐺 Wooden Wolf Armor
+                CauldronInteraction.WATER.map().put(ModItems.WOOD_PLATE_WOLF_ARMOR.get(), CauldronInteraction.DYED_ITEM);
+
+                // 🐴 Wooden Horse Armor
+                CauldronInteraction.WATER.map().put(ModItems.WOOD_PLATE_HORSE_ARMOR.get(), CauldronInteraction.DYED_ITEM);
+
+                // 🪨 Stone Plate Armor
+                CauldronInteraction.WATER.map().put(ModItems.STONE_PLATE_HELMET.get(), CauldronInteraction.DYED_ITEM);
+                CauldronInteraction.WATER.map().put(ModItems.STONE_PLATE_CHESTPLATE.get(), CauldronInteraction.DYED_ITEM);
+                CauldronInteraction.WATER.map().put(ModItems.STONE_PLATE_LEGGINGS.get(), CauldronInteraction.DYED_ITEM);
+                CauldronInteraction.WATER.map().put(ModItems.STONE_PLATE_BOOTS.get(), CauldronInteraction.DYED_ITEM);
+
+                // 🐺 Stone Wolf Armor
+                CauldronInteraction.WATER.map().put(ModItems.STONE_PLATE_WOLF_ARMOR.get(), CauldronInteraction.DYED_ITEM);
+
+                // 🐴 Stone Horse Armor
+                CauldronInteraction.WATER.map().put(ModItems.STONE_PLATE_HORSE_ARMOR.get(), CauldronInteraction.DYED_ITEM);
                     }
             );
             if (ModList.get().isLoaded("create")) {
@@ -642,7 +711,13 @@ public class MoreStuff {
             }
             Minecraft.getInstance().getItemColors().register(
                     (p_329705_, p_329706_) -> p_329706_ > 0 ? -1 : DyedItemColor.getOrDefault(p_329705_, -6265536),
-                    ModItems.LEATHER_WOLF_ARMOR
+                    ModItems.LEATHER_WOLF_ARMOR,
+                    ModItems.WOOD_PLATE_WOLF_ARMOR,
+                    ModItems.WOOD_PLATE_HORSE_ARMOR,
+                    ModItems.WOOD_PLATE_HELMET,
+                    ModItems.WOOD_PLATE_CHESTPLATE,
+                    ModItems.WOOD_PLATE_LEGGINGS,
+                    ModItems.WOOD_PLATE_BOOTS
             );
             Minecraft.getInstance().getItemColors().register((p_329699_, p_329700_) -> p_329700_ != 1 ? -1 : DyedItemColor.getOrDefault(p_329699_, 0),
                     ModItems.IRON_WOLF_ARMOR,
@@ -920,6 +995,16 @@ public class MoreStuff {
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.AQUANDA.get(), RenderType.translucent());
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GLOWING_AQUANDA.get(), RenderType.translucent());
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WARPED_WART.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POINTED_REDSTONIC.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ICE_SHEET.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ICICLE.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.STORMVEIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.TESLA_COIL.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ROSE_GOLD_GRATE.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.GLOWSHROOM.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HANGING_GLOWMOSS.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HANGING_GLOWMOSS_PLANT.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.GLOWMOSS_CARPET.get(), RenderType.cutoutMipped());
                     }
             );
         }

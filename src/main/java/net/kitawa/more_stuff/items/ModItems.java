@@ -7,11 +7,12 @@ import net.kitawa.more_stuff.items.util.shears.*;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -37,6 +38,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> AQUANDA_BERRIES = ITEMS.register("aquanda_berries",
             () -> new ItemNameBlockItem(ModBlocks.AQUANDA_VINES.get(), new Item.Properties().food(ModFoods.AQUANDA_BERRIES)));
+    public static final DeferredItem<Item> HANGING_GLOWMOSS = ITEMS.register("hanging_glowmoss",
+            () -> new ItemNameBlockItem(ModBlocks.HANGING_GLOWMOSS.get(), new Item.Properties()));
     public static final DeferredItem<Item> AQUANDA_KELP = ITEMS.register("aquanda_kelp",
             () -> new ItemNameBlockItem(ModBlocks.AQUANDA_KELP.get(), new Item.Properties()));
     public static final DeferredItem<Item> GOLDEN_BAMBOO = ITEMS.register("golden_bamboo",
@@ -82,28 +85,50 @@ public class ModItems {
                     createRosariteUpgradeMaterialList()
             )
     );
+    public static final DeferredItem<Item> STONE_SHIELD = ITEMS.register("stone_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(386).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), ItemTags.STONE_TOOL_MATERIALS));
+    public static final DeferredItem<Item> LAPIS_SHIELD = ITEMS.register("lapis_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(386).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.LAPIS_LAZULI));
+    public static final DeferredItem<Item> QUARTZ_SHIELD = ITEMS.register("quartz_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(386).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.QUARTZ));
+    public static final DeferredItem<Item> COPPER_SHIELD = ITEMS.register("copper_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(450).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.COPPER_INGOT));
+    public static final DeferredItem<Item> GOLDEN_SHIELD = ITEMS.register("golden_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(399).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.GOLD_INGOT));
+    public static final DeferredItem<Item> ROSE_GOLDEN_SHIELD = ITEMS.register("rose_golden_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(538).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), ModItems.ROSE_GOLD_INGOT.get()));
+    public static final DeferredItem<Item> IRON_SHIELD = ITEMS.register("iron_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(500).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.IRON_INGOT));
+    public static final DeferredItem<Item> DIAMOND_SHIELD = ITEMS.register("diamond_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(727).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.DIAMOND));
+    public static final DeferredItem<Item> EMERALD_SHIELD = ITEMS.register("emerald_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(727).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), Items.EMERALD));
+    public static final DeferredItem<Item> NETHERITE_SHIELD = ITEMS.register("netherite_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(1309).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY).fireResistant(), Items.NETHERITE_INGOT));
+    public static final DeferredItem<Item> ROSARITE_SHIELD = ITEMS.register("rosarite_shield",
+            () -> new ModShieldItem(new Item.Properties().durability(1745).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY).fireResistant(), ModItems.ROSARITE_INGOT.get()));
 
     public static final DeferredItem<Item> ROSE_GOLDEN_PICKAXE = ITEMS.register("rose_golden_pickaxe",
-            () -> new PickaxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1.0F, -2.8F))));
+            () -> new PickaxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 17.0F, 2.0F, 13+22, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1.0F, -2.8F))));
     public static final DeferredItem<Item> ROSE_GOLDEN_HOE = ITEMS.register("rose_golden_hoe",
-            () -> new HoeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(HoeItem.createAttributes(Tiers.IRON, -4.0F, 0.0F))));
+            () -> new HoeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 17.0F, 2.0F, 13+22, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(HoeItem.createAttributes(Tiers.IRON, -4.0F, 0.0F))));
     public static final DeferredItem<Item> ROSE_GOLDEN_SWORD = ITEMS.register("rose_golden_sword",
-            () -> new SwordItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+            () -> new SwordItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 17.0F, 2.0F, 13+22, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
     public static final DeferredItem<Item> ROSE_GOLDEN_SHOVEL = ITEMS.register("rose_golden_shovel",
-            () -> new ShovelItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(ShovelItem.createAttributes(Tiers.IRON, 1.5F, -3.0F))));
+            () -> new ShovelItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 17.0F, 2.0F, 13+22, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(ShovelItem.createAttributes(Tiers.IRON, 1.5F, -3.0F))));
     public static final DeferredItem<Item> ROSE_GOLDEN_AXE = ITEMS.register("rose_golden_axe",
-            () -> new AxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 5.0F, -3.0F))));
+            () -> new AxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 17.0F, 2.0F, 13+22, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 5.0F, -3.0F))));
 
     public static final DeferredItem<Item> COPPER_PICKAXE = ITEMS.register("copper_pickaxe",
-            () -> new PickaxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1.0F, -2.8F))));
+            () -> new PickaxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 5.0F, 2.0F, 13, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1.0F, -2.8F))));
     public static final DeferredItem<Item> COPPER_HOE = ITEMS.register("copper_hoe",
-            () -> new HoeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(HoeItem.createAttributes(Tiers.IRON, -4.0F, 0.0F))));
+            () -> new HoeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 5.0F, 2.0F, 13, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(HoeItem.createAttributes(Tiers.IRON, -4.0F, 0.0F))));
     public static final DeferredItem<Item> COPPER_SWORD = ITEMS.register("copper_sword",
-            () -> new SwordItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
+            () -> new SwordItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 5.0F, 2.0F, 13, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))));
     public static final DeferredItem<Item> COPPER_SHOVEL = ITEMS.register("copper_shovel",
-            () -> new ShovelItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(ShovelItem.createAttributes(Tiers.IRON, 1.5F, -3.0F))));
+            () -> new ShovelItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 5.0F, 2.0F, 13, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(ShovelItem.createAttributes(Tiers.IRON, 1.5F, -3.0F))));
     public static final DeferredItem<Item> COPPER_AXE = ITEMS.register("copper_axe",
-            () -> new AxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 5.0F, -3.0F))));
+            () -> new AxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 5.0F, 2.0F, 13, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 5.0F, -3.0F))));
 
     public static final DeferredItem<Item> EMERALD_AXE = ITEMS.register("emerald_axe",
             () -> new AxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_EMERALD_TOOL, 1561, 8.0F, 3.0F, 10, () -> Ingredient.of(Items.EMERALD)), new Item.Properties().attributes(AxeItem.createAttributes(Tiers.DIAMOND, 5.0F, -3.0F))));
@@ -117,49 +142,94 @@ public class ModItems {
             () -> new PickaxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_EMERALD_TOOL, 1561, 8.0F, 3.0F, 10, () -> Ingredient.of(Items.EMERALD)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.DIAMOND, 1.0F, -2.8F))));
 
     public static final DeferredItem<Item> ROSARITE_AXE = ITEMS.register("rosarite_axe",
-            () -> new AxeItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(AxeItem.createAttributes(Tiers.NETHERITE, 5.0F, -3.0F))));
+            () -> new AxeItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 190+2031, 21.0F, 4.0F, 15+22, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(AxeItem.createAttributes(Tiers.NETHERITE, 5.0F, -3.0F))));
     public static final DeferredItem<Item> ROSARITE_HOE = ITEMS.register("rosarite_hoe",
-            () -> new HoeItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(HoeItem.createAttributes(Tiers.NETHERITE, -4.0F, 0.0F))));
+            () -> new HoeItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 190+2031, 21.0F, 4.0F, 15+22, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(HoeItem.createAttributes(Tiers.NETHERITE, -4.0F, 0.0F))));
     public static final DeferredItem<Item> ROSARITE_SWORD = ITEMS.register("rosarite_sword",
-            () -> new SwordItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(SwordItem.createAttributes(Tiers.NETHERITE, 3, -2.4F))));
+            () -> new SwordItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 190+2031, 21.0F, 4.0F, 15+22, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(SwordItem.createAttributes(Tiers.NETHERITE, 3, -2.4F))));
     public static final DeferredItem<Item> ROSARITE_SHOVEL = ITEMS.register("rosarite_shovel",
-            () -> new ShovelItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(ShovelItem.createAttributes(Tiers.NETHERITE, 1.5F, -3.0F))));
+            () -> new ShovelItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 190+2031, 21.0F, 4.0F, 15+22, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(ShovelItem.createAttributes(Tiers.NETHERITE, 1.5F, -3.0F))));
     public static final DeferredItem<Item> ROSARITE_PICKAXE = ITEMS.register("rosarite_pickaxe",
-            () -> new PickaxeItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(PickaxeItem.createAttributes(Tiers.NETHERITE, 1.0F, -2.8F))));
+            () -> new PickaxeItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 190+2031, 21.0F, 4.0F, 15+22, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().fireResistant().attributes(PickaxeItem.createAttributes(Tiers.NETHERITE, 1.0F, -2.8F))));
 
     public static final DeferredItem<Item> CHAINMAIL_HORSE_ARMOR = ITEMS.register("chainmail_horse_armor",
             () -> new AnimalArmorItem(ArmorMaterials.CHAIN, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
 
+    public static final DeferredItem<Item> WOOD_PLATE_HELMET = ITEMS.register("wood_plate_helmet",
+            () -> new ArmorItem(ModArmorMaterials.WOOD_PLATE, ArmorItem.Type.HELMET,
+                    new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(2))
+                            .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB8945F, true))));
+    public static final DeferredItem<Item> WOOD_PLATE_CHESTPLATE = ITEMS.register("wood_plate_chestplate",
+            () -> new ArmorItem(ModArmorMaterials.WOOD_PLATE, ArmorItem.Type.CHESTPLATE,
+                    new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(2))
+                            .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB8945F, true))));
+    public static final DeferredItem<Item> WOOD_PLATE_LEGGINGS = ITEMS.register("wood_plate_leggings",
+            () -> new ArmorItem(ModArmorMaterials.WOOD_PLATE, ArmorItem.Type.LEGGINGS,
+                    new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(2))
+                            .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB8945F, true))));
+    public static final DeferredItem<Item> WOOD_PLATE_BOOTS = ITEMS.register("wood_plate_boots",
+            () -> new ArmorItem(ModArmorMaterials.WOOD_PLATE, ArmorItem.Type.BOOTS,
+                    new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(2))
+                            .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB8945F, true))));
+    public static final DeferredItem<Item> WOOD_PLATE_HORSE_ARMOR = ITEMS.register("wood_plate_horse_armor",
+            () -> new AnimalArmorItem(
+                    ModArmorMaterials.WOOD_PLATE,
+                    AnimalArmorItem.BodyType.EQUESTRIAN,
+                    false,
+                    new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(2))
+                            .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB8945F, true))
+            ));
+
+    public static final DeferredItem<Item> STONE_PLATE_HELMET = ITEMS.register("stone_plate_helmet",
+            () -> new ArmorItem(ModArmorMaterials.STONE_PLATE, ArmorItem.Type.HELMET,
+                    new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(6))));
+    public static final DeferredItem<Item> STONE_PLATE_CHESTPLATE = ITEMS.register("stone_plate_chestplate",
+            () -> new ArmorItem(ModArmorMaterials.STONE_PLATE, ArmorItem.Type.CHESTPLATE,
+                    new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(6))));
+    public static final DeferredItem<Item> STONE_PLATE_LEGGINGS = ITEMS.register("stone_plate_leggings",
+            () -> new ArmorItem(ModArmorMaterials.STONE_PLATE, ArmorItem.Type.LEGGINGS,
+                    new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(6))));
+    public static final DeferredItem<Item> STONE_PLATE_BOOTS = ITEMS.register("stone_plate_boots",
+            () -> new ArmorItem(ModArmorMaterials.STONE_PLATE, ArmorItem.Type.BOOTS,
+                    new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(6))));
+    public static final DeferredItem<Item> STONE_PLATE_HORSE_ARMOR = ITEMS.register("stone_plate_horse_armor",
+            () -> new AnimalArmorItem(
+                    ModArmorMaterials.STONE_PLATE,
+                    AnimalArmorItem.BodyType.EQUESTRIAN,
+                    false,
+                    new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(6))
+            ));
+
     public static final DeferredItem<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))));
+            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(11))));
     public static final DeferredItem<Item> COPPER_CHESTPLATE = ITEMS.register("copper_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))));
+            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(11))));
     public static final DeferredItem<Item> COPPER_LEGGINGS = ITEMS.register("copper_leggings",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))));
+            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(11))));
     public static final DeferredItem<Item> COPPER_BOOTS = ITEMS.register("copper_boots",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))));
+            () -> new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(11))));
     public static final DeferredItem<Item> COPPER_HORSE_ARMOR = ITEMS.register("copper_horse_armor",
-            () -> new AnimalArmorItem(ModArmorMaterials.COPPER, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
+            () -> new AnimalArmorItem(ModArmorMaterials.COPPER, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(11))));
 
     public static final DeferredItem<Item> ROSE_GOLDEN_HELMET = ITEMS.register("rose_golden_helmet",
-            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(22))));
+            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(18))));
     public static final DeferredItem<Item> ROSE_GOLDEN_CHESTPLATE = ITEMS.register("rose_golden_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(22))));
+            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(18))));
     public static final DeferredItem<Item> ROSE_GOLDEN_LEGGINGS = ITEMS.register("rose_golden_leggings",
-            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(22))));
+            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(18))));
     public static final DeferredItem<Item> ROSE_GOLDEN_BOOTS = ITEMS.register("rose_golden_boots",
-            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(22))));
+            () -> new ArmorItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(18))));
     public static final DeferredItem<Item> ROSE_GOLDEN_HORSE_ARMOR = ITEMS.register("rose_golden_horse_armor",
-            () -> new AnimalArmorItem(ModArmorMaterials.ROSE_GOLDEN, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(22))));
+            () -> new AnimalArmorItem(ModArmorMaterials.ROSE_GOLDEN, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(18))));
 
     public static final DeferredItem<Item> EMERALD_HELMET = ITEMS.register("emerald_helmet",
             () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(33))));
     public static final DeferredItem<Item> EMERALD_CHESTPLATE = ITEMS.register("emerald_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(33))));
+            () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(33))));
     public static final DeferredItem<Item> EMERALD_LEGGINGS = ITEMS.register("emerald_leggings",
-            () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(33))));
+            () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(33))));
     public static final DeferredItem<Item> EMERALD_BOOTS = ITEMS.register("emerald_boots",
-            () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(33))));
+            () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(33))));
     public static final DeferredItem<Item> EMERALD_HORSE_ARMOR = ITEMS.register("emerald_horse_armor",
             () -> new AnimalArmorItem(ModArmorMaterials.EMERALD, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(33))));
 
@@ -167,15 +237,15 @@ public class ModItems {
             () -> new AnimalArmorItem(ArmorMaterials.NETHERITE, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(37))));
 
     public static final DeferredItem<Item> ROSARITE_HELMET = ITEMS.register("rosarite_helmet",
-            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant().durability(ArmorItem.Type.HELMET.getDurability(44))));
+            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant().durability(ArmorItem.Type.HELMET.getDurability(37+11))));
     public static final DeferredItem<Item> ROSARITE_CHESTPLATE = ITEMS.register("rosarite_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().durability(ArmorItem.Type.HELMET.getDurability(44))));
+            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(37+11))));
     public static final DeferredItem<Item> ROSARITE_LEGGINGS = ITEMS.register("rosarite_leggings",
-            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant().durability(ArmorItem.Type.HELMET.getDurability(44))));
+            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant().durability(ArmorItem.Type.LEGGINGS.getDurability(37+11))));
     public static final DeferredItem<Item> ROSARITE_BOOTS = ITEMS.register("rosarite_boots",
-            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().durability(ArmorItem.Type.HELMET.getDurability(44))));
+            () -> new ArmorItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().durability(ArmorItem.Type.BOOTS.getDurability(37+11))));
     public static final DeferredItem<Item> ROSARITE_HORSE_ARMOR = ITEMS.register("rosarite_horse_armor",
-            () -> new AnimalArmorItem(ModArmorMaterials.ROSARITE, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(37))));
+            () -> new AnimalArmorItem(ModArmorMaterials.ROSARITE, AnimalArmorItem.BodyType.EQUESTRIAN, false, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(37+11))));
 
     public static final DeferredItem<Item> LEATHER_GLIDER = ITEMS.register("leather_glider",
             () -> new TeiredElytraItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/wings/leather.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(4))));
@@ -186,9 +256,9 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_ELYTRA = ITEMS.register("iron_elytra",
             () -> new TeiredElytraItem(ArmorMaterials.IRON, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/iron.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15+27)).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> COPPER_ELYTRA = ITEMS.register("copper_elytra",
-            () -> new TeiredElytraItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/copper.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15+27)).rarity(Rarity.UNCOMMON)));
+            () -> new TeiredElytraItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/copper.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(11+27)).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> ROSE_GOLDEN_ELYTRA = ITEMS.register("rose_golden_elytra",
-            () -> new TeiredElytraItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/rose_gold.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(22+27)).rarity(Rarity.UNCOMMON)));
+            () -> new TeiredElytraItem(ModArmorMaterials.ROSE_GOLDEN, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/rose_gold.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15+27)).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> DIAMOND_ELYTRA = ITEMS.register("diamond_elytra",
             () -> new TeiredElytraItem(ArmorMaterials.DIAMOND, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/diamond.png"), new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(33+27)).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> EMERALD_ELYTRA = ITEMS.register("emerald_elytra",
@@ -196,10 +266,15 @@ public class ModItems {
     public static final DeferredItem<Item> NETHERITE_ELYTRA = ITEMS.register("netherite_elytra",
             () -> new TeiredElytraItem(ArmorMaterials.NETHERITE, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/diamond.png"), new Item.Properties().fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(37+27)).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> ROSARITE_ELYTRA = ITEMS.register("rosarite_elytra",
-            () -> new TeiredElytraItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/rosarite.png"), new Item.Properties().fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(44+27)).rarity(Rarity.UNCOMMON)));
+            () -> new TeiredElytraItem(ModArmorMaterials.ROSARITE, ArmorItem.Type.CHESTPLATE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"textures/entity/wings/rosarite.png"), new Item.Properties().fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(37+27+11)).rarity(Rarity.UNCOMMON)));
 
+    public static final DeferredItem<Item> WOOD_PLATE_WOLF_ARMOR = ITEMS.register("wood_plate_wolf_armor",
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.WOOD_PLATE, ModdedAnimalArmorItem.BodyType.WOODEN_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(2))
+                    .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB8945F, true))));
     public static final DeferredItem<Item> LEATHER_WOLF_ARMOR = ITEMS.register("leather_wolf_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.LEATHER, ModdedAnimalArmorItem.BodyType.LEATHER_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(5))));
+    public static final DeferredItem<Item> STONE_PLATE_WOLF_ARMOR = ITEMS.register("stone_plate_wolf_armor",
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.STONE_PLATE, ModdedAnimalArmorItem.BodyType.LEATHER_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(6))));
     public static final DeferredItem<Item> CHAINMAIL_WOLF_ARMOR = ITEMS.register("chainmail_wolf_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.CHAIN, ModdedAnimalArmorItem.BodyType.CHAIN_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
     public static final DeferredItem<Item> GOLDEN_WOLF_ARMOR = ITEMS.register("golden_wolf_armor",
@@ -207,9 +282,9 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_WOLF_ARMOR = ITEMS.register("iron_wolf_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.IRON, ModdedAnimalArmorItem.BodyType.IRON_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
     public static final DeferredItem<Item> COPPER_WOLF_ARMOR = ITEMS.register("copper_wolf_armor",
-            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.COPPER_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.COPPER_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(11))));
     public static final DeferredItem<Item> ROSE_GOLDEN_WOLF_ARMOR = ITEMS.register("rose_golden_wolf_armor",
-            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.ROSE_GOLEN_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(22))));
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.ROSE_GOLEN_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
     public static final DeferredItem<Item> DIAMOND_WOLF_ARMOR = ITEMS.register("diamond_wolf_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.DIAMOND, ModdedAnimalArmorItem.BodyType.DIAMOND_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(33))));
     public static final DeferredItem<Item> EMERALD_WOLF_ARMOR = ITEMS.register("emerald_wolf_armor",
@@ -219,7 +294,7 @@ public class ModItems {
     public static final DeferredItem<Item> TURTLE_SCUTE_WOLF_ARMOR = ITEMS.register("turtle_scute_wolf_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.TURTLE, ModdedAnimalArmorItem.BodyType.TURTLE_SCUTE_CANINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(25))));
     public static final DeferredItem<Item> ROSARITE_WOLF_ARMOR = ITEMS.register("rosarite_wolf_armor",
-            () -> new ModdedAnimalArmorItem(ModArmorMaterials.ROSARITE, ModdedAnimalArmorItem.BodyType.ROSARITE_CANINE, true, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(44))));
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.ROSARITE, ModdedAnimalArmorItem.BodyType.ROSARITE_CANINE, true, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(37+11))));
 
     public static final DeferredItem<Item> HOGLIN_ARMOR = ITEMS.register("hoglin_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.ARMADILLO, ModdedAnimalArmorItem.BodyType.HOG, true, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(4))));
@@ -232,9 +307,9 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_HOGLIN_ARMOR = ITEMS.register("iron_hoglin_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.IRON, ModdedAnimalArmorItem.BodyType.IRON_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
     public static final DeferredItem<Item> COPPER_HOGLIN_ARMOR = ITEMS.register("copper_hoglin_armor",
-            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.COPPER_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.COPPER_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(11))));
     public static final DeferredItem<Item> ROSE_GOLDEN_HOGLIN_ARMOR = ITEMS.register("rose_golden_hoglin_armor",
-            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.ROSE_GOLEN_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(22))));
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.COPPER, ModdedAnimalArmorItem.BodyType.ROSE_GOLEN_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
     public static final DeferredItem<Item> DIAMOND_HOGLIN_ARMOR = ITEMS.register("diamond_hoglin_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.DIAMOND, ModdedAnimalArmorItem.BodyType.DIAMOND_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(33))));
     public static final DeferredItem<Item> EMERALD_HOGLIN_ARMOR = ITEMS.register("emerald_hoglin_armor",
@@ -244,7 +319,7 @@ public class ModItems {
     public static final DeferredItem<Item> TURTLE_SCUTE_HOGLIN_ARMOR = ITEMS.register("turtle_scute_hoglin_armor",
             () -> new ModdedAnimalArmorItem(ArmorMaterials.TURTLE, ModdedAnimalArmorItem.BodyType.TURTLE_SCUTE_HOG, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(25))));
     public static final DeferredItem<Item> ROSARITE_HOGLIN_ARMOR = ITEMS.register("rosarite_hoglin_armor",
-            () -> new ModdedAnimalArmorItem(ModArmorMaterials.ROSARITE, ModdedAnimalArmorItem.BodyType.ROSARITE_HOG, true, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(44))));
+            () -> new ModdedAnimalArmorItem(ModArmorMaterials.ROSARITE, ModdedAnimalArmorItem.BodyType.ROSARITE_HOG, true, new Item.Properties().fireResistant().durability(ArmorItem.Type.BODY.getDurability(37+11))));
 
     public static final DeferredItem<Item> NETHERRACK_STONES = ITEMS.register("netherrack_stones",
             () -> new PlaceOnLiquidBlockItem(ModBlocks.NETHERRACK_STONES.get(), new Item.Properties()));
@@ -256,6 +331,8 @@ public class ModItems {
             () -> new PlaceOnLiquidBlockItem(ModBlocks.PYROLIZED_STONES.get(), new Item.Properties()));
     public static final DeferredItem<Item> BASALT_STONES = ITEMS.register("basalt_stones",
             () -> new PlaceOnLiquidBlockItem(ModBlocks.BASALT_STONES.get(), new Item.Properties()));
+    public static final DeferredItem<Item> ICE_SHEET = ITEMS.register("ice_sheet",
+            () -> new PlaceOnLiquidBlockItem(ModBlocks.ICE_SHEET.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> WOODEN_MACE = ITEMS.register("wooden_mace",
             () -> new ModdedMaceItem(Tiers.WOOD, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.WOOD, 3 * 0.8333333333F, -3.4F)).durability(Tiers.WOOD.getUses())));
@@ -264,9 +341,9 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_MACE = ITEMS.register("iron_mace",
             () -> new ModdedMaceItem(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3 * 0.8333333333F, -3.4F)).durability(Tiers.IRON.getUses())));
     public static final DeferredItem<Item> COPPER_MACE = ITEMS.register("copper_mace",
-            () -> new ModdedMaceItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3 * 0.8333333333F, -3.4F)).durability(250)));
+            () -> new ModdedMaceItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3 * 0.8333333333F, -3.4F)).durability(190)));
     public static final DeferredItem<Item> ROSE_GOLDEN_MACE = ITEMS.register("rose_golden_mace",
-            () -> new ModdedMaceItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3 * 0.8333333333F, -3.4F)).durability(282)));
+            () -> new ModdedMaceItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3 * 0.8333333333F, -3.4F)).durability(190+32)));
     public static final DeferredItem<Item> GOLDEN_MACE = ITEMS.register("golden_mace",
             () -> new ModdedMaceItem(Tiers.GOLD, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.GOLD, 3 * 0.8333333333F, -3.4F)).durability(Tiers.GOLD.getUses())));
     public static final DeferredItem<Item> DIAMOND_MACE = ITEMS.register("diamond_mace",
@@ -276,7 +353,7 @@ public class ModItems {
     public static final DeferredItem<Item> NETHERITE_MACE = ITEMS.register("netherite_mace",
             () -> new ModdedMaceItem(Tiers.NETHERITE, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.NETHERITE, 3 * 0.8333333333F, -3.4F)).fireResistant().durability(Tiers.NETHERITE.getUses())));
     public static final DeferredItem<Item> ROSARITE_MACE = ITEMS.register("rosarite_mace",
-            () -> new ModdedMaceItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.NETHERITE, 3 * 0.8333333333F, -3.4F)).fireResistant().durability(2063)));
+            () -> new ModdedMaceItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 190+2031, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().attributes(SwordItem.createAttributes(Tiers.NETHERITE, 3 * 0.8333333333F, -3.4F)).fireResistant().durability(190+2031)));
 
     public static final DeferredItem<Item> LAPIS_PICKAXE = ITEMS.register("lapis_pickaxe",
             () -> new PickaxeItem(new SimpleTier(BlockTags.INCORRECT_FOR_STONE_TOOL, 131, 4.0F, 1.0F, 60, () -> Ingredient.of(Items.LAPIS_LAZULI)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.STONE, 1.0F, -2.8F))));
@@ -313,9 +390,9 @@ public class ModItems {
     public static final DeferredItem<Item> QUARTZ_SHEARS = ITEMS.register("quartz_shears",
             () -> new StoneShearsItem(new SimpleTier(BlockTags.INCORRECT_FOR_IRON_TOOL, 131, 4.0F, 1.0F, 5, () -> Ingredient.of(Items.QUARTZ)), new Item.Properties().durability((int) (Tiers.STONE.getUses() * 0.952)).component(DataComponents.TOOL, StoneShearsItem.createToolProperties())));
     public static final DeferredItem<Item> COPPER_SHEARS = ITEMS.register("copper_shears",
-            () -> new IronShearsItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().durability((int) (Tiers.IRON.getUses() * 0.952)).component(DataComponents.TOOL, IronShearsItem.createToolProperties())));
+            () -> new IronShearsItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 6.0F, 2.0F, 14, () -> Ingredient.of(Items.COPPER_INGOT)), new Item.Properties().durability((int) (190 * 0.952)).component(DataComponents.TOOL, IronShearsItem.createToolProperties())));
     public static final DeferredItem<Item> ROSE_GOLDEN_SHEARS = ITEMS.register("rose_golden_shears",
-            () -> new RoseGoldenShearsItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 282, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().durability((int) (282 * 0.952)).component(DataComponents.TOOL, RoseGoldenShearsItem.createToolProperties())));
+            () -> new RoseGoldenShearsItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 18.0F, 2.0F, 36, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().durability((int) (190+32 * 0.952)).component(DataComponents.TOOL, RoseGoldenShearsItem.createToolProperties())));
     public static final DeferredItem<Item> DIAMOND_SHEARS = ITEMS.register("diamond_shears",
             () -> new DiamondShearsItem(Tiers.DIAMOND, new Item.Properties().durability((int) (Tiers.DIAMOND.getUses() * 0.952)).component(DataComponents.TOOL, DiamondShearsItem.createToolProperties())));
     public static final DeferredItem<Item> EMERALD_SHEARS = ITEMS.register("emerald_shears",
@@ -323,7 +400,7 @@ public class ModItems {
     public static final DeferredItem<Item> NETHERITE_SHEARS = ITEMS.register("netherite_shears",
             () -> new NetheriteShearsItem(Tiers.NETHERITE, new Item.Properties().durability((int) (Tiers.NETHERITE.getUses() * 0.952)).component(DataComponents.TOOL, NetheriteShearsItem.createToolProperties()).fireResistant()));
     public static final DeferredItem<Item> ROSARITE_SHEARS = ITEMS.register("rosarite_shears",
-            () -> new RosariteShearsItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().durability((int) (2063 * 0.952)).component(DataComponents.TOOL, RosariteShearsItem.createToolProperties()).fireResistant()));
+            () -> new RosariteShearsItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().durability((int) ((Tiers.NETHERITE.getUses()+190) * 0.952)).component(DataComponents.TOOL, RosariteShearsItem.createToolProperties()).fireResistant()));
     public static final DeferredItem<Item> GOLDEN_SHEARS = ITEMS.register("golden_shears",
             () -> new GoldenShearsItem(Tiers.GOLD, new Item.Properties().durability((int) (Tiers.GOLD.getUses() * 0.952)).component(DataComponents.TOOL, GoldenShearsItem.createToolProperties())));
 

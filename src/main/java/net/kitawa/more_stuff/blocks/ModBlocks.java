@@ -2,16 +2,22 @@ package net.kitawa.more_stuff.blocks;
 
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.blocks.custom.aquanda_biome_blocks.*;
+import net.kitawa.more_stuff.blocks.custom.electricity.OmniBlock;
+import net.kitawa.more_stuff.blocks.custom.electricity.TeslaCoilBlock;
+import net.kitawa.more_stuff.blocks.custom.frostbitten_caverns.IceSheetBlock;
+import net.kitawa.more_stuff.blocks.custom.frostbitten_caverns.IcicleBlock;
 import net.kitawa.more_stuff.blocks.custom.frozen_valley_biome_blocks.FreezingMagmaBlock;
 import net.kitawa.more_stuff.blocks.custom.frozen_valley_biome_blocks.PowderSoulSnowBlock;
 import net.kitawa.more_stuff.blocks.custom.general.*;
 import net.kitawa.more_stuff.blocks.custom.metallic_forest_blocks.*;
 import net.kitawa.more_stuff.blocks.custom.pyrolized_and_blazing_blocks.*;
+import net.kitawa.more_stuff.blocks.custom.redstonic_caves.PointedRedstonicBlock;
 import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.worldgen.ModConfiguredFeatures;
 import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
@@ -496,7 +502,111 @@ public class ModBlocks {
                             .instrument(NoteBlockInstrument.BELL)
                             .requiresCorrectToolForDrops()
                             .strength(3.0F, 6.0F)
-                            .sound(SoundType.METAL)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> CHISELED_ROSE_GOLD = registerBlock("chiseled_rose_gold",
+            () -> new Block(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> ROSE_GOLD_GRATE = registerBlock("rose_gold_grate",
+            () -> new WaterloggedTransparentBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER_GRATE)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> CUT_ROSE_GOLD = registerBlock("cut_rose_gold",
+            () -> new Block(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> CUT_ROSE_GOLD_STAIRS = registerBlock("cut_rose_gold_stairs",
+            () -> new StairBlock(CUT_ROSE_GOLD.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> CUT_ROSE_GOLD_SLAB = registerBlock("cut_rose_gold_slab",
+            () -> new SlabBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> ROSE_GOLD_DOOR = registerBlock("rose_gold_door",
+            () -> new DoorBlock(BlockSetType.COPPER,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> ROSE_GOLD_TRAPDOOR = registerBlock("rose_gold_trapdoor",
+            () -> new TrapDoorBlock(BlockSetType.COPPER,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> ROSE_GOLD_PILLAR = registerBlock("rose_gold_pillar",
+            () -> new RotatedPillarBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> CUT_ROSE_GOLD_BRICKS = registerBlock("cut_rose_gold_bricks",
+            () -> new Block(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PINK)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
             )
     );
 
@@ -2048,6 +2158,309 @@ public class ModBlocks {
                             .requiresCorrectToolForDrops()
                             .strength(2.0F, 6.0F)
                             .sound(SoundType.STONE)
+            )
+    );
+
+    public static final DeferredBlock<Block> POINTED_REDSTONIC = registerBlock("pointed_redstonic",
+            () -> new PointedRedstonicBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.FIRE)
+                            .forceSolidOn()
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .noOcclusion()
+                            .sound(SoundType.POINTED_DRIPSTONE)
+                            .randomTicks()
+                            .strength(1.5F, 3.0F)
+                            .dynamicShape()
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> REDSTONIC_BLOCK = registerBlock("redstonic_block",
+            () -> new PoweredBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.FIRE)
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .sound(SoundType.DRIPSTONE_BLOCK)
+                            .requiresCorrectToolForDrops()
+                            .strength(1.5F, 1.0F)
+            )
+    );
+
+    public static final DeferredBlock<Block> ICE_SHEET = registerBlockNoItem("ice_sheet",
+            () -> new IceSheetBlock(0.98F,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.ICE)
+                            .friction(0.98F)
+                            .randomTicks()
+                            .strength(0.5F)
+                            .sound(SoundType.GLASS)
+                            .noOcclusion()
+                            .isValidSpawn((p_187426_, p_187427_, p_187428_, p_187429_) -> true)
+            )
+    );
+
+    public static final DeferredBlock<Block> ICICLE = registerBlock("icicle",
+            () -> new IcicleBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.ICE)
+                            .friction(0.98F)
+                            .forceSolidOn()
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .noOcclusion()
+                            .sound(SoundType.GLASS)
+                            .randomTicks()
+                            .strength(1.5F, 3.0F)
+                            .dynamicShape()
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> STORMVEIN = registerBlock("stormvein",
+            () -> new OmniBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops()
+                            .strength(5.0F, 6.0F)
+                            .sound(SoundType.NETHERITE_BLOCK)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> ANCHOR_BLOCK = registerBlock("anchor_block",
+            () -> new PoweredBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops()
+                            .strength(50.0F)
+                            .sound(SoundType.NETHERITE_BLOCK)
+            )
+    );
+
+    public static final DeferredBlock<Block> TESLA_COIL = registerBlock("tesla_coil",
+            () -> new TeslaCoilBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops()
+                            .strength(5.0F, 6.0F)
+                            .sound(SoundType.NETHERITE_BLOCK)
+                            .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<Block> VOLTAIC_SLATE = registerBlock("voltaic_slate",
+            () -> new Block(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops()
+                            .strength(5.0F, 6.0F)
+                            .sound(SoundType.NETHERITE_BLOCK)
+            )
+    );
+
+    public static final DeferredBlock<Block> CUT_COPPER_BRICKS = registerBlock("cut_copper_bricks",
+            () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.UNAFFECTED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_ORANGE)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_BRICKS = registerBlock("exposed_cut_copper_bricks",
+            () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.EXPOSED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_BRICKS = registerBlock("weathered_cut_copper_bricks",
+            () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.WEATHERED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.WARPED_STEM)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_BRICKS = registerBlock("oxidized_cut_copper_bricks",
+            () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.OXIDIZED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.WARPED_NYLIUM)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    public static final DeferredBlock<Block> WAXED_CUT_COPPER_BRICKS = registerBlock("waxed_cut_copper_bricks",
+            () -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(ModBlocks.CUT_COPPER_BRICKS.get())
+            )
+    );
+
+    public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_BRICKS = registerBlock("waxed_exposed_cut_copper_bricks",
+            () -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(ModBlocks.EXPOSED_CUT_COPPER_BRICKS.get())
+            )
+    );
+
+    public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_BRICKS = registerBlock("waxed_weathered_cut_copper_bricks",
+            () -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(ModBlocks.WEATHERED_CUT_COPPER_BRICKS.get())
+            )
+    );
+
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_BRICKS = registerBlock("waxed_oxidized_cut_copper_bricks",
+            () -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(ModBlocks.OXIDIZED_CUT_COPPER_BRICKS.get())
+            )
+    );
+
+    // Unaffected pillar
+    public static final DeferredBlock<Block> COPPER_PILLAR = registerBlock("copper_pillar",
+            () -> new WeatheringCopperPillarBlock(WeatheringCopper.WeatherState.UNAFFECTED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_ORANGE)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    // Exposed pillar
+    public static final DeferredBlock<Block> EXPOSED_COPPER_PILLAR = registerBlock("exposed_copper_pillar",
+            () -> new WeatheringCopperPillarBlock(WeatheringCopper.WeatherState.EXPOSED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    // Weathered pillar
+    public static final DeferredBlock<Block> WEATHERED_COPPER_PILLAR = registerBlock("weathered_copper_pillar",
+            () -> new WeatheringCopperPillarBlock(WeatheringCopper.WeatherState.WEATHERED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.WARPED_STEM)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+    // Oxidized pillar
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_PILLAR = registerBlock("oxidized_copper_pillar",
+            () -> new WeatheringCopperPillarBlock(WeatheringCopper.WeatherState.OXIDIZED,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.WARPED_NYLIUM)
+                            .instrument(NoteBlockInstrument.BELL)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)
+                            .sound(SoundType.COPPER)
+            )
+    );
+
+
+    // Waxed pillars (just copies, no weathering)
+    public static final DeferredBlock<Block> WAXED_COPPER_PILLAR = registerBlock("waxed_copper_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(ModBlocks.COPPER_PILLAR.get()))
+    );
+
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_PILLAR = registerBlock("waxed_exposed_copper_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(ModBlocks.EXPOSED_COPPER_PILLAR.get()))
+    );
+
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_PILLAR = registerBlock("waxed_weathered_copper_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(ModBlocks.WEATHERED_COPPER_PILLAR.get()))
+    );
+
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_PILLAR = registerBlock("waxed_oxidized_copper_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(ModBlocks.OXIDIZED_COPPER_PILLAR.get()))
+    );
+
+    public static final DeferredBlock<Block> GLOWSHROOM = registerBlock("glowshroom",
+            () -> new WaterloggedMushroomBlock(
+                    ModConfiguredFeatures.HUGE_GLOWSHROOM,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GLOW_LICHEN)
+                            .noCollission()
+                            .randomTicks()
+                            .instabreak()
+                            .sound(SoundType.GRASS)
+                            .lightLevel(p_50892_ -> 3)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> GLOWSHROOM_BLOCK = registerBlock("glowshroom_block",
+            () -> new HugeMushroomBlock(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).instrument(NoteBlockInstrument.BASS).strength(0.2F).sound(SoundType.WOOD).lightLevel(p_50892_ -> 7)
+            )
+    );
+
+    public static final DeferredBlock<Block> HANGING_GLOWMOSS = registerBlockNoItem("hanging_glowmoss",
+            () -> new HangingGlowmossBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GLOW_LICHEN)
+                            .randomTicks()
+                            .noCollission()
+                            .instabreak()
+                            .sound(SoundType.MOSS)
+                            .pushReaction(PushReaction.DESTROY)
+                            .lightLevel(p_50892_ -> 7)
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+            )
+    );
+
+    public static final DeferredBlock<Block> HANGING_GLOWMOSS_PLANT = registerBlockNoItem("hanging_glowmoss_plant",
+            () -> new HangingGlowmossPlantBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GLOW_LICHEN)
+                            .randomTicks()
+                            .noCollission()
+                            .instabreak()
+                            .sound(SoundType.MOSS)
+                            .pushReaction(PushReaction.DESTROY)
+                            .lightLevel(p_50892_ -> 7)
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+            )
+    );
+
+    public static final DeferredBlock<GlowmossCarpetBlock> GLOWMOSS_CARPET = registerBlock("glowmoss_carpet",
+            () -> new GlowmossCarpetBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GLOW_LICHEN)
+                            .strength(0.1F)
+                            .sound(SoundType.MOSS_CARPET)
+                            .pushReaction(PushReaction.DESTROY)
+                            .lightLevel(GlowmossCarpetBlock.LIGHT_EMISSION)
+            )
+    );
+
+    public static final DeferredBlock<ModdedMossBlock> GLOWMOSS_BLOCK = registerBlock("glowmoss_block",
+            () -> new ModdedMossBlock(ModConfiguredFeatures.GLOWMOSS_PATCH_BONEMEAL, ModConfiguredFeatures.GLOWMOSS_PATCH_BONEMEAL_UNDERWATER,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GLOW_LICHEN)
+                            .strength(0.1F)
+                            .sound(SoundType.MOSS)
+                            .pushReaction(PushReaction.DESTROY)
+                            .lightLevel(p_50892_ -> 7)
             )
     );
 

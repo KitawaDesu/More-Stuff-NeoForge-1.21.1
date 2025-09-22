@@ -9,12 +9,11 @@
   ],
   "key": {
     "X": {
-      "item": "more_stuff:iron_ingot"
+      "item": "minecraft:iron_ingot"
     }
   },
   "result": {
     "id": "more_stuff:iron_wolf_armor",
-    "count": 1,
-    "components": {}
+    "count": 1
   }
 }

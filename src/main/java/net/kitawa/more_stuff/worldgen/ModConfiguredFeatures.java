@@ -22,6 +22,12 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_NETHER_ZINC = registerKey("ore_nether_zinc");
     public static final ResourceKey<ConfiguredFeature<?, ?>> DELTA = registerKey("delta");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BLAZING_REEDS = registerKey("blazing_reeds");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> REDSTONIC_CLUSTER = registerKey("redstonic_cluster");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LARGE_REDSTONIC = registerKey("large_redstonic");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> POINTED_REDSTONIC = registerKey("pointed_redstonic");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_GLOWSHROOM = registerKey("huge_glowshroom");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOWMOSS_PATCH_BONEMEAL = registerKey("glowmoss_patch_bonemeal");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOWMOSS_PATCH_BONEMEAL_UNDERWATER = registerKey("glowmoss_patch_bonemeal_underwater");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, name));

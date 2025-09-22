@@ -16,6 +16,7 @@
     "more_stuff:netherite_mace",
     "more_stuff:rosarite_mace",
     "more_stuff:lapis_mace",
-    "more_stuff:quartz_mace"
+    "more_stuff:quartz_mace",
+    "#c:tools/shield"
   ]
 }

@@ -1,204 +1,127 @@
 package net.kitawa.more_stuff.util.configs;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.*;
+import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.electronwill.nightconfig.toml.TomlWriter;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class LifeBitDropsConfig {
 
-    public static LifeBitDropsConfig CONFIG = new LifeBitDropsConfig(
-            1.0f, 1.0f, 0.10f, 0.15f, 0.75f, 0.5f, 0.5f, 0.5f, 0.375f,
-            20.0f, 7.0f, 0.0f, 8.0f // default thresholds
-    );
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
-    private static final Path CONFIG_PATH = Paths.get("config", "more_stuff", "life_bit_drops_config.json");
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    // Descriptions
-    private final String ArmorBonusPercentageDescription = "Sets the percentage of Life Bits dropped, based on the entity's armor value.";
-    private final String ToughnessBonusPercentageDescription = "Sets the percentage of Life Bits dropped, based on the entity's armor toughness value.";
-    private final String MinimumDropPercentageDescription = "The minimum percentage chance required for Life Bits to drop. Drops will fail if the roll is below this value.";
-    private final String BiasedTwordsPercentageDescription = "Determines the bias of the drop percentage. It’s recommended to keep this value above the minimum drop percentage.";
-    private final String MobAttackDamageBonusDescription = "Increases the number of Life Bits dropped based on the defeated entity's attack damage. Stronger enemies give more drops.";
-    private final String PlayerHealthPenaltyDescription = "Reduces the number of Life Bits dropped based on the player's maximum health. Higher health leads to fewer drops.";
-    private final String PlayerArmorPenaltyDescription = "Reduces the number of Life Bits dropped based on the player's armor value. More armor results in fewer drops.";
-    private final String PlayerToughnessPenaltyDescription = "Reduces the number of Life Bits dropped based on the player's armor toughness. Higher toughness decreases drop amount.";
-    private final String PlayerAttackDamagePenaltyDescription = "Reduces the number of Life Bits dropped based on the player's attack damage. Stronger attackers yield fewer drops.";
-    private final String PlayerHealthPenaltyThresholdDescription = "Minimum health before the health penalty is applied.";
-    private final String PlayerArmorPenaltyThresholdDescription = "Minimum armor before the armor penalty is applied.";
-    private final String PlayerToughnessPenaltyThresholdDescription = "Minimum armor toughness before the toughness penalty is applied.";
-    private final String PlayerAttackDamagePenaltyThresholdDescription = "Minimum attack damage before the attack damage penalty is applied.";
+    // --- Config Values ---
+    public static final ModConfigSpec.DoubleValue ARMOR_BONUS_PERCENTAGE =
+            BUILDER.comment("Sets the percentage of Life Bits dropped based on the entity's armor value.")
+                    .defineInRange("armorBonusPercentage", 1.0, 0.0, 10.0);
 
-    // Values
-    private float ArmorBonusPercentageValue;
-    private float ToughnessBonusPercentageValue;
-    private float MinimumDropPercentageValue;
-    private float BiasedTwordsPercentageValue;
-    private float MobAttackDamageBonus;
-    private float PlayerHealthPenalty;
-    private float PlayerArmorPenalty;
-    private float PlayerToughnessPenalty;
-    private float PlayerAttackDamagePenalty;
-    private float PlayerHealthPenaltyThreshold;
-    private float PlayerArmorPenaltyThreshold;
-    private float PlayerToughnessPenaltyThreshold;
-    private float PlayerAttackDamagePenaltyThreshold;
+    public static final ModConfigSpec.DoubleValue TOUGHNESS_BONUS_PERCENTAGE =
+            BUILDER.comment("Sets the percentage of Life Bits dropped based on the entity's armor toughness value.")
+                    .defineInRange("toughnessBonusPercentage", 1.0, 0.0, 10.0);
 
-    public LifeBitDropsConfig(
-            float ArmorBonusPercentageValue,
-            float ToughnessBonusPercentageValue,
-            float MinimumDropPercentageValue,
-            float BiasedTwordsPercentageValue,
-            float MobAttackDamageBonus,
-            float PlayerHealthPenalty,
-            float PlayerArmorPenalty,
-            float PlayerToughnessPenalty,
-            float PlayerAttackDamagePenalty,
-            float PlayerHealthPenaltyThreshold,
-            float PlayerArmorPenaltyThreshold,
-            float PlayerToughnessPenaltyThreshold,
-            float PlayerAttackDamagePenaltyThreshold
-    ) {
-        this.ArmorBonusPercentageValue = ArmorBonusPercentageValue;
-        this.ToughnessBonusPercentageValue = ToughnessBonusPercentageValue;
-        this.MinimumDropPercentageValue = MinimumDropPercentageValue;
-        this.BiasedTwordsPercentageValue = BiasedTwordsPercentageValue;
-        this.MobAttackDamageBonus = MobAttackDamageBonus;
-        this.PlayerHealthPenalty = PlayerHealthPenalty;
-        this.PlayerArmorPenalty = PlayerArmorPenalty;
-        this.PlayerToughnessPenalty = PlayerToughnessPenalty;
-        this.PlayerAttackDamagePenalty = PlayerAttackDamagePenalty;
-        this.PlayerHealthPenaltyThreshold = PlayerHealthPenaltyThreshold;
-        this.PlayerArmorPenaltyThreshold = PlayerArmorPenaltyThreshold;
-        this.PlayerToughnessPenaltyThreshold = PlayerToughnessPenaltyThreshold;
-        this.PlayerAttackDamagePenaltyThreshold = PlayerAttackDamagePenaltyThreshold;
-    }
+    public static final ModConfigSpec.DoubleValue MINIMUM_DROP_PERCENTAGE =
+            BUILDER.comment("Minimum chance required for Life Bits to drop.")
+                    .defineInRange("minimumDropPercentage", 0.10, 0.0, 1.0);
 
-    public static void setup() {
-        try {
-            if (Files.exists(CONFIG_PATH)) {
-                read();
-            } else {
-                write();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static final ModConfigSpec.DoubleValue BIASED_TOWARDS_PERCENTAGE =
+            BUILDER.comment("Bias of the drop percentage. Recommended above minimum drop.")
+                    .defineInRange("biasedTowardsPercentage", 0.15, 0.0, 1.0);
+
+    public static final ModConfigSpec.DoubleValue MOB_ATTACK_DAMAGE_BONUS =
+            BUILDER.comment("Increases drops based on mob's attack damage.")
+                    .defineInRange("mobAttackDamageBonus", 0.75, 0.0, 10.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_HEALTH_PENALTY =
+            BUILDER.comment("Reduces drops based on player's max health.")
+                    .defineInRange("playerHealthPenalty", 0.5, 0.0, 10.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_ARMOR_PENALTY =
+            BUILDER.comment("Reduces drops based on player's armor value.")
+                    .defineInRange("playerArmorPenalty", 0.5, 0.0, 10.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_TOUGHNESS_PENALTY =
+            BUILDER.comment("Reduces drops based on player's armor toughness.")
+                    .defineInRange("playerToughnessPenalty", 0.5, 0.0, 10.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_ATTACK_DAMAGE_PENALTY =
+            BUILDER.comment("Reduces drops based on player's attack damage.")
+                    .defineInRange("playerAttackDamagePenalty", 0.375, 0.0, 10.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_HEALTH_THRESHOLD =
+            BUILDER.comment("Minimum player health before health penalty applies.")
+                    .defineInRange("playerHealthThreshold", 20.0, 0.0, 1024.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_ARMOR_THRESHOLD =
+            BUILDER.comment("Minimum player armor before armor penalty applies.")
+                    .defineInRange("playerArmorThreshold", 7.0, 0.0, 1024.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_TOUGHNESS_THRESHOLD =
+            BUILDER.comment("Minimum player armor toughness before toughness penalty applies.")
+                    .defineInRange("playerToughnessThreshold", 0.0, 0.0, 1024.0);
+
+    public static final ModConfigSpec.DoubleValue PLAYER_ATTACK_DAMAGE_THRESHOLD =
+            BUILDER.comment("Minimum player attack damage before penalty applies.")
+                    .defineInRange("playerAttackDamageThreshold", 8.0, 0.0, 1024.0);
+
+    public static final ModConfigSpec SPEC = BUILDER.build();
+
+    // --- Cached static values ---
+    public static double armorBonus;
+    public static double toughnessBonus;
+    public static double minimumDrop;
+    public static double biasedTowards;
+    public static double mobAttackBonus;
+    public static double playerHealthPenalty;
+    public static double playerArmorPenalty;
+    public static double playerToughnessPenalty;
+    public static double playerAttackDamagePenalty;
+    public static double playerHealthThreshold;
+    public static double playerArmorThreshold;
+    public static double playerToughnessThreshold;
+    public static double playerAttackDamageThreshold;
+
+    @SubscribeEvent
+    static void onLoad(final ModConfigEvent.Loading event) {
+        if (event.getConfig().getSpec() == SPEC) {
+            bake();
         }
     }
 
-    public static void read() throws IOException {
-        try (Reader reader = new FileReader(CONFIG_PATH.toFile())) {
-            CONFIG = GSON.fromJson(reader, LifeBitDropsConfig.class);
+    @SubscribeEvent
+    static void onReloading(final ModConfigEvent.Reloading event) {
+        if (event.getConfig().getSpec() == SPEC) {
+            bake();
         }
     }
 
-    public static void write() throws IOException {
-        Path configDir = CONFIG_PATH.getParent();
-        if (!Files.exists(configDir)) {
-            Files.createDirectories(configDir);
-        }
-
-        // Custom writer to add comments manually
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CONFIG_PATH.toFile()))) {
-            writer.write("{\n");
-
-            writer.write("  // " + CONFIG.ArmorBonusPercentageDescription + "\n");
-            writer.write("  \"ArmorBonusPercentageValue\": " + CONFIG.ArmorBonusPercentageValue + ",\n");
-
-            writer.write("  // " + CONFIG.ToughnessBonusPercentageDescription + "\n");
-            writer.write("  \"ToughnessBonusPercentageValue\": " + CONFIG.ToughnessBonusPercentageValue + ",\n");
-
-            writer.write("  // " + CONFIG.MinimumDropPercentageDescription + "\n");
-            writer.write("  \"MinimumDropPercentageValue\": " + CONFIG.MinimumDropPercentageValue + ",\n");
-
-            writer.write("  // " + CONFIG.BiasedTwordsPercentageDescription + "\n");
-            writer.write("  \"BiasedTwordsPercentageValue\": " + CONFIG.BiasedTwordsPercentageValue + ",\n");
-
-            writer.write("  // " + CONFIG.MobAttackDamageBonusDescription + "\n");
-            writer.write("  \"MobAttackDamageBonus\": " + CONFIG.MobAttackDamageBonus + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerHealthPenaltyDescription + "\n");
-            writer.write("  \"PlayerHealthPenalty\": " + CONFIG.PlayerHealthPenalty + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerArmorPenaltyDescription + "\n");
-            writer.write("  \"PlayerArmorPenalty\": " + CONFIG.PlayerArmorPenalty + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerToughnessPenaltyDescription + "\n");
-            writer.write("  \"PlayerToughnessPenalty\": " + CONFIG.PlayerToughnessPenalty + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerAttackDamagePenaltyDescription + "\n");
-            writer.write("  \"PlayerAttackDamagePenalty\": " + CONFIG.PlayerAttackDamagePenalty + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerHealthPenaltyThresholdDescription + "\n");
-            writer.write("  \"PlayerHealthPenaltyThreshold\": " + CONFIG.PlayerHealthPenaltyThreshold + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerArmorPenaltyThresholdDescription + "\n");
-            writer.write("  \"PlayerArmorPenaltyThreshold\": " + CONFIG.PlayerArmorPenaltyThreshold + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerToughnessPenaltyThresholdDescription + "\n");
-            writer.write("  \"PlayerToughnessPenaltyThreshold\": " + CONFIG.PlayerToughnessPenaltyThreshold + ",\n");
-
-            writer.write("  // " + CONFIG.PlayerAttackDamagePenaltyThresholdDescription + "\n");
-            writer.write("  \"PlayerAttackDamagePenaltyThreshold\": " + CONFIG.PlayerAttackDamagePenaltyThreshold + "\n");
-
-            writer.write("}\n");
-        }
-    }
-
-
-    // Getters
-    public float ArmorBonusPercentageValue() {
-        return ArmorBonusPercentageValue;
-    }
-
-    public float ToughnessBonusPercentageValue() {
-        return ToughnessBonusPercentageValue;
-    }
-
-    public float MinimumDropPercentageValue() {
-        return MinimumDropPercentageValue;
-    }
-
-    public float BiasedTwordsPercentageValue() {
-        return BiasedTwordsPercentageValue;
-    }
-
-    public float MobAttackDamageBonus() {
-        return MobAttackDamageBonus;
-    }
-
-    public float PlayerHealthPenalty() {
-        return PlayerHealthPenalty;
-    }
-
-    public float PlayerArmorPenalty() {
-        return PlayerArmorPenalty;
-    }
-
-    public float PlayerToughnessPenalty() {
-        return PlayerToughnessPenalty;
-    }
-
-    public float PlayerAttackDamagePenalty() {
-        return PlayerAttackDamagePenalty;
-    }
-
-    public float PlayerHealthPenaltyThreshold() {
-        return PlayerHealthPenaltyThreshold;
-    }
-
-    public float PlayerArmorPenaltyThreshold() {
-        return PlayerArmorPenaltyThreshold;
-    }
-
-    public float PlayerToughnessPenaltyThreshold() {
-        return PlayerToughnessPenaltyThreshold;
-    }
-
-    public float PlayerAttackDamagePenaltyThreshold() {
-        return PlayerAttackDamagePenaltyThreshold;
+    /**
+     * Syncs spec values into static cached fields.
+     */
+    public static void bake() {
+        armorBonus = ARMOR_BONUS_PERCENTAGE.get();
+        toughnessBonus = TOUGHNESS_BONUS_PERCENTAGE.get();
+        minimumDrop = MINIMUM_DROP_PERCENTAGE.get();
+        biasedTowards = BIASED_TOWARDS_PERCENTAGE.get();
+        mobAttackBonus = MOB_ATTACK_DAMAGE_BONUS.get();
+        playerHealthPenalty = PLAYER_HEALTH_PENALTY.get();
+        playerArmorPenalty = PLAYER_ARMOR_PENALTY.get();
+        playerToughnessPenalty = PLAYER_TOUGHNESS_PENALTY.get();
+        playerAttackDamagePenalty = PLAYER_ATTACK_DAMAGE_PENALTY.get();
+        playerHealthThreshold = PLAYER_HEALTH_THRESHOLD.get();
+        playerArmorThreshold = PLAYER_ARMOR_THRESHOLD.get();
+        playerToughnessThreshold = PLAYER_TOUGHNESS_THRESHOLD.get();
+        playerAttackDamageThreshold = PLAYER_ATTACK_DAMAGE_THRESHOLD.get();
     }
 }

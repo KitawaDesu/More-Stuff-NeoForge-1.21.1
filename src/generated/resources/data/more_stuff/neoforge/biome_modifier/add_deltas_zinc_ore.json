@@ -1,7 +1,4 @@
 {
-  "neoforge:conditions": [
-    { "type": "neoforge:mod_loaded", "modid": "create" }
-  ],
   "type": "neoforge:add_features",
   "biomes": "minecraft:basalt_deltas",
   "features": "more_stuff:ore_zinc_deltas",

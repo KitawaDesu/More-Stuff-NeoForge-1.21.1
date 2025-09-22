@@ -1,6 +1,10 @@
-// 1.21.1	2025-05-11T07:41:43.8992667	Tags for minecraft:worldgen/biome mod id more_stuff
+// 1.21.1	2025-08-28T04:15:40.0173785	Tags for minecraft:worldgen/biome mod id more_stuff
 83a91226bfb6f5ceb781a86941b8877c95b0843f data/minecraft/tags/worldgen/biome/has_structure/bastion_remnant.json
+bb73d1619bf27acd5a7de65e82e524df9c8f8a25 data/minecraft/tags/worldgen/biome/has_structure/mineshaft.json
 574c8af9873946922ba6ec99813989469fc10521 data/minecraft/tags/worldgen/biome/has_structure/nether_fossil.json
 fbecff012c62d259de378926745032ff2c3b7349 data/minecraft/tags/worldgen/biome/has_structure/ocean_monument.json
+eee1d8db28a842992fa2ab410312929807e6662d data/minecraft/tags/worldgen/biome/has_structure/ruined_portal_standard.json
+bb73d1619bf27acd5a7de65e82e524df9c8f8a25 data/minecraft/tags/worldgen/biome/has_structure/trial_chambers.json
 83a91226bfb6f5ceb781a86941b8877c95b0843f data/minecraft/tags/worldgen/biome/is_nether.json
 fbecff012c62d259de378926745032ff2c3b7349 data/minecraft/tags/worldgen/biome/is_ocean.json
+bb73d1619bf27acd5a7de65e82e524df9c8f8a25 data/minecraft/tags/worldgen/biome/is_overworld.json

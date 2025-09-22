@@ -20,9 +20,9 @@ public class ModEnchantmentUtils {
             DifficultyInstance difficulty
     ) {
         float dayMultiplier = 1.0F;
-        if (MoreStuffGeneralConfig.CONFIG.AllowLogarithmicEnchantments()) {
+        if (MoreStuffGeneralConfig.allowLogarithmicEnchantments) {
             long dayCount = level.getLevel().getDayTime() / 24000L;
-            dayMultiplier += (float)(Math.log(dayCount + 1) / MoreStuffGeneralConfig.CONFIG.LogarithmicEnchantmentScalingFactor());
+            dayMultiplier += (float)(Math.log(dayCount + 1) / MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor);
         }
 
         float finalChance = enchantChance * difficulty.getSpecialMultiplier() * dayMultiplier;

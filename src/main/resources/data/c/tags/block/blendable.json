@@ -1,0 +1,30 @@
+{
+  "values": [
+    "more_stuff:azalea_log",
+    "more_stuff:aquanda_stem",
+    "more_stuff:azalea_wood",
+    "more_stuff:aquanda_hyphae",
+    "more_stuff:stripped_azalea_log",
+    "more_stuff:stripped_aquanda_stem",
+    "more_stuff:stripped_azalea_wood",
+    "more_stuff:stripped_aquanda_hyphae",
+    "more_stuff:azalea_planks",
+    "more_stuff:aquanda_planks",
+    "more_stuff:azalea_button",
+    "more_stuff:aquanda_button",
+    "more_stuff:azalea_door",
+    "more_stuff:aquanda_door",
+    "more_stuff:azalea_fence",
+    "more_stuff:aquanda_fence",
+    "more_stuff:azalea_pressure_plate",
+    "more_stuff:aquanda_pressure_plate",
+    "more_stuff:azalea_slab",
+    "more_stuff:aquanda_slab",
+    "more_stuff:azalea_stairs",
+    "more_stuff:aquanda_stairs",
+    "more_stuff:azalea_trapdoor",
+    "more_stuff:aquanda_trapdoor",
+    "minecraft:azalea",
+    "minecraft:flowering_azalea"
+  ]
+}

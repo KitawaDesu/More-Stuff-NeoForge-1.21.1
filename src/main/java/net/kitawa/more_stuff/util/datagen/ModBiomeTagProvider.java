@@ -26,6 +26,37 @@ public class ModBiomeTagProvider extends BiomeTagsProvider{
                 .add(ModBiomes.METALLIC_FOREST)
                 .add(ModBiomes.FROZEN_VALLEY);
 
+        tag(BiomeTags.IS_OVERWORLD)
+                .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
+                .add(ModBiomes.COLD_AQUAPURANDA_FOREST)
+                .add(ModBiomes.AQUAPURANDA_FOREST)
+                .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
+                .add(ModBiomes.WARM_AQUAPURANDA_FOREST)
+                .add(ModBiomes.REDSTONIC_CAVES)
+                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+
+        tag(BiomeTags.HAS_MINESHAFT)
+                .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
+                .add(ModBiomes.COLD_AQUAPURANDA_FOREST)
+                .add(ModBiomes.AQUAPURANDA_FOREST)
+                .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
+                .add(ModBiomes.WARM_AQUAPURANDA_FOREST)
+                .add(ModBiomes.REDSTONIC_CAVES)
+                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+
+        tag(BiomeTags.HAS_TRIAL_CHAMBERS)
+                .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
+                .add(ModBiomes.COLD_AQUAPURANDA_FOREST)
+                .add(ModBiomes.AQUAPURANDA_FOREST)
+                .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
+                .add(ModBiomes.WARM_AQUAPURANDA_FOREST)
+                .add(ModBiomes.REDSTONIC_CAVES)
+                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+
+        tag(BiomeTags.HAS_RUINED_PORTAL_STANDARD)
+                .add(ModBiomes.REDSTONIC_CAVES)
+                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+
         tag(BiomeTags.IS_OCEAN)
                 .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
                 .add(ModBiomes.COLD_AQUAPURANDA_FOREST)

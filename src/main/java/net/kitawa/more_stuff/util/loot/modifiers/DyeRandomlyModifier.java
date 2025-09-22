@@ -24,8 +24,11 @@ public class DyeRandomlyModifier extends LootModifier {
     }
 
     @Override
-    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext lootContext) {RandomSource random = lootContext.getRandom();
-        float threshold = (float) (random.nextFloat() * MoreStuffGeneralConfig.CONFIG.applyLootDyeingMultiplier());
+    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext lootContext) {
+        RandomSource random = lootContext.getRandom();
+
+        // Use safe getter for multiplier
+        float threshold = (float) (random.nextFloat() * MoreStuffGeneralConfig.applyLootDyeingMultiplier);
         float chance = random.nextFloat();
 
         if (chance > threshold) {
@@ -33,14 +36,13 @@ public class DyeRandomlyModifier extends LootModifier {
         }
 
         for (ItemStack stack : generatedLoot) {
-            if (!stack.is(ItemTags.DYEABLE)) {
-                continue;
-            }
+            if (!stack.is(ItemTags.DYEABLE)) continue;
 
-            int r = random.nextInt(MoreStuffGeneralConfig.CONFIG.R());
-            int g = random.nextInt(MoreStuffGeneralConfig.CONFIG.G());
-            int b = random.nextInt(MoreStuffGeneralConfig.CONFIG.B());
-            int color = (r << 16) + (g << 8) + b;
+            // Use safe getters for color values
+            int r = random.nextInt(MoreStuffGeneralConfig.r);
+            int g = random.nextInt(MoreStuffGeneralConfig.g);
+            int b = random.nextInt(MoreStuffGeneralConfig.b);
+            int color = (r << 16) | (g << 8) | b;
 
             DyedItemColor dyedColor = new DyedItemColor(color, true);
             stack.set(DataComponents.DYED_COLOR, dyedColor);
@@ -49,11 +51,9 @@ public class DyeRandomlyModifier extends LootModifier {
         return generatedLoot;
     }
 
-
     @Override
     public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC;
     }
 }
-
 

@@ -173,10 +173,20 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == "org.antlr") {
+            // Mojang ships DFU with 4.11.1 → must match
+            details.useVersion "4.11.1"
+            details.because "Minecraft 1.21.x DFU requires ANTLR 4.11.1"
+        }
+    }
+
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
+    idea {
+        module {
+            downloadSources = true
+            downloadJavadoc = true
+        }
     }
 }

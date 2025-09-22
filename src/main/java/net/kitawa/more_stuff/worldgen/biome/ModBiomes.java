@@ -27,4 +27,12 @@ public class ModBiomes {
             ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "pyrolized_wastes"));
     public static final ResourceKey<Biome> FROZEN_VALLEY = ResourceKey.create(Registries.BIOME,
             ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "frozen_valley"));
+    public static final ResourceKey<Biome> REDSTONIC_CAVES = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "redstonic_caves"));
+    public static final ResourceKey<Biome> FROSTBITTEN_CAVERNS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "frostbitten_caverns"));
+    public static final ResourceKey<Biome> VOLTAIC_HOLLOWS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "voltaic_hollows"));
+    public static final ResourceKey<Biome> FUNGAL_CAVES = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "fungal_caves"));
 }

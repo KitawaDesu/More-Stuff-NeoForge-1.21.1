@@ -1,6 +1,12 @@
 {
   "values": [
     "more_stuff:soul_snow_block",
-    "more_stuff:powder_soul_snow"
+    "more_stuff:powder_soul_snow",
+    "more_stuff:pyrolized_netherrack",
+    "more_stuff:ancient_nylium",
+    "more_stuff:golden_nylium",
+    "more_stuff:iron_nylium",
+    "more_stuff:copper_nylium",
+    "more_stuff:blazing_nylium"
   ]
 }

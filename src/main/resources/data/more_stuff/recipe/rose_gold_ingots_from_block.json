@@ -4,7 +4,7 @@
   "group": "rose_gold_ingots",
   "ingredients": [
     {
-      "item": "more_stuff:rose_gold_block"
+      "tag": "more_stuff:rose_gold_blocks"
     }
   ],
   "result": {

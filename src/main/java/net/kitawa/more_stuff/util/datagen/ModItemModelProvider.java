@@ -49,6 +49,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         trimmedArmorItem(ModItems.COPPER_CHESTPLATE);
         trimmedArmorItem(ModItems.COPPER_LEGGINGS);
         trimmedArmorItem(ModItems.COPPER_BOOTS);
+        dyeableTrimmedArmorItem(ModItems.WOOD_PLATE_HELMET);
+        dyeableTrimmedArmorItem(ModItems.WOOD_PLATE_CHESTPLATE);
+        dyeableTrimmedArmorItem(ModItems.WOOD_PLATE_LEGGINGS);
+        dyeableTrimmedArmorItem(ModItems.WOOD_PLATE_BOOTS);
         trimmedArmorItem(ModItems.ROSE_GOLDEN_HELMET);
         trimmedArmorItem(ModItems.ROSE_GOLDEN_CHESTPLATE);
         trimmedArmorItem(ModItems.ROSE_GOLDEN_LEGGINGS);
@@ -189,6 +193,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.NETHERRACK_STONES.asItem());
         basicItem(ModItems.PYROLIZED_STONES.asItem());
         basicItem(ModItems.BASALT_STONES.asItem());
+        simpleBlockItem(ModBlocks.REDSTONIC_BLOCK.get());
         simpleBlockItem(ModBlocks.SOUL_SNOW_BLOCK.get());
         simpleBlockItem(ModBlocks.POWDER_SOUL_SNOW.get());
         simpleBlockItem(ModBlocks.FREEZING_MAGMA_BLOCK.get());
@@ -222,6 +227,30 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleBlockItem(ModBlocks.WARPED_NETHER_BRICK_PILLAR.get());
         simpleBlockItem(ModBlocks.CRACKED_WARPED_NETHER_BRICKS.get());
         simpleBlockItem(ModBlocks.CRACKED_WARPED_NETHER_BRICK_PILLAR.get());
+        simpleBlockItem(ModBlocks.CUT_ROSE_GOLD.get());
+        simpleBlockItem(ModBlocks.CUT_ROSE_GOLD_BRICKS.get());
+        simpleBlockItem(ModBlocks.ROSE_GOLD_PILLAR.get());
+        simpleBlockItem(ModBlocks.ROSE_GOLD_GRATE.get());
+        simpleBlockItem(ModBlocks.CHISELED_ROSE_GOLD.get());
+        handheldItem(Item.byBlock(ModBlocks.ROSE_GOLD_DOOR.get()));
+
+        simpleBlockItem(ModBlocks.CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.EXPOSED_CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.WEATHERED_CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.OXIDIZED_CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.WAXED_CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.WAXED_EXPOSED_CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.WAXED_WEATHERED_CUT_COPPER_BRICKS.get());
+        simpleBlockItem(ModBlocks.WAXED_OXIDIZED_CUT_COPPER_BRICKS.get());
+
+        simpleBlockItem(ModBlocks.COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.EXPOSED_COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.WEATHERED_COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.OXIDIZED_COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.WAXED_COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.WAXED_EXPOSED_COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.WAXED_WEATHERED_COPPER_PILLAR.get());
+        simpleBlockItem(ModBlocks.WAXED_OXIDIZED_COPPER_PILLAR.get());
     }
 
     // Shoutout to El_Redstoniano for making this
@@ -269,6 +298,57 @@ public class ModItemModelProvider extends ItemModelProvider {
             });
         }
     }
+
+    private void dyeableTrimmedArmorItem(DeferredItem<Item> itemDeferredItem) {
+        final String MOD_ID = MoreStuff.MOD_ID; // Change this to your mod id
+
+        if (itemDeferredItem.get() instanceof ArmorItem armorItem) {
+            trimMaterials.forEach((trimMaterial, value) -> {
+                float trimValue = value;
+
+                String armorType = switch (armorItem.getEquipmentSlot()) {
+                    case HEAD -> "helmet";
+                    case CHEST -> "chestplate";
+                    case LEGS -> "leggings";
+                    case FEET -> "boots";
+                    default -> "";
+                };
+
+                String armorItemPath = armorItem.toString();
+                String trimPath = "trims/items/" + armorType + "_trim_" + trimMaterial.location().getPath();
+                String currentTrimName = armorItemPath + "_" + trimMaterial.location().getPath() + "_trim";
+                ResourceLocation armorItemResLoc = ResourceLocation.parse(armorItemPath);
+                ResourceLocation overlayResLoc = ResourceLocation.parse(armorItemPath + "_overlay");
+                ResourceLocation trimResLoc = ResourceLocation.parse(trimPath); // minecraft namespace
+                ResourceLocation trimNameResLoc = ResourceLocation.parse(currentTrimName);
+
+                // This is used for making the ExistingFileHelper acknowledge that this texture exist, so this will
+                // avoid an IllegalArgumentException
+                existingFileHelper.trackGenerated(trimResLoc, PackType.CLIENT_RESOURCES, ".png", "textures");
+
+                // Trimmed armorItem files (3 layers: base, overlay, trim)
+                getBuilder(currentTrimName)
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                        .texture("layer0", armorItemResLoc.getNamespace() + ":item/" + armorItemResLoc.getPath())
+                        .texture("layer1", overlayResLoc.getNamespace() + ":item/" + overlayResLoc.getPath())
+                        .texture("layer2", trimResLoc);
+
+                // Non-trimmed armorItem file (normal dyeable variant: base + overlay)
+                this.withExistingParent(itemDeferredItem.getId().getPath(),
+                                mcLoc("item/generated"))
+                        .override()
+                        .model(new ModelFile.UncheckedModelFile(trimNameResLoc.getNamespace() + ":item/" + trimNameResLoc.getPath()))
+                        .predicate(mcLoc("trim_type"), trimValue).end()
+                        .texture("layer0",
+                                ResourceLocation.fromNamespaceAndPath(MOD_ID,
+                                        "item/" + itemDeferredItem.getId().getPath()))
+                        .texture("layer1",
+                                ResourceLocation.fromNamespaceAndPath(MOD_ID,
+                                        "item/" + itemDeferredItem.getId().getPath() + "_overlay"));
+            });
+        }
+    }
+
 
     public void buttonItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/button_inventory"))

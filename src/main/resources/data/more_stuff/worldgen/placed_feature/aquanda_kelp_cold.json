@@ -8,11 +8,20 @@
       "noise_to_count_ratio": 120
     },
     {
-      "type": "minecraft:in_square"
+      "type": "minecraft:count_on_every_layer",
+      "count": 1
     },
     {
-      "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR"
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "above_bottom": 0
+        },
+        "max_inclusive": {
+          "absolute": 64
+        }
+      }
     },
     {
       "type": "minecraft:biome"

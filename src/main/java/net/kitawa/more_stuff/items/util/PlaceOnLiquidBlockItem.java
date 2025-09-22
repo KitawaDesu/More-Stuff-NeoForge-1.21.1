@@ -27,5 +27,4 @@ public class PlaceOnLiquidBlockItem extends BlockItem {
         InteractionResult interactionresult = super.useOn(new UseOnContext(player, usedHand, blockhitresult1));
         return new InteractionResultHolder<>(interactionresult, player.getItemInHand(usedHand));
     }
-
 }

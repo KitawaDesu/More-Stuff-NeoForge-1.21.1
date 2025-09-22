@@ -1,10 +1,8 @@
 package net.kitawa.more_stuff.util.mob_armor;
 
-import com.google.common.collect.Sets;
 import net.kitawa.more_stuff.MoreStuff;
-import net.kitawa.more_stuff.util.mixins.ModelLayersAccessor;
+import net.kitawa.more_stuff.util.mixins.mobs.ModelLayersAccessor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -12,7 +10,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class ModModelLayers {

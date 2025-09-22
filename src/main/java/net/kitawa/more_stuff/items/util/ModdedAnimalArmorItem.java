@@ -57,6 +57,7 @@ public class ModdedAnimalArmorItem extends ArmorItem {
 
     public enum BodyType {
         LEATHER_CANINE(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/wolf/armor/leather_wolf_armor"), SoundEvents.WOLF_ARMOR_BREAK),
+        WOODEN_CANINE(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/wolf/armor/wood_plate_wolf_armor"), SoundEvents.WOLF_ARMOR_BREAK),
         CHAIN_CANINE(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/wolf/armor/chainmail_wolf_armor"), SoundEvents.WOLF_ARMOR_BREAK),
         IRON_CANINE(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/wolf/armor/iron_wolf_armor"), SoundEvents.WOLF_ARMOR_BREAK),
         TURTLE_SCUTE_CANINE(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/wolf/armor/turtle_scute_wolf_armor"), SoundEvents.WOLF_ARMOR_BREAK),

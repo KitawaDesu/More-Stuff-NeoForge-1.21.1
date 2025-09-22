@@ -7,6 +7,11 @@
     "minecraft:leather_horse_armor",
     "more_stuff:leather_glider",
     "#more_stuff:wolf_armor",
-    "#more_stuff:hoglin_armor"
+    "#more_stuff:hoglin_armor",
+    "more_stuff:wood_plate_helmet",
+    "more_stuff:wood_plate_chestplate",
+    "more_stuff:wood_plate_leggings",
+    "more_stuff:wood_plate_boots",
+    "more_stuff:wood_plate_horse_armor"
   ]
 }

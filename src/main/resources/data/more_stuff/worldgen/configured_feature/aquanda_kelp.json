@@ -1,43 +1,9 @@
 {
-  "type": "minecraft:block_column",
+  "type": "more_stuff:kelp_column",
   "config": {
-    "direction": "up",
-    "allowed_placement": {
-      "type": "minecraft:matching_blocks",
-      "offset": [
-        0,
-        0,
-        0
-      ],
-      "blocks": "minecraft:water"
-    },
-    "prioritize_tip": true,
-    "layers": [
-      {
-        "height": {
-          "type": "minecraft:uniform",
-          "min_inclusive": 2,
-          "max_inclusive": 10
-        },
-        "provider": {
-          "type": "minecraft:simple_state_provider",
-          "state": {
-            "Name": "more_stuff:aquanda_kelp_plant"
-          }
-        }
-      },
-      {
-        "height": 1,
-        "provider": {
-          "type": "minecraft:simple_state_provider",
-          "state": {
-            "Name": "more_stuff:aquanda_kelp",
-            "Properties": {
-              "age": "0"
-            }
-          }
-        }
-      }
-    ]
+    "tip": "more_stuff:aquanda_kelp",
+    "body": "more_stuff:aquanda_kelp_plant",
+    "max_height": 10,
+	"use_ocean_floor_heightmap": false
   }
 }

@@ -1,7 +1,4 @@
 {
-  "neoforge:conditions": [
-    { "type": "neoforge:mod_loaded", "modid": "create" }
-  ],
   "type": "neoforge:add_features",
   "biomes": "#minecraft:is_nether",
   "features": "more_stuff:ore_zinc_nether",

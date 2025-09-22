@@ -1,7 +1,9 @@
 package net.kitawa.more_stuff.items.life_tokens;
 
 import net.kitawa.more_stuff.MoreStuff;
-import net.kitawa.more_stuff.items.util.*;
+import net.kitawa.more_stuff.items.life_tokens.util.LifeTokenItem;
+import net.kitawa.more_stuff.experimentals.items.util.ToggleableItem;
+import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
@@ -14,9 +16,13 @@ public class LifeTokenItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MoreStuff.MOD_ID);
 
     public static final DeferredItem<Item> LIFE_BIT = ITEMS.register("life_bit",
-            () -> new Item(new Properties()));
+            () -> new ToggleableItem(new Properties(),
+                    () -> LifeTokensConfig.addLifeTokens, // dynamic check
+                    "§7Life Tokens Config"));
     public static final DeferredItem<Item> LIFE_SHARD = ITEMS.register("life_shard",
-            () -> new Item(new Properties()));
+            () -> new ToggleableItem(new Properties(),
+                    () -> LifeTokensConfig.addLifeTokens, // dynamic check
+                    "§7Life Tokens Config"));
     public static final DeferredItem<Item> LIFE_TOKEN = ITEMS.register("life_token",
             () -> new LifeTokenItem(new Properties().component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)));
 
