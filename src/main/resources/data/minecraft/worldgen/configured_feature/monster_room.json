@@ -3,22 +3,42 @@
   "config": {
     "cobbled_replacements": [
       {
-        "tag": "#minecraft:stone_ore_replaceables",
-        "block": "minecraft:cobblestone"
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:stone_ore_replaceables"
+        },
+        "state": {
+          "Name": "minecraft:cobblestone"
+        }
       },
       {
-        "tag": "#minecraft:deepslate_ore_replaceables",
-        "block": "minecraft:cobbled_deepslate"
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:deepslate_ore_replaceables"
+        },
+        "state": {
+          "Name": "minecraft:cobbled_deepslate"
+        }
       }
     ],
     "mossy_replacements": [
       {
-        "tag": "#minecraft:stone_ore_replaceables",
-        "block": "minecraft:mossy_cobblestone"
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:stone_ore_replaceables"
+        },
+        "state": {
+          "Name": "minecraft:mossy_cobblestone"
+        }
       },
       {
-        "tag": "#minecraft:deepslate_ore_replaceables",
-        "block": "minecraft:cobbled_deepslate"
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:deepslate_ore_replaceables"
+        },
+        "state": {
+          "Name": "minecraft:cobbled_deepslate"
+        }
       }
     ],
     "spawner_block": {
@@ -71,9 +91,45 @@
     "trap_loot": "more_stuff:chests/dungeon_trap",
     "mobs": [
       "minecraft:skeleton",
+      "minecraft:skeleton",
+      "minecraft:skeleton",
+      "minecraft:skeleton",
+      "minecraft:skeleton",
+      "minecraft:skeleton",
       "minecraft:zombie",
       "minecraft:zombie",
-      "minecraft:spider"
-    ]
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:zombie",
+      "minecraft:spider",
+      "minecraft:spider",
+      "minecraft:spider",
+      "minecraft:spider",
+      "minecraft:spider",
+      "minecraft:spider",
+      "minecraft:slime",
+      "minecraft:slime",
+      "minecraft:slime",
+      "minecraft:slime",
+      "minecraft:slime",
+      "minecraft:slime",
+      "minecraft:creeper",
+      "minecraft:creeper",
+      "minecraft:creeper",
+      "minecraft:breeze"
+    ],
+    "default_cobble": {
+      "Name": "minecraft:cobblestone"
+    },
+    "default_mossy": {
+      "Name": "minecraft:mossy_cobblestone"
+    }
   }
 }

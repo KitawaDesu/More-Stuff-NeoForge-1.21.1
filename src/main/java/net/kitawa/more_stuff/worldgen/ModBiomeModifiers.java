@@ -28,6 +28,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_DELTAS_ZINC_ORE = registerKey("add_deltas_zinc_ore");
     public static final ResourceKey<BiomeModifier> ADD_DELTAS = registerKey("add_deltas");
     public static final ResourceKey<BiomeModifier> ADD_BLAZING_REEDS = registerKey("add_blazing_reeds");
+    public static final ResourceKey<BiomeModifier> ADD_NETHER_MONSTER_ROOM = registerKey("add_nether_monster_room");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -72,6 +73,11 @@ public class ModBiomeModifiers {
                 biomes.getOrThrow(BiomeTags.IS_NETHER),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BLAZING_REEDS)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_NETHER_MONSTER_ROOM, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_NETHER),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NETHER_MONSTER_ROOM)),
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES));
 
         if (ModList.get().isLoaded("create")) {
 

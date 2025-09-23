@@ -17,6 +17,10 @@
       "feature": "more_stuff:aquanda_moss_vegetation_bonemeal",
       "placement": []
     },
+    "underwater_vegetation_feature": {
+      "feature": "more_stuff:aquanda_moss_vegetation_underwater",
+      "placement": []
+    },
     "vertical_range": 5,
     "xz_radius": {
       "type": "minecraft:uniform",

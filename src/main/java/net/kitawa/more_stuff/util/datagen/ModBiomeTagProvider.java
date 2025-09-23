@@ -33,7 +33,9 @@ public class ModBiomeTagProvider extends BiomeTagsProvider{
                 .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.WARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.REDSTONIC_CAVES)
-                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+                .add(ModBiomes.FROSTBITTEN_CAVERNS)
+                .add(ModBiomes.VOLTAIC_HOLLOWS)
+                .add(ModBiomes.FUNGAL_CAVES);
 
         tag(BiomeTags.HAS_MINESHAFT)
                 .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
@@ -42,7 +44,9 @@ public class ModBiomeTagProvider extends BiomeTagsProvider{
                 .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.WARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.REDSTONIC_CAVES)
-                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+                .add(ModBiomes.FROSTBITTEN_CAVERNS)
+                .add(ModBiomes.VOLTAIC_HOLLOWS)
+                .add(ModBiomes.FUNGAL_CAVES);
 
         tag(BiomeTags.HAS_TRIAL_CHAMBERS)
                 .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
@@ -51,11 +55,15 @@ public class ModBiomeTagProvider extends BiomeTagsProvider{
                 .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.WARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.REDSTONIC_CAVES)
-                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+                .add(ModBiomes.FROSTBITTEN_CAVERNS)
+                .add(ModBiomes.VOLTAIC_HOLLOWS)
+                .add(ModBiomes.FUNGAL_CAVES);
 
         tag(BiomeTags.HAS_RUINED_PORTAL_STANDARD)
                 .add(ModBiomes.REDSTONIC_CAVES)
-                .add(ModBiomes.FROSTBITTEN_CAVERNS);
+                .add(ModBiomes.FROSTBITTEN_CAVERNS)
+                .add(ModBiomes.VOLTAIC_HOLLOWS)
+                .add(ModBiomes.FUNGAL_CAVES);
 
         tag(BiomeTags.IS_OCEAN)
                 .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)

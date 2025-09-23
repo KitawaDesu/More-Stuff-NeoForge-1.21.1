@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff.worldgen.level.levelgen.feature;
 
 import com.mojang.serialization.Codec;
+import net.kitawa.more_stuff.worldgen.level.levelgen.feature.configuration.WaterloggedVegetationPatchFeatureConfiguration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -11,21 +12,21 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class WaterloggedVegetationPatchFeature extends Feature<VegetationPatchConfiguration> {
-    public WaterloggedVegetationPatchFeature(Codec<VegetationPatchConfiguration> codec) {
+public class WaterloggedVegetationPatchFeature extends Feature<WaterloggedVegetationPatchFeatureConfiguration> {
+    public WaterloggedVegetationPatchFeature(Codec<WaterloggedVegetationPatchFeatureConfiguration> codec) {
         super(codec);
     }
 
     protected void distributeVegetation(
-            FeaturePlaceContext<VegetationPatchConfiguration> context,
+            FeaturePlaceContext<WaterloggedVegetationPatchFeatureConfiguration> context,
             WorldGenLevel level,
-            VegetationPatchConfiguration config,
+            WaterloggedVegetationPatchFeatureConfiguration config,
             RandomSource random,
             Set<BlockPos> possiblePositions,
             int xRadius,
@@ -39,9 +40,9 @@ public class WaterloggedVegetationPatchFeature extends Feature<VegetationPatchCo
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<VegetationPatchConfiguration> context) {
+    public boolean place(FeaturePlaceContext<WaterloggedVegetationPatchFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
-        VegetationPatchConfiguration config = context.config();
+        WaterloggedVegetationPatchFeatureConfiguration config = context.config();
         RandomSource random = context.random();
         BlockPos origin = context.origin();
 
@@ -60,7 +61,7 @@ public class WaterloggedVegetationPatchFeature extends Feature<VegetationPatchCo
 
     protected Set<BlockPos> placeGroundPatch(
             WorldGenLevel level,
-            VegetationPatchConfiguration config,
+            WaterloggedVegetationPatchFeatureConfiguration config, // use your config
             RandomSource random,
             BlockPos pos,
             Predicate<BlockState> replaceable,
@@ -121,15 +122,32 @@ public class WaterloggedVegetationPatchFeature extends Feature<VegetationPatchCo
         return positions;
     }
 
-    protected boolean placeVegetation(
-            WorldGenLevel level, VegetationPatchConfiguration config, ChunkGenerator chunkGenerator, RandomSource random, BlockPos pos
+    protected void placeVegetation(
+            WorldGenLevel level,
+            WaterloggedVegetationPatchFeatureConfiguration config,
+            ChunkGenerator chunkGenerator,
+            RandomSource random,
+            BlockPos pos
     ) {
-        return config.vegetationFeature.value().place(level, chunkGenerator, random, pos.relative(config.surface.getDirection().getOpposite()));
+        // Compute the actual placement position
+        BlockPos placementPos = pos.relative(config.surface.getDirection().getOpposite());
+
+        // Check fluid state at the actual placement position
+        BlockState stateAtPos = level.getBlockState(placementPos);
+        boolean underwater = stateAtPos.getFluidState().is(Fluids.WATER);
+
+        if (underwater && config.underwaterVegetationFeature.isPresent()) {
+            config.underwaterVegetationFeature.get().value()
+                    .place(level, chunkGenerator, random, placementPos);
+        } else {
+            config.vegetationFeature.value()
+                    .place(level, chunkGenerator, random, placementPos);
+        }
     }
 
     protected boolean placeGround(
             WorldGenLevel level,
-            VegetationPatchConfiguration config,
+            WaterloggedVegetationPatchFeatureConfiguration config,
             Predicate<BlockState> replaceable,
             RandomSource random,
             BlockPos.MutableBlockPos mutablePos,

@@ -318,7 +318,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GOLDEN_NYLIUM.get())
                 .add(ModBlocks.IRON_NYLIUM.get())
                 .add(ModBlocks.COPPER_NYLIUM.get())
-                .add(ModBlocks.BLAZING_NYLIUM.get());
+                .add(ModBlocks.BLAZING_NYLIUM.get())
+                .add(ModBlocks.FROZEN_NETHERRACK.get());
 
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.AQUANDA_MOSS_BLOCK.get())

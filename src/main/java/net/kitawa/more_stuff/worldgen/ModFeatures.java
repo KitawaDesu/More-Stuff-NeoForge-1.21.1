@@ -37,9 +37,9 @@ public class ModFeatures {
             FEATURES.register("icicle",
                     () -> new IcicleFeature(PointedDripstoneConfiguration.CODEC));
 
-    public static final DeferredHolder<Feature<?>, Feature<VegetationPatchConfiguration>> WATERLOGGED_VEGETATION_PATCH =
+    public static final DeferredHolder<Feature<?>, Feature<WaterloggedVegetationPatchFeatureConfiguration>> WATERLOGGED_VEGETATION_PATCH =
             FEATURES.register("waterlogged_vegetation_patch",
-                    () -> new WaterloggedVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
+                    () -> new WaterloggedVegetationPatchFeature(WaterloggedVegetationPatchFeatureConfiguration.CODEC));
 
     public static final DeferredHolder<Feature<?>, Feature<StormveinConfiguration>> STORMVEIN =
             FEATURES.register("stormvein",

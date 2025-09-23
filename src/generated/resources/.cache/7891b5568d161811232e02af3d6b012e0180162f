@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-21T08:58:23.8797354	Tags for minecraft:block mod id more_stuff
+// 1.21.1	2025-09-22T08:26:12.1895742	Tags for minecraft:block mod id more_stuff
 be6c99f6f1db0a3e8ec25de15486a27474a013b8 data/minecraft/tags/block/base_stone_overworld.json
 c223cc38968bf1ce8bf5e61293a8d332e1938836 data/minecraft/tags/block/climbable.json
 35409c17b8453f819a92a3b921ef0af8520956f0 data/minecraft/tags/block/combination_step_sound_blocks.json
@@ -17,7 +17,7 @@ d53fd82c8ad6f847431cdc72450229e05b5de1da data/minecraft/tags/block/moss_replacea
 8ea9243e03a301fc5fc5297c10fb65c6d8207de9 data/minecraft/tags/block/needs_diamond_tool.json
 d64744ede46a6a784af5d4f9cd34bd4938e10918 data/minecraft/tags/block/needs_iron_tool.json
 e1c204b4e80105cebe489b983e2c20011eda442c data/minecraft/tags/block/needs_stone_tool.json
-d7678c95eeb963463ddb13de154d7b7faca0831a data/minecraft/tags/block/nether_carver_replaceables.json
+175a6a5f4828a91063f7f3c6cf902c17319d28dc data/minecraft/tags/block/nether_carver_replaceables.json
 0117b97282b2a90ba6ba66ad2090fb7fc1ddfe8a data/minecraft/tags/block/nylium.json
 a9d88ffdd4d8000f838badf518a5933094ee1b7b data/minecraft/tags/block/soul_fire_base_blocks.json
 a9d88ffdd4d8000f838badf518a5933094ee1b7b data/minecraft/tags/block/soul_speed_blocks.json

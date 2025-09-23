@@ -695,7 +695,7 @@ public class ModBlocks {
     );
 
     public static final DeferredBlock<ModdedMossBlock> AQUANDA_MOSS_BLOCK = registerBlock("aquanda_moss_block",
-            () -> new ModdedMossBlock(ModConfiguredFeatures.AQUANDA_MOSS_PATCH_BONEMEAL, ModConfiguredFeatures.AQUANDA_MOSS_PATCH_BONEMEAL_UNDERWATER,
+            () -> new ModdedMossBlock(ModConfiguredFeatures.AQUANDA_MOSS_PATCH_BONEMEAL, ModConfiguredFeatures.AQUANDA_MOSS_PATCH_BONEMEAL,
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.WATER)
                             .strength(0.1F)
@@ -2454,7 +2454,7 @@ public class ModBlocks {
     );
 
     public static final DeferredBlock<ModdedMossBlock> GLOWMOSS_BLOCK = registerBlock("glowmoss_block",
-            () -> new ModdedMossBlock(ModConfiguredFeatures.GLOWMOSS_PATCH_BONEMEAL, ModConfiguredFeatures.GLOWMOSS_PATCH_BONEMEAL_UNDERWATER,
+            () -> new ModdedMossBlock(ModConfiguredFeatures.GLOWMOSS_PATCH_BONEMEAL, ModConfiguredFeatures.GLOWMOSS_PATCH_BONEMEAL,
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.GLOW_LICHEN)
                             .strength(0.1F)

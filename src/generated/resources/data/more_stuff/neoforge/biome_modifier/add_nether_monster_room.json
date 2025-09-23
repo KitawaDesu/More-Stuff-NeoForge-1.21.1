@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "more_stuff:nether_monster_room",
+  "step": "underground_structures"
+}

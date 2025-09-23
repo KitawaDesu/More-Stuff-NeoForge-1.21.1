@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.TrialSpawnerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +24,16 @@ import java.util.Optional;
 public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
     public static final Codec<MonsterRoomFeatureConfiguration> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Replacement.CODEC.listOf().fieldOf("cobbled_replacements").forGetter(cfg -> cfg.cobbledReplacements),
-                    Replacement.CODEC.listOf().fieldOf("mossy_replacements").forGetter(cfg -> cfg.mossyReplacements),
+                    Codec.list(Replacement.CODEC).fieldOf("cobbled_replacements").forGetter(cfg -> cfg.cobbledReplacements),
+                    Codec.list(Replacement.CODEC).fieldOf("mossy_replacements").forGetter(cfg -> cfg.mossyReplacements),
                     BlockStateProvider.CODEC.fieldOf("spawner_block").forGetter(cfg -> cfg.spawnerBlock),
                     BlockStateProvider.CODEC.fieldOf("container_block").forGetter(cfg -> cfg.containerBlock),
                     BlockStateProvider.CODEC.fieldOf("trap_block").forGetter(cfg -> cfg.trapBlock),
                     ResourceLocation.CODEC.optionalFieldOf("container_loot").forGetter(cfg -> cfg.containerLoot),
-                    ResourceLocation.CODEC.optionalFieldOf("trap_loot").forGetter(cfg -> cfg.trapLoot), // NEW
-                    ResourceLocation.CODEC.listOf().fieldOf("mobs").forGetter(cfg -> cfg.mobs)
+                    ResourceLocation.CODEC.optionalFieldOf("trap_loot").forGetter(cfg -> cfg.trapLoot),
+                    ResourceLocation.CODEC.listOf().fieldOf("mobs").forGetter(cfg -> cfg.mobs),
+                    BlockState.CODEC.fieldOf("default_cobble").forGetter(cfg -> cfg.defaultCobble),
+                    BlockState.CODEC.fieldOf("default_mossy").forGetter(cfg -> cfg.defaultMossy)
             ).apply(instance, MonsterRoomFeatureConfiguration::new)
     );
 
@@ -40,8 +43,10 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
     public final BlockStateProvider containerBlock;
     public final BlockStateProvider trapBlock;
     public final Optional<ResourceLocation> containerLoot;
-    public final Optional<ResourceLocation> trapLoot; // NEW
+    public final Optional<ResourceLocation> trapLoot;
     public final List<ResourceLocation> mobs;
+    public final BlockState defaultCobble;
+    public final BlockState defaultMossy;
 
     public MonsterRoomFeatureConfiguration(
             List<Replacement> cobbledReplacements,
@@ -50,8 +55,10 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
             BlockStateProvider containerBlock,
             BlockStateProvider trapBlock,
             Optional<ResourceLocation> containerLoot,
-            Optional<ResourceLocation> trapLoot, // NEW
-            List<ResourceLocation> mobs
+            Optional<ResourceLocation> trapLoot,
+            List<ResourceLocation> mobs,
+            BlockState defaultCobble,
+            BlockState defaultMossy
     ) {
         this.cobbledReplacements = cobbledReplacements;
         this.mossyReplacements = mossyReplacements;
@@ -59,49 +66,43 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
         this.containerBlock = containerBlock;
         this.trapBlock = trapBlock;
         this.containerLoot = containerLoot;
-        this.trapLoot = trapLoot; // NEW
+        this.trapLoot = trapLoot;
         this.mobs = mobs;
+        this.defaultCobble = defaultCobble;
+        this.defaultMossy = defaultMossy;
     }
 
     public BlockState getReplacement(BlockState original, int yLevel, RandomSource random) {
-        if (yLevel == -1 && random.nextInt(4) != 0) {
-            for (Replacement repl : mossyReplacements) {
-                if (original.is(repl.tag)) return repl.block.defaultBlockState();
-            }
+        List<Replacement> list = yLevel == -1 && random.nextInt(4) != 0 ? mossyReplacements : cobbledReplacements;
+        for (Replacement repl : list) {
+            if (repl.target.test(original, random)) return repl.state;
         }
-        for (Replacement repl : cobbledReplacements) {
-            if (original.is(repl.tag)) return repl.block.defaultBlockState();
-        }
-        return (yLevel == -1 && random.nextInt(4) != 0)
-                ? Blocks.MOSSY_COBBLESTONE.defaultBlockState()
-                : Blocks.COBBLESTONE.defaultBlockState();
+        return (yLevel == -1 && random.nextInt(4) != 0) ? defaultMossy : defaultCobble;
     }
 
-    public BlockStateProvider spawnerBlock() { return this.spawnerBlock; }
-    public BlockStateProvider containerBlock() { return this.containerBlock; }
-    public BlockStateProvider trapBlock() { return this.trapBlock; }
-    public Optional<ResourceLocation> containerLoot() { return this.containerLoot; }
-    public Optional<ResourceLocation> trapLoot() { return this.trapLoot; } // NEW
+    public BlockStateProvider spawnerBlock() { return spawnerBlock; }
+    public BlockStateProvider containerBlock() { return containerBlock; }
+    public BlockStateProvider trapBlock() { return trapBlock; }
+    public Optional<ResourceLocation> containerLoot() { return containerLoot; }
+    public Optional<ResourceLocation> trapLoot() { return trapLoot; }
 
-    private static final EntityType<?>[] DEFAULT_MOBS = new EntityType[]{
-            EntityType.SKELETON,
-            EntityType.ZOMBIE,
-            EntityType.ZOMBIE,
-            EntityType.SPIDER
+    private static final EntityType<?>[] DEFAULT_MOBS = {
+            EntityType.SKELETON, EntityType.ZOMBIE, EntityType.ZOMBIE, EntityType.SPIDER
     };
 
     public EntityType<?> randomMob(RandomSource random) {
         if (mobs.isEmpty()) return DEFAULT_MOBS[random.nextInt(DEFAULT_MOBS.length)];
         ResourceLocation id = mobs.get(random.nextInt(mobs.size()));
-        return BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(
-                DEFAULT_MOBS[random.nextInt(DEFAULT_MOBS.length)]
-        );
+        return BuiltInRegistries.ENTITY_TYPE.getOptional(id)
+                .orElse(DEFAULT_MOBS[random.nextInt(DEFAULT_MOBS.length)]);
     }
 
-    public record Replacement(TagKey<Block> tag, Block block) {
-        public static final Codec<Replacement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                TagKey.hashedCodec(BuiltInRegistries.BLOCK.key()).fieldOf("tag").forGetter(Replacement::tag),
-                BuiltInRegistries.BLOCK.byNameCodec().fieldOf("block").forGetter(Replacement::block)
-        ).apply(instance, Replacement::new));
+    public record Replacement(RuleTest target, BlockState state) {
+        public static final Codec<Replacement> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        RuleTest.CODEC.fieldOf("target").forGetter(r -> r.target),
+                        BlockState.CODEC.fieldOf("state").forGetter(r -> r.state)
+                ).apply(instance, Replacement::new)
+        );
     }
 }

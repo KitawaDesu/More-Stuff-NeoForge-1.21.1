@@ -23,6 +23,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> ORE_ZINC_DELTAS = registerKey("ore_zinc_deltas");
     public static final ResourceKey<PlacedFeature> DELTA = registerKey("delta");
     public static final ResourceKey<PlacedFeature> BLAZING_REEDS = registerKey("blazing_reeds");
+    public static final ResourceKey<PlacedFeature> NETHER_MONSTER_ROOM = registerKey("nether_monster_room");
 
     private static ResourceKey<PlacedFeature> registerKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, name));

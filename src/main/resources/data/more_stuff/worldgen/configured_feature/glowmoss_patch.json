@@ -17,11 +17,15 @@
       "feature": "more_stuff:glowmoss_vegetation_bonemeal",
       "placement": []
     },
+    "underwater_vegetation_feature": {
+      "feature": "more_stuff:glowmoss_vegetation_underwater",
+      "placement": []
+    },
     "vertical_range": 5,
     "xz_radius": {
       "type": "minecraft:uniform",
-      "max_inclusive": 7,
-      "min_inclusive": 4
+      "min_inclusive": 4,
+      "max_inclusive": 7
     }
   }
 }

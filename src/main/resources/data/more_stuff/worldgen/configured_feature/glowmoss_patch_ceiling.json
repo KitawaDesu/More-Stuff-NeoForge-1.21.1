@@ -21,6 +21,10 @@
       "feature": "more_stuff:hanging_glowmoss",
       "placement": []
     },
+    "underwater_vegetation_feature": {
+      "feature": "more_stuff:hanging_glowmoss",
+      "placement": []
+    },
     "vertical_range": 5,
     "xz_radius": {
       "type": "minecraft:uniform",

@@ -6,6 +6,7 @@
     "blocks.BlockMixin",
     "blocks.BubbleColumnMixin",
     "blocks.IBlockExtensionMixin",
+    "blocks.MossBlockMixin",
     "blocks.NetherWartBlockMixin",
     "blocks.PowderSnowBlockMixin",
     "features.BlockColumnFeatureMixin",

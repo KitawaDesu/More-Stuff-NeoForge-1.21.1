@@ -1,0 +1,189 @@
+{
+  "type": "more_stuff:monster_room",
+  "config": {
+    "cobbled_replacements": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:netherrack"
+        },
+        "state": {
+          "Name": "minecraft:nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:blackstone"
+        },
+        "state": {
+          "Name": "minecraft:polished_blackstone_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:crimson_nylium"
+        },
+        "state": {
+          "Name": "minecraft:red_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:warped_nylium"
+        },
+        "state": {
+          "Name": "more_stuff:warped_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "more_stuff:pyrolized_netherrack"
+        },
+        "state": {
+          "Name": "more_stuff:pyrolized_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "more_stuff:blazing_nylium"
+        },
+        "state": {
+          "Name": "more_stuff:pyrolized_nether_bricks"
+        }
+      }
+    ],
+    "mossy_replacements": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:netherrack"
+        },
+        "state": {
+          "Name": "minecraft:cracked_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:blackstone"
+        },
+        "state": {
+          "Name": "minecraft:cracked_polished_blackstone_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:crimson_nylium"
+        },
+        "state": {
+          "Name": "more_stuff:cracked_red_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:warped_nylium"
+        },
+        "state": {
+          "Name": "more_stuff:cracked_warped_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "more_stuff:pyrolized_netherrack"
+        },
+        "state": {
+          "Name": "more_stuff:cracked_pyrolized_nether_bricks"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "more_stuff:blazing_nylium"
+        },
+        "state": {
+          "Name": "more_stuff:cracked_pyrolized_nether_bricks"
+        }
+      }
+    ],
+    "spawner_block": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:spawner"
+      }
+    },
+    "container_block": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 50,
+          "data": {
+            "Name": "minecraft:chest"
+          }
+        },
+        {
+          "weight": 30,
+          "data": {
+            "Name": "minecraft:barrel"
+          }
+        },
+        {
+          "weight": 20,
+          "data": {
+            "Name": "minecraft:trapped_chest"
+          }
+        }
+      ]
+    },
+    "trap_block": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 80,
+          "data": {
+            "Name": "minecraft:dispenser"
+          }
+        },
+        {
+          "weight": 20,
+          "data": {
+            "Name": "minecraft:tnt"
+          }
+        }
+      ]
+    },
+    "container_loot": "minecraft:chests/nether_bridge",
+    "trap_loot": "more_stuff:chests/dungeon_trap",
+    "mobs": [
+      "minecraft:magma_cube",
+      "minecraft:magma_cube",
+      "minecraft:magma_cube",
+      "minecraft:zombified_piglin",
+      "minecraft:zombified_piglin",
+      "minecraft:zombified_piglin",
+      "minecraft:zombified_piglin",
+      "minecraft:zombified_piglin",
+      "minecraft:zombified_piglin",
+      "minecraft:hoglin",
+      "minecraft:hoglin",
+      "minecraft:hoglin",
+      "minecraft:skeleton",
+      "minecraft:skeleton",
+      "minecraft:skeleton",
+      "minecraft:blaze"
+    ],
+    "default_cobble": {
+      "Name": "minecraft:nether_bricks"
+    },
+    "default_mossy": {
+      "Name": "minecraft:cracked_nether_bricks"
+    }
+  }
+}

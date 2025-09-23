@@ -1,9 +1,9 @@
 {
-  "feature": "minecraft:monster_room",
+  "feature": "more_stuff:nether_monster_room",
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 16
+      "count": 20
     },
     {
       "type": "minecraft:in_square"
@@ -13,10 +13,10 @@
       "height": {
         "type": "minecraft:uniform",
         "max_inclusive": {
-          "absolute": -1
+          "below_top": 0
         },
         "min_inclusive": {
-          "above_bottom": 6
+          "absolute": 0
         }
       }
     },

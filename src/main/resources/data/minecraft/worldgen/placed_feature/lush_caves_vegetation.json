@@ -1,5 +1,5 @@
 {
-  "feature": "more_stuff:glowmoss_patch_water",
+  "feature": "minecraft:moss_patch",
   "placement": [
     {
       "type": "minecraft:count",
@@ -25,6 +25,7 @@
       "allowed_search_condition": {
         "type": "minecraft:matching_blocks",
         "blocks": [
+          "minecraft:air",
           "minecraft:water"
         ]
       },
