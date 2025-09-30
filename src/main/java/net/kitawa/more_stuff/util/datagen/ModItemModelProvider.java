@@ -107,6 +107,12 @@ public class ModItemModelProvider extends ItemModelProvider {
             basicItem(CreateCompatItems.ZINC_SHEARS.get());
         }
 
+        basicItem(ModItems.DUNGEON_KEY.get());
+        basicItem(ModItems.OMINOUS_DUNGEON_KEY.get());
+
+        basicItem(ModItems.NETHER_KEY.get());
+        basicItem(ModItems.OMINOUS_NETHER_KEY.get());
+
         handheldItem(ModItems.WOODEN_MACE);
         handheldItem(ModItems.STONE_MACE);
         handheldItem(ModItems.LAPIS_MACE);

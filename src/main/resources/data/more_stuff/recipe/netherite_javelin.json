@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "more_stuff:config_enabled",
+      "class": "net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig",
+      "field": "isCombatUpdateAllowed"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": {
+    "item": "more_stuff:diamond_javelin"
+  },
+  "result": {
+    "count": 1,
+    "id": "more_stuff:netherite_javelin"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  }
+}

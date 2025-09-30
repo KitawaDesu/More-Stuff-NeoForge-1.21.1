@@ -4,6 +4,7 @@ import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.worldgen.level.levelgen.feature.*;
 import net.kitawa.more_stuff.worldgen.level.levelgen.feature.configuration.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -64,4 +65,9 @@ public class ModFeatures {
     public static final DeferredHolder<Feature<?>, MonsterRoomFeature> MONSTER_ROOM =
             FEATURES.register("monster_room",
                     () -> new MonsterRoomFeature(MonsterRoomFeatureConfiguration.CODEC));
+
+    public static final DeferredHolder<Feature<?>, PlaceVaultFeature> PLACE_VAULT =
+            FEATURES.register("place_vault",
+                    () -> new PlaceVaultFeature(VaultFeatureConfig.CODEC));
+
 }

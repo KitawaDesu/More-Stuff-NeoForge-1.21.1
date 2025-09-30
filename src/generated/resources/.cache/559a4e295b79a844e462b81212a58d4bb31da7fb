@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-21T08:58:23.7987183	Item Models: more_stuff
+// 1.21.1	2025-09-24T08:23:49.8970452	Item Models: more_stuff
 d57c6974a1759b1b8e3bf844beee54dd5799ef4a assets/more_stuff/models/item/ancient_chunk.json
 4ae93780ead968f7adaf944f3a083b8cb3a4b906 assets/more_stuff/models/item/ancient_dust.json
 7e451e89821e9fd416cfe7f2dc68a6e07366e5e6 assets/more_stuff/models/item/basalt_stones.json
@@ -129,6 +129,7 @@ de84214f4f5868211b994fd19d850e2c9977fee0 assets/more_stuff/models/item/cut_rose_
 e29b96c1a115d255f1b37430359705dc7fe12161 assets/more_stuff/models/item/deepslate_stones.json
 eeaaac634005bc737d3cf885f9893b1c21de55d3 assets/more_stuff/models/item/diamond_mace.json
 f1059ad23b5c5c98811b7141f068b397c0990450 assets/more_stuff/models/item/diamond_shears.json
+04da5afdc87cc11af2c66667689789c1d8182ce6 assets/more_stuff/models/item/dungeon_key.json
 a0b1e0fccfd5170786e12ecb30b3ab3dd43dbdce assets/more_stuff/models/item/ebony_button.json
 c0790fddde3c45a3e699ed936367b0f8162d7072 assets/more_stuff/models/item/ebony_door.json
 f2dc0cd29d9a15acd0a8cd46d69ec1dc43d122c5 assets/more_stuff/models/item/ebony_fence.json
@@ -211,7 +212,10 @@ e21f1c6a50a83a4fcd087aa184e49a20e7c25819 assets/more_stuff/models/item/netherite
 7edde1dc5abfca9d11b836b73f506b7787c70676 assets/more_stuff/models/item/netherite_shears.json
 fd077c9eeb9934969065bc454e47195ccaf29561 assets/more_stuff/models/item/netherrack_stones.json
 89eec8f45ab868a80d0b6433dc0f9dbbbf0c5786 assets/more_stuff/models/item/nether_brick_pillar.json
+23b14b5250c3b9bd65737803c145485db7561533 assets/more_stuff/models/item/nether_key.json
 bdb4e447d55eaa0e18ee58dea923a33c074f6ff5 assets/more_stuff/models/item/nether_zinc_ore.json
+7a9f5874521010f93cb30badce30ed964c524865 assets/more_stuff/models/item/ominous_dungeon_key.json
+07b4f9bf88dc68375c398a61d7152b6ff23e080f assets/more_stuff/models/item/ominous_nether_key.json
 a20351945f9e1eabdbc9f3521c2886094e8e74e8 assets/more_stuff/models/item/oxidized_copper_pillar.json
 d0ea63dfbf2dc8a3445ca031c11443d41f22a901 assets/more_stuff/models/item/oxidized_cut_copper_bricks.json
 0aec1cd8b6b61fdfdca06525b54e121896c6f8a9 assets/more_stuff/models/item/packed_freezing_magma_block.json

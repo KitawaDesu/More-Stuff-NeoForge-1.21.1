@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "more_stuff:placed_overworld_vault",
+  "step": "underground_structures"
+}

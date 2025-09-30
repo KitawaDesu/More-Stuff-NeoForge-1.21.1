@@ -3,6 +3,7 @@ package net.kitawa.more_stuff.blocks.custom.frostbitten_caverns;
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.serialization.MapCodec;
 import net.kitawa.more_stuff.blocks.ModBlocks;
+import net.kitawa.more_stuff.experimentals.items.entity.ThrownJavelin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -141,7 +142,7 @@ public class IcicleBlock extends Block implements Fallable, SimpleWaterloggedBlo
             BlockPos blockpos = hit.getBlockPos();
             if (projectile.mayInteract(level, blockpos)
                     && projectile.mayBreak(level)
-                    && projectile instanceof ThrownTrident
+                    && (projectile instanceof ThrownTrident || projectile instanceof ThrownJavelin)
                     && projectile.getDeltaMovement().length() > 0.6) {
                 level.destroyBlock(blockpos, true);
             }

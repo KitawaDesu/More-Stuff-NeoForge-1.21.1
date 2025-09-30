@@ -49,7 +49,7 @@ public class ToggleableItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         if (!enabled()) {
-            tooltip.add(Component.literal("§7This item is disabled in the " + configName));
+            tooltip.add(Component.literal("§7This item is Disabled, To use, Enable The " + configName));
         } else {
             super.appendHoverText(stack, context, tooltip, flag);
         }

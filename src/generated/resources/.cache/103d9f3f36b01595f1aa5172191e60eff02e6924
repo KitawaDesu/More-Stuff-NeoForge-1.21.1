@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-22T08:11:27.033248	Registries
+// 1.21.1	2025-09-30T09:03:53.3394251	Registries
 f4c73ac9466c4615596ddf07f52ae5a186ce85d3 data/more_stuff/neoforge/biome_modifier/add_blazing_reeds.json
 c66d3cdc514c417119c6b90b9fdee758fb7cb460 data/more_stuff/neoforge/biome_modifier/add_deltas.json
 0b0a52fc95b3540196d089cfd87c6c224d5f3217 data/more_stuff/neoforge/biome_modifier/add_deltas_copper_ore.json
@@ -9,6 +9,8 @@ cb4569733098a7b2f7a1b03ce9735571f0d15c8b data/more_stuff/neoforge/biome_modifier
 928123efb06b0da9522c5fd68186d9649f2154e3 data/more_stuff/neoforge/biome_modifier/add_nether_experience_ore.json
 ce4b8545b281f266874511be87449bc1f75ed925 data/more_stuff/neoforge/biome_modifier/add_nether_iron_ore.json
 3a7fda5cb44d64ed811a74c90d3279ea7d32c348 data/more_stuff/neoforge/biome_modifier/add_nether_monster_room.json
+6ed1e8f9861f9827c833ef0a417f51d7eaf484d7 data/more_stuff/neoforge/biome_modifier/add_nether_vault.json
 7f2f1bec4dcf9e334ada73dcea1b67b62350c92e data/more_stuff/neoforge/biome_modifier/add_nether_zinc_ore.json
+47b9b13f9cbf922583737012990a3bd7fbbc7309 data/more_stuff/neoforge/biome_modifier/add_overworld_vault.json
 1c78f4440d455e61ded97fa6abf9e42a1129ac88 data/more_stuff/trim_material/rosarite.json
 192ae05b40951f3a5369148a2fe048c96f3f7302 data/more_stuff/trim_material/rose_gold.json

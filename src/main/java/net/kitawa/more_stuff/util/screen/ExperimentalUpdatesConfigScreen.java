@@ -3,6 +3,8 @@ package net.kitawa.more_stuff.util.screen;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
+import net.kitawa.more_stuff.util.configs.LifeBitDropsConfig;
+import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -10,6 +12,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.IOException;
@@ -76,6 +80,15 @@ public class ExperimentalUpdatesConfigScreen extends Screen {
         }).bounds(buttonsStartX + buttonWidth + buttonGap, lastRowY, buttonWidth, 20).build();
         widgets.add(new WidgetWrapper(backButton, buttonsStartX + buttonWidth + buttonGap, lastRowY));
         addRenderableWidget(backButton);
+
+        int resetButtonX = this.width / 2 - buttonWidth / 2;
+        int resetButtonY = lastRowY + 25; // below the row
+        Button resetButton = Button.builder(Component.literal("Reset"), b -> {
+            resetConfig(); // discard changes
+            this.minecraft.setScreen(parent);
+        }).bounds(resetButtonX, resetButtonY, buttonWidth, 20).build();
+        widgets.add(new WidgetWrapper(resetButton, resetButtonX, resetButtonY));
+        addRenderableWidget(resetButton);
     }
 
     @Override
@@ -90,38 +103,21 @@ public class ExperimentalUpdatesConfigScreen extends Screen {
     }
 
     private static void saveConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("experimental_updates.toml");
-
-        try {
-            if (!Files.exists(folder)) Files.createDirectories(folder);
-
-            try (FileConfig config = FileConfig.builder(configFile)
-                    .writingMode(WritingMode.REPLACE)
-                    .build()) {
-
-                config.set("enableCombatUpdate", ExperimentalUpdatesConfig.isCombatUpdateAllowed);
-
-                config.save();
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to save ExperimentalUpdatesConfig: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // 1️⃣ Update the ModConfigSpec value
+        ExperimentalUpdatesConfig.IS_COMBAT_UPDATE_ALLOWED.set(ExperimentalUpdatesConfig.isCombatUpdateAllowed);
+        ExperimentalUpdatesConfig.bake();
+        ExperimentalUpdatesConfig.SPEC.save(); // <-- This writes the changes to disk
     }
 
     private static void reloadConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("experimental_updates.toml");
+        ExperimentalUpdatesConfig.isCombatUpdateAllowed = ExperimentalUpdatesConfig.IS_COMBAT_UPDATE_ALLOWED.get();
+        LifeBitDropsConfig.bake();
+    }
 
-        if (Files.exists(configFile)) {
-            try (FileConfig config = FileConfig.builder(configFile).build()) {
-                config.load();
-
-                ExperimentalUpdatesConfig.isCombatUpdateAllowed =
-                        config.getOrElse("enableCombatUpdate", ExperimentalUpdatesConfig.isCombatUpdateAllowed);
-            }
-        }
+    private static void resetConfig() {
+        ExperimentalUpdatesConfig.isCombatUpdateAllowed = ExperimentalUpdatesConfig.IS_COMBAT_UPDATE_ALLOWED.getDefault();
+        LifeBitDropsConfig.bake();
+        ExperimentalUpdatesConfig.SPEC.save();
     }
 
     private static class WidgetWrapper {

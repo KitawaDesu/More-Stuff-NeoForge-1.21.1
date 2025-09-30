@@ -79,7 +79,24 @@ public class ModdedAnimalArmorItem extends ArmorItem {
         DIAMOND_HOG(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/hoglin/armor/diamond_hoglin_armor"), SoundEvents.WOLF_ARMOR_BREAK),
         EMERALD_HOG(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/hoglin/armor/emerald_hoglin_armor"), SoundEvents.WOLF_ARMOR_BREAK),
         NETHERITE_HOG(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/hoglin/armor/netherite_hoglin_armor"), SoundEvents.WOLF_ARMOR_BREAK),
-        ROSARITE_HOG(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/hoglin/armor/rosarite_hoglin_armor"), SoundEvents.WOLF_ARMOR_BREAK);
+        ROSARITE_HOG(p_323678_ -> ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/entity/hoglin/armor/rosarite_hoglin_armor"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_WHITE(p -> shulkerTexture("white"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_ORANGE(p -> shulkerTexture("orange"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_MAGENTA(p -> shulkerTexture("magenta"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_LIGHT_BLUE(p -> shulkerTexture("light_blue"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_YELLOW(p -> shulkerTexture("yellow"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_LIME(p -> shulkerTexture("lime"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_PINK(p -> shulkerTexture("pink"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_GRAY(p -> shulkerTexture("gray"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_LIGHT_GRAY(p -> shulkerTexture("light_gray"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_CYAN(p -> shulkerTexture("cyan"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_PURPLE(p -> shulkerTexture("purple"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_BLUE(p -> shulkerTexture("blue"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_BROWN(p -> shulkerTexture("brown"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_GREEN(p -> shulkerTexture("green"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_RED(p -> shulkerTexture("red"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_BLACK(p -> shulkerTexture("black"), SoundEvents.WOLF_ARMOR_BREAK),
+        SHULKER_CANINE_NORMAL(p -> shulkerTexture("normal"), SoundEvents.WOLF_ARMOR_BREAK);
 
         final Function<ResourceLocation, ResourceLocation> textureLocator;
         final SoundEvent breakingSound;
@@ -87,6 +104,11 @@ public class ModdedAnimalArmorItem extends ArmorItem {
         BodyType(Function<ResourceLocation, ResourceLocation> textureLocator, SoundEvent breakingSound) {
             this.textureLocator = textureLocator;
             this.breakingSound = breakingSound;
+        }
+
+        private static ResourceLocation shulkerTexture(String color) {
+            return ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,
+                    "textures/entity/wolf/armor/" + color + "_shulker_wolf_armor");
         }
     }
 }

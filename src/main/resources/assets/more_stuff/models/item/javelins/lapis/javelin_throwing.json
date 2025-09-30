@@ -1,0 +1,20 @@
+{
+    "loader": "neoforge:separate_transforms",
+    "base": {
+        "parent": "more_stuff:item/javelins/lapis/javelin_3d_model_throwing"
+    },
+    "perspectives": {
+        "ground": {
+            "parent": "more_stuff:item/javelins/lapis/javelin_item"
+        },
+        "gui": {
+            "parent": "more_stuff:item/javelins/lapis/javelin_item"
+        },
+        "fixed": {
+            "parent": "more_stuff:item/javelins/lapis/javelin_item"
+        },
+        "head": {
+            "parent": "more_stuff:item/javelins/lapis/javelin_item"
+        }
+    }
+}

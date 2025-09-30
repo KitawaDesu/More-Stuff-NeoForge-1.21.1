@@ -6,7 +6,7 @@ import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatAnimalArmorItem;
 import net.kitawa.more_stuff.compat.create.items.util.shears.BrassShearsItem;
 import net.kitawa.more_stuff.items.util.ModShieldItem;
-import net.kitawa.more_stuff.items.util.ModdedMaceItem;
+import net.kitawa.more_stuff.items.util.weapons.ModdedMaceItem;
 import net.kitawa.more_stuff.items.util.shears.IronShearsItem;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.component.DataComponents;

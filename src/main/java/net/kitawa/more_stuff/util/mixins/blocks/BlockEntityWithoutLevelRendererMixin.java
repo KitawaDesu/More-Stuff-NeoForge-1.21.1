@@ -2,6 +2,8 @@ package net.kitawa.more_stuff.util.mixins.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.kitawa.more_stuff.experimentals.entities.models.ThrownJavelinModel;
+import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
 import net.kitawa.more_stuff.util.helpers.shield.ModShieldTextureHelper;
 import net.kitawa.more_stuff.util.helpers.shield.ShieldTextures;
 import net.minecraft.client.Minecraft;
@@ -33,6 +35,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -65,7 +68,10 @@ public class BlockEntityWithoutLevelRendererMixin implements ResourceManagerRelo
     private final DecoratedPotBlockEntity decoratedPot = new DecoratedPotBlockEntity(BlockPos.ZERO, Blocks.DECORATED_POT.defaultBlockState());
     @Shadow
     private ShieldModel shieldModel;
+    @Shadow
     private TridentModel tridentModel;
+    @Unique
+    private ThrownJavelinModel more_Stuff_NeoForge_1_21_1$javelinModel;
     @Shadow
     private Map<SkullBlock.Type, SkullModelBase> skullModels;
     @Shadow
@@ -209,6 +215,7 @@ public class BlockEntityWithoutLevelRendererMixin implements ResourceManagerRelo
     public void onResourceManagerReload(ResourceManager resourceManager) {
         this.shieldModel = new ShieldModel(this.entityModelSet.bakeLayer(ModelLayers.SHIELD));
         this.tridentModel = new TridentModel(this.entityModelSet.bakeLayer(ModelLayers.TRIDENT));
+        this.more_Stuff_NeoForge_1_21_1$javelinModel = new ThrownJavelinModel(this.entityModelSet.bakeLayer(ThrownJavelinModel.SPEAR_LAYER));
         this.skullModels = SkullBlockRenderer.createSkullRenderers(this.entityModelSet);
     }
 }

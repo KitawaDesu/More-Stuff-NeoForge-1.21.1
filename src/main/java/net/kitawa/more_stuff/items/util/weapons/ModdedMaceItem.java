@@ -1,4 +1,4 @@
-package net.kitawa.more_stuff.items.util;
+package net.kitawa.more_stuff.items.util.weapons;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

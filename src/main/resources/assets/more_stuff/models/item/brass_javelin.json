@@ -1,0 +1,23 @@
+{
+    "loader": "neoforge:separate_transforms",
+    "base": {
+        "parent": "more_stuff:item/javelins/brass/javelin_3d_model"
+    },
+    "perspectives": {
+        "ground": {
+            "parent": "more_stuff:item/javelins/brass/javelin_item"
+        },
+        "gui": {
+            "parent": "more_stuff:item/javelins/brass/javelin_item"
+        },
+        "fixed": {
+            "parent": "more_stuff:item/javelins/brass/javelin_item"
+        },
+        "head": {
+            "parent": "more_stuff:item/javelins/brass/javelin_item"
+        }
+    },
+	"overrides": [
+		{"predicate": {"throwing": 1}, "model": "more_stuff:item/javelins/brass/javelin_throwing"}
+	]
+}

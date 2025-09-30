@@ -3,7 +3,9 @@ package net.kitawa.more_stuff.util.screen;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
 import net.kitawa.more_stuff.util.configs.LifeBitDropsConfig;
+import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -89,6 +91,15 @@ public class LifeBitDropsConfigScreen extends Screen {
         }).bounds(buttonsStartX + buttonWidth + buttonGap, lastRowY, buttonWidth, 20).build();
         widgets.add(new WidgetWrapper(backButton, buttonsStartX + buttonWidth + buttonGap, lastRowY));
         addRenderableWidget(backButton);
+
+        int resetButtonX = this.width / 2 - buttonWidth / 2;
+        int resetButtonY = lastRowY + 25;
+        Button resetButton = Button.builder(Component.literal("Reset"), b -> {
+            resetConfig(); // restore defaults
+            this.minecraft.setScreen(parent);
+        }).bounds(resetButtonX, resetButtonY, buttonWidth, 20).build();
+        widgets.add(new WidgetWrapper(resetButton, resetButtonX, resetButtonY));
+        addRenderableWidget(resetButton);
     }
 
     private AbstractSliderButton createSlider(ConfigEntry entry, int x, int y) {
@@ -96,13 +107,13 @@ public class LifeBitDropsConfigScreen extends Screen {
                 Component.literal(entry.name + ": " + String.format("%.2f", entry.currentValue)),
                 (entry.currentValue - entry.min) / (entry.max - entry.min)) {
             @Override
-            protected void updateMessage() {
+            public void updateMessage() {
                 double value = entry.min + (entry.max - entry.min) * this.value;
                 setMessage(Component.literal(entry.name + ": " + String.format("%.2f", value)));
             }
 
             @Override
-            protected void applyValue() {
+            public void applyValue() {
                 double value = entry.min + (entry.max - entry.min) * this.value;
                 entry.callback.apply(value);
             }
@@ -121,61 +132,56 @@ public class LifeBitDropsConfigScreen extends Screen {
     }
 
     private static void saveConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("life_bit_drops.toml");
-
-        try {
-            if (!Files.exists(folder)) Files.createDirectories(folder);
-
-            try (CommentedFileConfig config = CommentedFileConfig.builder(configFile)
-                    .writingMode(WritingMode.REPLACE)
-                    .build()) {
-
-                config.set("life_bit_drops.armorBonusPercentage", LifeBitDropsConfig.armorBonus);
-                config.set("life_bit_drops.toughnessBonusPercentage", LifeBitDropsConfig.toughnessBonus);
-                config.set("life_bit_drops.minimumDropPercentage", LifeBitDropsConfig.minimumDrop);
-                config.set("life_bit_drops.biasedTowardsPercentage", LifeBitDropsConfig.biasedTowards);
-                config.set("life_bit_drops.mobAttackDamageBonus", LifeBitDropsConfig.mobAttackBonus);
-                config.set("life_bit_drops.playerHealthPenalty", LifeBitDropsConfig.playerHealthPenalty);
-                config.set("life_bit_drops.playerArmorPenalty", LifeBitDropsConfig.playerArmorPenalty);
-                config.set("life_bit_drops.playerToughnessPenalty", LifeBitDropsConfig.playerToughnessPenalty);
-                config.set("life_bit_drops.playerAttackDamagePenalty", LifeBitDropsConfig.playerAttackDamagePenalty);
-                config.set("life_bit_drops.playerHealthThreshold", LifeBitDropsConfig.playerHealthThreshold);
-                config.set("life_bit_drops.playerArmorThreshold", LifeBitDropsConfig.playerArmorThreshold);
-                config.set("life_bit_drops.playerToughnessThreshold", LifeBitDropsConfig.playerToughnessThreshold);
-                config.set("life_bit_drops.playerAttackDamageThreshold", LifeBitDropsConfig.playerAttackDamageThreshold);
-
-                config.save();
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to save LifeBitDropsConfig: " + e.getMessage());
-            e.printStackTrace();
-        }
+        LifeBitDropsConfig.ARMOR_BONUS_PERCENTAGE.set(LifeBitDropsConfig.armorBonus);
+        LifeBitDropsConfig.TOUGHNESS_BONUS_PERCENTAGE.set(LifeBitDropsConfig.toughnessBonus);
+        LifeBitDropsConfig.MINIMUM_DROP_PERCENTAGE.set(LifeBitDropsConfig.minimumDrop);
+        LifeBitDropsConfig.BIASED_TOWARDS_PERCENTAGE.set(LifeBitDropsConfig.biasedTowards);
+        LifeBitDropsConfig.MOB_ATTACK_DAMAGE_BONUS.set(LifeBitDropsConfig.mobAttackBonus);
+        LifeBitDropsConfig.PLAYER_HEALTH_PENALTY.set(LifeBitDropsConfig.playerHealthPenalty);
+        LifeBitDropsConfig.PLAYER_ARMOR_PENALTY.set(LifeBitDropsConfig.playerArmorPenalty);
+        LifeBitDropsConfig.PLAYER_TOUGHNESS_PENALTY.set(LifeBitDropsConfig.playerToughnessPenalty);
+        LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_PENALTY.set(LifeBitDropsConfig.playerAttackDamagePenalty);
+        LifeBitDropsConfig.PLAYER_HEALTH_THRESHOLD.set(LifeBitDropsConfig.playerHealthThreshold);
+        LifeBitDropsConfig.PLAYER_ARMOR_THRESHOLD.set(LifeBitDropsConfig.playerArmorThreshold);
+        LifeBitDropsConfig.PLAYER_TOUGHNESS_THRESHOLD.set(LifeBitDropsConfig.playerToughnessThreshold);
+        LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_THRESHOLD.set(LifeBitDropsConfig.playerAttackDamageThreshold);
+        LifeBitDropsConfig.bake();
+        LifeBitDropsConfig.SPEC.save();
     }
 
     private static void reloadConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("life_bit_drops.toml");
+        LifeBitDropsConfig.armorBonus = LifeBitDropsConfig.ARMOR_BONUS_PERCENTAGE.get();
+        LifeBitDropsConfig.toughnessBonus = LifeBitDropsConfig.TOUGHNESS_BONUS_PERCENTAGE.get();
+        LifeBitDropsConfig.minimumDrop = LifeBitDropsConfig.MINIMUM_DROP_PERCENTAGE.get();
+        LifeBitDropsConfig.biasedTowards = LifeBitDropsConfig.BIASED_TOWARDS_PERCENTAGE.get();
+        LifeBitDropsConfig.mobAttackBonus = LifeBitDropsConfig.MOB_ATTACK_DAMAGE_BONUS.get();
+        LifeBitDropsConfig.playerHealthPenalty = LifeBitDropsConfig.PLAYER_HEALTH_PENALTY.get();
+        LifeBitDropsConfig.playerArmorPenalty = LifeBitDropsConfig.PLAYER_ARMOR_PENALTY.get();
+        LifeBitDropsConfig.playerToughnessPenalty = LifeBitDropsConfig.PLAYER_TOUGHNESS_PENALTY.get();
+        LifeBitDropsConfig.playerAttackDamagePenalty = LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_PENALTY.get();
+        LifeBitDropsConfig.playerHealthThreshold = LifeBitDropsConfig.PLAYER_HEALTH_THRESHOLD.get();
+        LifeBitDropsConfig.playerArmorThreshold = LifeBitDropsConfig.PLAYER_ARMOR_THRESHOLD.get();
+        LifeBitDropsConfig.playerToughnessThreshold = LifeBitDropsConfig.PLAYER_TOUGHNESS_THRESHOLD.get();
+        LifeBitDropsConfig.playerAttackDamageThreshold = LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_THRESHOLD.get();
+        LifeBitDropsConfig.bake(); // <- make sure to reapply into any computed values
+    }
 
-        if (Files.exists(configFile)) {
-            try (CommentedFileConfig config = CommentedFileConfig.builder(configFile).build()) {
-                config.load();
-
-                LifeBitDropsConfig.armorBonus = config.getOrElse("life_bit_drops.armorBonusPercentage", LifeBitDropsConfig.armorBonus);
-                LifeBitDropsConfig.toughnessBonus = config.getOrElse("life_bit_drops.toughnessBonusPercentage", LifeBitDropsConfig.toughnessBonus);
-                LifeBitDropsConfig.minimumDrop = config.getOrElse("life_bit_drops.minimumDropPercentage", LifeBitDropsConfig.minimumDrop);
-                LifeBitDropsConfig.biasedTowards = config.getOrElse("life_bit_drops.biasedTowardsPercentage", LifeBitDropsConfig.biasedTowards);
-                LifeBitDropsConfig.mobAttackBonus = config.getOrElse("life_bit_drops.mobAttackDamageBonus", LifeBitDropsConfig.mobAttackBonus);
-                LifeBitDropsConfig.playerHealthPenalty = config.getOrElse("life_bit_drops.playerHealthPenalty", LifeBitDropsConfig.playerHealthPenalty);
-                LifeBitDropsConfig.playerArmorPenalty = config.getOrElse("life_bit_drops.playerArmorPenalty", LifeBitDropsConfig.playerArmorPenalty);
-                LifeBitDropsConfig.playerToughnessPenalty = config.getOrElse("life_bit_drops.playerToughnessPenalty", LifeBitDropsConfig.playerToughnessPenalty);
-                LifeBitDropsConfig.playerAttackDamagePenalty = config.getOrElse("life_bit_drops.playerAttackDamagePenalty", LifeBitDropsConfig.playerAttackDamagePenalty);
-                LifeBitDropsConfig.playerHealthThreshold = config.getOrElse("life_bit_drops.playerHealthThreshold", LifeBitDropsConfig.playerHealthThreshold);
-                LifeBitDropsConfig.playerArmorThreshold = config.getOrElse("life_bit_drops.playerArmorThreshold", LifeBitDropsConfig.playerArmorThreshold);
-                LifeBitDropsConfig.playerToughnessThreshold = config.getOrElse("life_bit_drops.playerToughnessThreshold", LifeBitDropsConfig.playerToughnessThreshold);
-                LifeBitDropsConfig.playerAttackDamageThreshold = config.getOrElse("life_bit_drops.playerAttackDamageThreshold", LifeBitDropsConfig.playerAttackDamageThreshold);
-            }
-        }
+    private static void resetConfig() {
+        LifeBitDropsConfig.armorBonus = LifeBitDropsConfig.ARMOR_BONUS_PERCENTAGE.getDefault();
+        LifeBitDropsConfig.toughnessBonus = LifeBitDropsConfig.TOUGHNESS_BONUS_PERCENTAGE.getDefault();
+        LifeBitDropsConfig.minimumDrop = LifeBitDropsConfig.MINIMUM_DROP_PERCENTAGE.getDefault();
+        LifeBitDropsConfig.biasedTowards = LifeBitDropsConfig.BIASED_TOWARDS_PERCENTAGE.getDefault();
+        LifeBitDropsConfig.mobAttackBonus = LifeBitDropsConfig.MOB_ATTACK_DAMAGE_BONUS.getDefault();
+        LifeBitDropsConfig.playerHealthPenalty = LifeBitDropsConfig.PLAYER_HEALTH_PENALTY.getDefault();
+        LifeBitDropsConfig.playerArmorPenalty = LifeBitDropsConfig.PLAYER_ARMOR_PENALTY.getDefault();
+        LifeBitDropsConfig.playerToughnessPenalty = LifeBitDropsConfig.PLAYER_TOUGHNESS_PENALTY.getDefault();
+        LifeBitDropsConfig.playerAttackDamagePenalty = LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_PENALTY.getDefault();
+        LifeBitDropsConfig.playerHealthThreshold = LifeBitDropsConfig.PLAYER_HEALTH_THRESHOLD.getDefault();
+        LifeBitDropsConfig.playerArmorThreshold = LifeBitDropsConfig.PLAYER_ARMOR_THRESHOLD.getDefault();
+        LifeBitDropsConfig.playerToughnessThreshold = LifeBitDropsConfig.PLAYER_TOUGHNESS_THRESHOLD.getDefault();
+        LifeBitDropsConfig.playerAttackDamageThreshold = LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_THRESHOLD.getDefault();
+        LifeBitDropsConfig.bake();
+        ExperimentalUpdatesConfig.SPEC.save(); // <- make sure to reapply into any computed values
     }
 
     private static class WidgetWrapper {

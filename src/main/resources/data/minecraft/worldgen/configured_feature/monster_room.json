@@ -41,11 +41,28 @@
         }
       }
     ],
+    "default_cobble": {
+      "Name": "minecraft:cobblestone"
+    },
+    "default_mossy": {
+      "Name": "minecraft:mossy_cobblestone"
+    },
     "spawner_block": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "minecraft:spawner"
-      }
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 85,
+          "data": {
+            "Name": "minecraft:spawner"
+          }
+        },
+        {
+          "weight": 15,
+          "data": {
+            "Name": "minecraft:trial_spawner"
+          }
+        }
+      ]
     },
     "container_block": {
       "type": "minecraft:weighted_state_provider",
@@ -89,47 +106,126 @@
     },
     "container_loot": "minecraft:chests/simple_dungeon",
     "trap_loot": "more_stuff:chests/dungeon_trap",
-    "mobs": [
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:zombie",
-      "minecraft:spider",
-      "minecraft:spider",
-      "minecraft:spider",
-      "minecraft:spider",
-      "minecraft:spider",
-      "minecraft:spider",
-      "minecraft:slime",
-      "minecraft:slime",
-      "minecraft:slime",
-      "minecraft:slime",
-      "minecraft:slime",
-      "minecraft:slime",
-      "minecraft:creeper",
-      "minecraft:creeper",
-      "minecraft:creeper",
-      "minecraft:breeze"
-    ],
-    "default_cobble": {
-      "Name": "minecraft:cobblestone"
+    "normal_config": {
+      "mobs": [
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:spider",
+        "minecraft:spider",
+        "minecraft:spider",
+        "minecraft:spider",
+        "minecraft:spider",
+        "minecraft:spider",
+        "minecraft:cave_spider",
+        "minecraft:cave_spider",
+        "minecraft:cave_spider",
+        "minecraft:slime",
+        "minecraft:slime",
+        "minecraft:slime",
+        "minecraft:slime",
+        "minecraft:slime",
+        "minecraft:slime",
+        "minecraft:creeper",
+        "minecraft:creeper",
+        "minecraft:creeper",
+        "minecraft:breeze"
+      ],
+      "spawn_range": 4,
+      "total_mobs": 6,
+      "simultaneous_mobs": 4,
+      "total_mobs_added_per_player": 2,
+      "simultaneous_mobs_added_per_player": 1,
+      "ticks_between_spawn": 40,
+      "loot_pool": [
+        {
+          "table": "more_stuff:trial_spawner/normal/overworld/eject_shaft_loot",
+          "weight": 35
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/overworld/eject_jungle_loot",
+          "weight": 35
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/overworld/eject_dungeon_loot",
+          "weight": 35
+        },
+        {
+          "table": "minecraft:chests/spawner_trial_consumables",
+          "weight": 35
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/overworld/key",
+          "weight": 60
+        }
+      ],
+      "ominous_drop_loot": "more_stuff:trial_spawner/ominous/item_throw_pool/overworld"
     },
-    "default_mossy": {
-      "Name": "minecraft:mossy_cobblestone"
+    "ominous_config": {
+      "mobs": [
+        "minecraft:skeleton",
+        "minecraft:zombie",
+        "minecraft:zombie",
+        "minecraft:spider",
+        "minecraft:cave_spider",
+        "minecraft:slime",
+        "minecraft:creeper",
+        "minecraft:breeze",
+        "minecraft:pillage",
+        "minecraft:vindicator"
+      ],
+      "spawn_range": 6,
+      "total_mobs": 12,
+      "simultaneous_mobs": 4,
+      "total_mobs_added_per_player": 2,
+      "simultaneous_mobs_added_per_player": 2,
+      "ticks_between_spawn": 20,
+      "loot_pool": [
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/eject_ancient_city_loot",
+          "weight": 350
+        },
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/eject_buried_treasure_loot",
+          "weight": 350
+        },
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/eject_portal_loot",
+          "weight": 350
+        },
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/eject_pyramid_loot",
+          "weight": 350
+        },
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/eject_shipwreck_treasure_loot",
+          "weight": 350
+        },
+        {
+          "table": "minecraft:spawners/ominous/trial_chamber/consumables",
+          "weight": 350
+        },
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/key",
+          "weight": 900
+        }
+      ],
+      "ominous_drop_loot": "more_stuff:trial_spawner/ominous/item_throw_pool/overworld"
     }
   }
 }

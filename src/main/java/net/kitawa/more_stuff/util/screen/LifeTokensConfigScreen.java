@@ -1,7 +1,7 @@
 package net.kitawa.more_stuff.util.screen;
 
-import com.electronwill.nightconfig.core.file.FileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
+import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
+import net.kitawa.more_stuff.util.configs.LifeBitDropsConfig;
 import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,11 +11,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.neoforged.fml.loading.FMLPaths;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import net.minecraft.util.Mth;
 import java.util.*;
 
 public class LifeTokensConfigScreen extends Screen {
@@ -95,16 +91,28 @@ public class LifeTokensConfigScreen extends Screen {
         }).bounds(buttonsStartX + buttonWidth + buttonGap, lastRowY, buttonWidth, 20).build();
         widgets.add(new WidgetWrapper(backButton, buttonsStartX + buttonWidth + buttonGap, lastRowY));
         addRenderableWidget(backButton);
+
+        int resetButtonX = this.width / 2 - buttonWidth / 2;
+        int resetButtonY = lastRowY + 25;
+        Button resetButton = Button.builder(Component.literal("Reset"), b -> {
+            resetConfig(); // restore defaults
+            this.minecraft.setScreen(parent);
+        }).bounds(resetButtonX, resetButtonY, buttonWidth, 20).build();
+        widgets.add(new WidgetWrapper(resetButton, resetButtonX, resetButtonY));
+        addRenderableWidget(resetButton);
     }
 
     private AbstractSliderButton createSlider(ConfigEntry entry, int x, int y) {
+        double normalized = (entry.currentValue - entry.min) / (entry.max - entry.min);
+        normalized = Mth.clamp(normalized, 0.0, 1.0); // prevent invalid values
+
         return new AbstractSliderButton(x, y, COLUMN_WIDTH, ROW_HEIGHT,
-                Component.literal(entry.name + ": " + String.format("%.2f", entry.currentValue)),
-                (entry.currentValue - entry.min) / (entry.max - entry.min)) {
+                Component.literal(entry.name + ": " + (int) entry.currentValue),
+                normalized) {
             @Override
             protected void updateMessage() {
                 double value = entry.min + (entry.max - entry.min) * this.value;
-                setMessage(Component.literal(entry.name + ": " + String.format("%.2f", value)));
+                setMessage(Component.literal(entry.name + ": " + (int) value));
             }
 
             @Override
@@ -127,52 +135,32 @@ public class LifeTokensConfigScreen extends Screen {
     }
 
     private static void saveConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("life_tokens.toml");
-
-        try {
-            if (!Files.exists(folder)) {
-                Files.createDirectories(folder);
-            }
-
-            try (FileConfig config = FileConfig.builder(configFile)
-                    .writingMode(WritingMode.REPLACE)
-                    .build()) {
-
-                config.set("life_tokens.maxLife", LifeTokensConfig.maxLife);
-                config.set("life_tokens.lifeIncrement", LifeTokensConfig.lifeIncrement);
-                config.set("life_tokens.addToSpawnerLoot", LifeTokensConfig.addLifeTokenBitsToSpawnerLoot);
-                config.set("life_tokens.addToDungeonLoot", LifeTokensConfig.addLifeTokenBitsToDungeonLoot);
-                config.set("life_tokens.enableLifeTokens", LifeTokensConfig.addLifeTokens);
-
-                config.save();
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to save LifeTokensConfig: " + e.getMessage());
-            e.printStackTrace();
-        }
+        LifeTokensConfig.MAX_LIFE.set(LifeTokensConfig.maxLife);
+        LifeTokensConfig.LIFE_INCREMENT.set(LifeTokensConfig.lifeIncrement);
+        LifeTokensConfig.ADD_TO_SPAWNER_LOOT.set(LifeTokensConfig.addLifeTokenBitsToSpawnerLoot);
+        LifeTokensConfig.ADD_TO_DUNGEON_LOOT.set(LifeTokensConfig.addLifeTokenBitsToDungeonLoot);
+        LifeTokensConfig.ADD_LIFE_TOKENS.set(LifeTokensConfig.addLifeTokens);
+        LifeTokensConfig.bake();
+        LifeTokensConfig.SPEC.save();
     }
 
     private static void reloadConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("life_tokens.toml");
+        LifeTokensConfig.maxLife = LifeTokensConfig.MAX_LIFE.get();
+        LifeTokensConfig.lifeIncrement = LifeTokensConfig.LIFE_INCREMENT.get();
+        LifeTokensConfig.addLifeTokenBitsToSpawnerLoot = LifeTokensConfig.ADD_TO_SPAWNER_LOOT.get();
+        LifeTokensConfig.addLifeTokenBitsToDungeonLoot = LifeTokensConfig.ADD_TO_DUNGEON_LOOT.get();
+        LifeTokensConfig.addLifeTokens = LifeTokensConfig.ADD_LIFE_TOKENS.get();
+        LifeBitDropsConfig.bake();
+    }
 
-        if (Files.exists(configFile)) {
-            try (FileConfig config = FileConfig.builder(configFile).build()) {
-                config.load();
-
-                LifeTokensConfig.maxLife =
-                        config.getOrElse("life_tokens.maxLife", LifeTokensConfig.maxLife);
-                LifeTokensConfig.lifeIncrement =
-                        config.getOrElse("life_tokens.lifeIncrement", LifeTokensConfig.lifeIncrement);
-                LifeTokensConfig.addLifeTokenBitsToSpawnerLoot =
-                        config.getOrElse("life_tokens.addToSpawnerLoot", LifeTokensConfig.addLifeTokenBitsToSpawnerLoot);
-                LifeTokensConfig.addLifeTokenBitsToDungeonLoot =
-                        config.getOrElse("life_tokens.addToDungeonLoot", LifeTokensConfig.addLifeTokenBitsToDungeonLoot);
-                LifeTokensConfig.addLifeTokens =
-                        config.getOrElse("life_tokens.enableLifeTokens", LifeTokensConfig.addLifeTokens);
-            }
-        }
+    private static void resetConfig() {
+        LifeTokensConfig.MAX_LIFE.set(LifeTokensConfig.MAX_LIFE.getDefault());
+        LifeTokensConfig.LIFE_INCREMENT.set(LifeTokensConfig.LIFE_INCREMENT.getDefault());
+        LifeTokensConfig.ADD_TO_SPAWNER_LOOT.set(LifeTokensConfig.ADD_TO_SPAWNER_LOOT.getDefault());
+        LifeTokensConfig.ADD_TO_DUNGEON_LOOT.set(LifeTokensConfig.ADD_TO_DUNGEON_LOOT.getDefault());
+        LifeTokensConfig.ADD_LIFE_TOKENS.set(LifeTokensConfig.ADD_LIFE_TOKENS.getDefault());
+        LifeBitDropsConfig.bake();
+        ExperimentalUpdatesConfig.SPEC.save();
     }
 
     private static class WidgetWrapper {

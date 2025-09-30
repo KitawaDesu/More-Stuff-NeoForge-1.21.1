@@ -23,9 +23,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zoglin;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.hoglin.HoglinBase;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,6 +59,14 @@ public abstract class ZoglinMixin extends Monster implements Enemy, HoglinBase {
         }
         populateDefaultEquipmentSlots(random, difficulty);
         populateDefaultEquipmentEnchantments(level, random, difficulty);
+        if (random.nextInt(100) == 0) {
+            ZombifiedPiglin zombifiedPiglin = EntityType.ZOMBIFIED_PIGLIN.create(this.level());
+            if (zombifiedPiglin != null) {
+                zombifiedPiglin.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                zombifiedPiglin.finalizeSpawn(level, difficulty, spawnType, null);
+                zombifiedPiglin.startRiding(this);
+            }
+        }
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 

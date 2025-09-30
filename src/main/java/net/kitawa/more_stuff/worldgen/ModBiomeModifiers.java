@@ -29,6 +29,8 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_DELTAS = registerKey("add_deltas");
     public static final ResourceKey<BiomeModifier> ADD_BLAZING_REEDS = registerKey("add_blazing_reeds");
     public static final ResourceKey<BiomeModifier> ADD_NETHER_MONSTER_ROOM = registerKey("add_nether_monster_room");
+    public static final ResourceKey<BiomeModifier> ADD_NETHER_VAULT = registerKey("add_nether_vault");
+    public static final ResourceKey<BiomeModifier> ADD_OVERWORLD_VAULT = registerKey("add_overworld_vault");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -77,6 +79,16 @@ public class ModBiomeModifiers {
         context.register(ADD_NETHER_MONSTER_ROOM, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_NETHER),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NETHER_MONSTER_ROOM)),
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES));
+
+        context.register(ADD_NETHER_VAULT, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_NETHER),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PLACED_NETHER_VAULT)),
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES));
+
+        context.register(ADD_OVERWORLD_VAULT, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PLACED_OVERWORLD_VAULT)),
                 GenerationStep.Decoration.UNDERGROUND_STRUCTURES));
 
         if (ModList.get().isLoaded("create")) {

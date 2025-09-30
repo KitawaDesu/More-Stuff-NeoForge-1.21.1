@@ -1,0 +1,45 @@
+{
+  "type": "more_stuff:place_vault",
+  "config": {
+    "normal_config": {
+      "loot_pool": [
+        { "table": "minecraft:chests/ruined_portal", "weight": 1 },
+        { "table": "minecraft:chests/bastion_other", "weight": 1 },
+        { "table": "minecraft:chests/bastion_bridge", "weight": 1 },
+        { "table": "minecraft:chests/bastion_hoglin_stable", "weight": 1 },
+        { "table": "minecraft:chests/nether_bridge", "weight": 1 }
+      ],
+      "activation_range": 4.0,
+      "deactivation_range": 4.5,
+      "key_item": { "id": "more_stuff:nether_key", "Count": 1 }
+    },
+    "ominous_config": {
+      "loot_pool": [
+        { "table": "minecraft:chests/bastion_treasure", "weight": 1 },
+        { "table": "more_stuff:vault/ominous/nether/piglin_barter", "weight": 1 }
+      ],
+      "activation_range": 6.0,
+      "deactivation_range": 6.5,
+      "key_item": { "id": "more_stuff:ominous_nether_key", "Count": 1 }
+    },
+    "vault_block": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 85,
+          "data": {
+            "Name": "minecraft:vault",
+            "Properties": { "ominous": "false", "vault_state": "inactive" }
+          }
+        },
+        {
+          "weight": 15,
+          "data": {
+            "Name": "minecraft:vault",
+            "Properties": { "ominous": "true", "vault_state": "inactive" }
+          }
+        }
+      ]
+    }
+  }
+}

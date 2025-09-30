@@ -7,6 +7,9 @@ import net.kitawa.more_stuff.compat.create.items.util.CreateCompatTeiredElytraLa
 import net.kitawa.more_stuff.blocks.ModBlocks;
 import net.kitawa.more_stuff.compat.create.items.CreateCompatItems;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatVexElytraLayer;
+import net.kitawa.more_stuff.experimentals.entities.ExperimentalCombatEntities;
+import net.kitawa.more_stuff.experimentals.entities.renderers.ThrownJavelinRenderer;
+import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
 import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.items.life_tokens.LifeTokenItems;
 import net.kitawa.more_stuff.items.util.TeiredElytraLayer;
@@ -18,6 +21,7 @@ import net.kitawa.more_stuff.util.mob_armor.ModLayerDefinitions;
 import net.kitawa.more_stuff.util.mob_armor.ModModelLayers;
 import net.kitawa.more_stuff.util.mob_armor.layers.HoglinArmorLayer;
 import net.kitawa.more_stuff.util.mob_armor.layers.ZoglinArmorLayer;
+import net.kitawa.more_stuff.util.recipes.ExperimentalConditions;
 import net.kitawa.more_stuff.worldgen.biome.ModTerrablenderAPI;
 import net.kitawa.more_stuff.worldgen.biome.surface.ModSurfaceRules;
 import net.kitawa.more_stuff.worldgen.ModFeatures;
@@ -26,10 +30,12 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,6 +47,7 @@ import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -49,7 +56,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -57,13 +63,17 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.extensions.common.ClientExtensionsManager;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 import terrablender.api.SurfaceRuleManager;
 
-import static org.apache.commons.lang3.ArrayUtils.add;
+import java.util.List;
+
+import static net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems.WOODEN_JAVELIN;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(MoreStuff.MOD_ID)
@@ -75,7 +85,19 @@ public class MoreStuff {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public MoreStuff(IEventBus modEventBus, ModContainer modContainer) {
-        MainConfig.registerConfigs();
+
+        modContainer.registerConfig(ModConfig.Type.COMMON,
+                LifeBitDropsConfig.SPEC,
+                "more_stuff/life_bit_drops.toml");
+        modContainer.registerConfig(ModConfig.Type.COMMON,
+                LifeTokensConfig.SPEC,
+                "more_stuff/life_tokens.toml");
+        modContainer.registerConfig(ModConfig.Type.COMMON,
+                MoreStuffGeneralConfig.SPEC,
+                "more_stuff/general_config.toml");
+        modContainer.registerConfig(ModConfig.Type.COMMON,
+                ExperimentalUpdatesConfig.SPEC,
+                "more_stuff/experimental_updates.toml");
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modEventBus.register(MoreStuffClientEvents.class);
@@ -90,10 +112,13 @@ public class MoreStuff {
         // Removed manual bootstrap call here!
 
         // Register content
+        ExperimentalConditions.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
         LifeTokenItems.register(modEventBus);
+        ExperimentalCombatItems.register(modEventBus);
+        ExperimentalCombatEntities.register(modEventBus);
         ModDamageSources.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
 
@@ -172,6 +197,9 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.VOLTAIC_SLATE.asItem().getDefaultInstance(), ModBlocks.ANCHOR_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.ANCHOR_BLOCK.asItem().getDefaultInstance(), ModBlocks.STORMVEIN.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.STORMVEIN.asItem().getDefaultInstance(), ModBlocks.TESLA_COIL.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.AQUANDA_MOSS_CARPET.asItem().getDefaultInstance(), ModBlocks.GLOWMOSS_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.GLOWMOSS_BLOCK.asItem().getDefaultInstance(), ModBlocks.GLOWMOSS_CARPET.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.GLOWMOSS_CARPET.asItem().getDefaultInstance(), ModItems.HANGING_GLOWMOSS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(ModBlocks.FROZEN_IRON_ORE.get().asItem().getDefaultInstance(), CreateCompatBlocks.NETHER_ZINC_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -194,6 +222,10 @@ public class MoreStuff {
             event.insertAfter(Items.EXPERIENCE_BOTTLE.getDefaultInstance(), LifeTokenItems.LIFE_BIT.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(LifeTokenItems.LIFE_BIT.get().getDefaultInstance(), LifeTokenItems.LIFE_SHARD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(LifeTokenItems.LIFE_SHARD.get().getDefaultInstance(), LifeTokenItems.LIFE_TOKEN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.OMINOUS_TRIAL_KEY.getDefaultInstance(), ModItems.DUNGEON_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.DUNGEON_KEY.get().getDefaultInstance(), ModItems.OMINOUS_DUNGEON_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.OMINOUS_DUNGEON_KEY.get().getDefaultInstance(), ModItems.NETHER_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.NETHER_KEY.get().getDefaultInstance(), ModItems.OMINOUS_NETHER_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(Items.RAW_GOLD.getDefaultInstance(), BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "raw_zinc")).getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -517,6 +549,12 @@ public class MoreStuff {
     public static class ClientModEvents {
 
         @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(ExperimentalCombatEntities.JAVELIN.get(),
+                    ThrownJavelinRenderer::new);
+        }
+
+        @SubscribeEvent
         public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
             EntityModelSet models = event.getEntityModels();for (EntityType<?> type : BuiltInRegistries.ENTITY_TYPE) {
                 EntityRenderer<?> renderer = event.getRenderer(type);
@@ -664,6 +702,7 @@ public class MoreStuff {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+
             event.enqueueWork(() -> {
                         CauldronInteraction.WATER.map().put(ModItems.LEATHER_GLIDER.get(), CauldronInteraction.DYED_ITEM);
                         CauldronInteraction.WATER.map().put(ModItems.NETHERITE_WOLF_ARMOR.get(), CauldronInteraction.DYED_ITEM);

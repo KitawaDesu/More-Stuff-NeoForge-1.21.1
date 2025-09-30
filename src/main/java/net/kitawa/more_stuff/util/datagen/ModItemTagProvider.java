@@ -3,6 +3,7 @@ package net.kitawa.more_stuff.util.datagen;
 import net.kitawa.more_stuff.blocks.ModBlocks;
 import net.kitawa.more_stuff.compat.create.items.CreateCompatItems;
 import net.kitawa.more_stuff.MoreStuff;
+import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
 import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.util.tags.ModItemTags;
 import net.minecraft.core.HolderLookup;
@@ -11,12 +12,14 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -115,6 +118,21 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_SHIELD.get())
                 .add(ModItems.ROSARITE_SHIELD.get());
 
+        tag(ItemTags.TRIDENT_ENCHANTABLE)
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
+
+
         tag(ModItemTags.GLIDERS)
                 .add(Items.ELYTRA)
                 .add(ModItems.LEATHER_GLIDER.get())
@@ -158,7 +176,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.TURTLE_SCUTE_WOLF_ARMOR.get())
                 .add(ModItems.EMERALD_WOLF_ARMOR.get())
                 .add(ModItems.NETHERITE_WOLF_ARMOR.get())
-                .add(ModItems.ROSARITE_WOLF_ARMOR.get());
+                .add(ModItems.ROSARITE_WOLF_ARMOR.get())
+                .addTag(ModItemTags.SHULKER_SHELL_WOLF_ARMOR);
 
         tag(ModItemTags.METALLIC_ARMOR)
                 .add(Items.IRON_HORSE_ARMOR)
@@ -351,32 +370,37 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.ROSARITE_HORSE_ARMOR.get())
                 .add(ModItems.NETHERITE_HORSE_ARMOR.get())
                 .add(Items.GOLDEN_HORSE_ARMOR)
-                .add(Items.DIAMOND_HORSE_ARMOR);
+                .add(Items.DIAMOND_HORSE_ARMOR)
+                .addTag(ModItemTags.SHULKER_SHELL_HORSE_ARMOR);
 
         tag(ItemTags.HEAD_ARMOR)
                 .add(ModItems.WOOD_PLATE_HELMET.get())
                 .add(ModItems.EMERALD_HELMET.get())
                 .add(ModItems.ROSE_GOLDEN_HELMET.get())
                 .add(ModItems.COPPER_HELMET.get())
-                .add(ModItems.ROSARITE_HELMET.get());
+                .add(ModItems.ROSARITE_HELMET.get())
+                .addTag(ModItemTags.SHULKER_SHELL_HELMETS);
         tag(ItemTags.CHEST_ARMOR)
                 .add(ModItems.WOOD_PLATE_CHESTPLATE.get())
                 .add(ModItems.EMERALD_CHESTPLATE.get())
                 .add(ModItems.ROSE_GOLDEN_CHESTPLATE.get())
                 .add(ModItems.COPPER_CHESTPLATE.get())
-                .add(ModItems.ROSARITE_CHESTPLATE.get());
+                .add(ModItems.ROSARITE_CHESTPLATE.get())
+                .addTag(ModItemTags.SHULKER_SHELL_CHESTPLATES);
         tag(ItemTags.LEG_ARMOR)
                 .add(ModItems.WOOD_PLATE_LEGGINGS.get())
                 .add(ModItems.EMERALD_LEGGINGS.get())
                 .add(ModItems.ROSE_GOLDEN_LEGGINGS.get())
                 .add(ModItems.COPPER_LEGGINGS.get())
-                .add(ModItems.ROSARITE_LEGGINGS.get());
+                .add(ModItems.ROSARITE_LEGGINGS.get())
+                .addTag(ModItemTags.SHULKER_SHELL_LEGGINGS);
         tag(ItemTags.FOOT_ARMOR)
                 .add(ModItems.WOOD_PLATE_BOOTS.get())
                 .add(ModItems.EMERALD_BOOTS.get())
                 .add(ModItems.ROSE_GOLDEN_BOOTS.get())
                 .add(ModItems.COPPER_BOOTS.get())
-                .add(ModItems.ROSARITE_BOOTS.get());
+                .add(ModItems.ROSARITE_BOOTS.get())
+                .addTag(ModItemTags.SHULKER_SHELL_BOOTS);
 
         tag(ItemTags.SWORDS)
                 .add(ModItems.EMERALD_SWORD.get())
@@ -439,7 +463,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.ROSARITE_HELMET.get())
                 .add(ModItems.ROSARITE_CHESTPLATE.get())
                 .add(ModItems.ROSARITE_LEGGINGS.get())
-                .add(ModItems.ROSARITE_BOOTS.get());
+                .add(ModItems.ROSARITE_BOOTS.get())
+                .addTag(ModItemTags.SHULKER_SHELL_HELMETS)
+                .addTag(ModItemTags.SHULKER_SHELL_CHESTPLATES)
+                .addTag(ModItemTags.SHULKER_SHELL_LEGGINGS)
+                .addTag(ModItemTags.SHULKER_SHELL_BOOTS);
 
         this.tag(ItemTags.TRIM_MATERIALS)
                 .add(ModItems.ROSARITE_INGOT.get())
@@ -465,7 +493,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_MACE.get())
                 .add(ModItems.ROSARITE_MACE.get())
                 .add(ModItems.LAPIS_MACE.get())
-                .add(ModItems.QUARTZ_MACE.get());
+                .add(ModItems.QUARTZ_MACE.get())
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
 
         tag(ItemTags.MINING_ENCHANTABLE)
                 .addTag(ModItemTags.SHEARS);
@@ -485,7 +525,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_MACE.get())
                 .add(ModItems.ROSARITE_MACE.get())
                 .add(ModItems.LAPIS_MACE.get())
-                .add(ModItems.QUARTZ_MACE.get());
+                .add(ModItems.QUARTZ_MACE.get())
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
                 .add(ModItems.WOODEN_MACE.get())
@@ -499,7 +551,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_MACE.get())
                 .add(ModItems.ROSARITE_MACE.get())
                 .add(ModItems.LAPIS_MACE.get())
-                .add(ModItems.QUARTZ_MACE.get());
+                .add(ModItems.QUARTZ_MACE.get())
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
 
         tag(ItemTags.SWORD_ENCHANTABLE)
                 .add(Items.MACE)
@@ -529,7 +593,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_MACE.get())
                 .add(ModItems.ROSARITE_MACE.get())
                 .add(ModItems.LAPIS_MACE.get())
-                .add(ModItems.QUARTZ_MACE.get());
+                .add(ModItems.QUARTZ_MACE.get())
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
 
         tag(ItemTags.DURABILITY_ENCHANTABLE)
                 .addTag(Tags.Items.TOOLS_SHIELD);
@@ -548,7 +624,34 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_MACE.get())
                 .add(ModItems.ROSARITE_MACE.get())
                 .add(ModItems.LAPIS_MACE.get())
-                .add(ModItems.QUARTZ_MACE.get());
+                .add(ModItems.QUARTZ_MACE.get())
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
+
+        tag(ItemTags.CROSSBOW_ENCHANTABLE)
+                .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.STONE_JAVELIN.get())
+                .add(ExperimentalCombatItems.QUARTZ_JAVELIN.get())
+                .add(ExperimentalCombatItems.LAPIS_JAVELIN.get())
+                .add(ExperimentalCombatItems.COPPER_JAVELIN.get())
+                .add(ExperimentalCombatItems.IRON_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
+                .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
+                .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get())
+                .add(Items.TRIDENT);
 
         tag(ItemTags.EQUIPPABLE_ENCHANTABLE)
                 .addTag(ModItemTags.WOLF_ARMOR)
@@ -579,7 +682,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.ROSE_GOLDEN_ELYTRA.get())
                 .add(ModItems.ROSE_GOLDEN_HELMET.get())
                 .add(ModItems.ROSE_GOLDEN_HORSE_ARMOR.get())
-                .add(ModItems.ROSE_GOLDEN_WOLF_ARMOR.get());
+                .add(ModItems.ROSE_GOLDEN_WOLF_ARMOR.get())
+                .add(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get())
+                .add(ExperimentalCombatItems.GOLDEN_JAVELIN.get());
 
     }
 }

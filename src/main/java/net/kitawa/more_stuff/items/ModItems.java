@@ -4,11 +4,15 @@ import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.blocks.ModBlocks;
 import net.kitawa.more_stuff.items.util.*;
 import net.kitawa.more_stuff.items.util.shears.*;
+import net.kitawa.more_stuff.items.util.weapons.ModdedMaceItem;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
+import net.kitawa.more_stuff.util.tags.ModItemTags;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -17,6 +21,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static net.kitawa.more_stuff.items.util.ModSmithingTemplateItem.*;
 
@@ -34,6 +41,16 @@ public class ModItems {
     public static final DeferredItem<Item> PYROLIZED_NETHER_BRICK = ITEMS.register("pyrolized_nether_brick",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> WARPED_NETHER_BRICK = ITEMS.register("warped_nether_brick",
+            () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> DUNGEON_KEY = ITEMS.register("dungeon_key",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> OMINOUS_DUNGEON_KEY = ITEMS.register("ominous_dungeon_key",
+            () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> NETHER_KEY = ITEMS.register("nether_key",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> OMINOUS_NETHER_KEY = ITEMS.register("ominous_nether_key",
             () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> AQUANDA_BERRIES = ITEMS.register("aquanda_berries",
@@ -403,6 +420,76 @@ public class ModItems {
             () -> new RosariteShearsItem(new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2063, 21.0F, 4.0F, 37, () -> Ingredient.of(ModItems.ROSARITE_INGOT)), new Item.Properties().durability((int) ((Tiers.NETHERITE.getUses()+190) * 0.952)).component(DataComponents.TOOL, RosariteShearsItem.createToolProperties()).fireResistant()));
     public static final DeferredItem<Item> GOLDEN_SHEARS = ITEMS.register("golden_shears",
             () -> new GoldenShearsItem(Tiers.GOLD, new Item.Properties().durability((int) (Tiers.GOLD.getUses() * 0.952)).component(DataComponents.TOOL, GoldenShearsItem.createToolProperties())));
+
+    public static final String[] SHULKER_COLORS = {
+            "white","orange","magenta","light_blue","yellow","lime","pink","gray",
+            "light_gray","cyan","purple","blue","brown","green","red","black","normal"
+    };
+
+    static {
+        for (String color : SHULKER_COLORS) {
+            // If "normal", drop the color prefix
+            String prefix = color.equals("normal") ? "shulker_shell" : color + "_shulker_shell";
+
+            // Helmet
+            ITEMS.register(prefix + "_helmet",
+                    () -> new ArmorItem(ModArmorMaterials.SHULKER_ARMORS.get(color),
+                            ArmorItem.Type.HELMET,
+                            new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))));
+
+            // Chestplate
+            ITEMS.register(prefix + "_chestplate",
+                    () -> new ArmorItem(ModArmorMaterials.SHULKER_ARMORS.get(color),
+                            ArmorItem.Type.CHESTPLATE,
+                            new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))));
+
+            // Leggings
+            ITEMS.register(prefix + "_leggings",
+                    () -> new ArmorItem(ModArmorMaterials.SHULKER_ARMORS.get(color),
+                            ArmorItem.Type.LEGGINGS,
+                            new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(15))));
+
+            // Boots
+            ITEMS.register(prefix + "_boots",
+                    () -> new ArmorItem(ModArmorMaterials.SHULKER_ARMORS.get(color),
+                            ArmorItem.Type.BOOTS,
+                            new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(15))));
+
+            // Horse Armor
+            ITEMS.register(prefix + "_horse_armor",
+                    () -> new AnimalArmorItem(ModArmorMaterials.SHULKER_ARMORS.get(color),
+                            AnimalArmorItem.BodyType.EQUESTRIAN,
+                            false,
+                            new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
+
+            // Wolf Armor
+            ModdedAnimalArmorItem.BodyType wolfBodyType = switch (color) {
+                case "white" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_WHITE;
+                case "orange" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_ORANGE;
+                case "magenta" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_MAGENTA;
+                case "light_blue" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_LIGHT_BLUE;
+                case "yellow" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_YELLOW;
+                case "lime" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_LIME;
+                case "pink" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_PINK;
+                case "gray" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_GRAY;
+                case "light_gray" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_LIGHT_GRAY;
+                case "cyan" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_CYAN;
+                case "purple" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_PURPLE;
+                case "blue" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_BLUE;
+                case "brown" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_BROWN;
+                case "green" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_GREEN;
+                case "red" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_RED;
+                case "black" -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_BLACK;
+                default -> ModdedAnimalArmorItem.BodyType.SHULKER_CANINE_NORMAL; // covers "normal"
+            };
+
+            ITEMS.register(prefix + "_wolf_armor",
+                    () -> new ModdedAnimalArmorItem(ModArmorMaterials.SHULKER_ARMORS.get(color),
+                            wolfBodyType,
+                            true,
+                            new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
+        }
+    }
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

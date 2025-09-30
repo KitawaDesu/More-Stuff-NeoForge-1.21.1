@@ -1,0 +1,25 @@
+{
+  "parent": "more_stuff:item/javelin_model_template",
+  "textures": {
+	"0": "more_stuff:item/javelin/rosarite",
+	"particle": "more_stuff:item/rosarite_javelin"
+  },
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-180, 0, 0],
+			"translation": [0, 9, 1.5]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-180, 0, 0],
+			"translation": [0, 9, 1.5]
+		},
+		"firstperson_righthand": {
+			"rotation": [-27, 0, 0],
+			"translation": [3.5, -11, 7]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-27, 0, 0],
+			"translation": [3.5, -11, 7]
+		}
+	}
+}

@@ -25,8 +25,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.hoglin.HoglinBase;
+import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -52,12 +54,59 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        if (level.getRandom().nextFloat() < 0.2F) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        RandomSource random = level.getRandom();
+
+        // Baby chance
+        if (random.nextFloat() < 0.2F) {
             this.setBaby(true);
         }
+
         populateDefaultEquipmentSlots(random, difficulty);
         populateDefaultEquipmentEnchantments(level, random, difficulty);
+
+        // Rare chance to spawn a rider piglin
+        if (random.nextInt(5) == 0) {
+            boolean inBastion = false;
+
+            if (this.level() instanceof ServerLevel serverLevel) {
+                StructureManager structureManager = serverLevel.structureManager();
+                Structure bastionStructure = serverLevel.registryAccess()
+                        .registryOrThrow(Registries.STRUCTURE)
+                        .get(BuiltinStructures.BASTION_REMNANT);
+
+                if (bastionStructure != null) {
+                    StructureStart structureStart = structureManager.getStructureAt(this.blockPosition(), bastionStructure);
+                    inBastion = structureStart != StructureStart.INVALID_START && structureStart.isValid();
+                }
+            }
+
+            EntityType<? extends Mob> typeToSpawn = EntityType.PIGLIN;
+
+            if (!this.isBaby()) {
+                // Adults: Piglin, with Brute chance in Bastions
+                if (inBastion && random.nextFloat() < 0.05F) {
+                    typeToSpawn = EntityType.PIGLIN_BRUTE;
+                }
+            }
+
+            Mob piglin = typeToSpawn.create(this.level());
+            if (piglin != null) {
+                piglin.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                piglin.finalizeSpawn(level, difficulty, spawnType, null);
+
+                if (this.isBaby()) {
+                    // force piglin to be baby as well
+                    if (piglin instanceof Piglin p) {
+                        p.setBaby(true);
+                    }
+                }
+
+                piglin.startRiding(this);
+            }
+        }
+
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 

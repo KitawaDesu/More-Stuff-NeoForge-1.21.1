@@ -1,13 +1,19 @@
 package net.kitawa.more_stuff.items.util;
 
 import net.kitawa.more_stuff.MoreStuff;
+import net.kitawa.more_stuff.items.ModItems;
+import net.kitawa.more_stuff.util.tags.ModItemTags;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -25,7 +31,7 @@ public class ShulkerArmorHandler {
 
         EquipmentSlot hitSlot;
 
-        // Wolves and horses only use BODY slot
+        // Wolves and horses always use BODY slot
         if (living instanceof Wolf || living instanceof AbstractHorse) {
             hitSlot = EquipmentSlot.BODY;
         } else {
@@ -34,7 +40,9 @@ public class ShulkerArmorHandler {
 
         ItemStack armorPiece = living.getItemBySlot(hitSlot);
 
-        if (armorPiece.getItem() instanceof ShulkerArmorItem) {
+        // Check if armor piece is projectile-immune
+        if (armorPiece.is(ModItemTags.IS_PROJECTILE_IMMUNE_ARMOR)) {
+
             // Cancel projectile damage to entity
             event.setCanceled(true);
 

@@ -113,11 +113,28 @@
         }
       }
     ],
+    "default_cobble": {
+      "Name": "minecraft:nether_bricks"
+    },
+    "default_mossy": {
+      "Name": "minecraft:cracked_nether_bricks"
+    },
     "spawner_block": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "minecraft:spawner"
-      }
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 85,
+          "data": {
+            "Name": "minecraft:spawner"
+          }
+        },
+        {
+          "weight": 15,
+          "data": {
+            "Name": "minecraft:trial_spawner"
+          }
+        }
+      ]
     },
     "container_block": {
       "type": "minecraft:weighted_state_provider",
@@ -161,29 +178,89 @@
     },
     "container_loot": "minecraft:chests/nether_bridge",
     "trap_loot": "more_stuff:chests/dungeon_trap",
-    "mobs": [
-      "minecraft:magma_cube",
-      "minecraft:magma_cube",
-      "minecraft:magma_cube",
-      "minecraft:zombified_piglin",
-      "minecraft:zombified_piglin",
-      "minecraft:zombified_piglin",
-      "minecraft:zombified_piglin",
-      "minecraft:zombified_piglin",
-      "minecraft:zombified_piglin",
-      "minecraft:hoglin",
-      "minecraft:hoglin",
-      "minecraft:hoglin",
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:skeleton",
-      "minecraft:blaze"
-    ],
-    "default_cobble": {
-      "Name": "minecraft:nether_bricks"
+    "normal_config": {
+      "mobs": [
+        "minecraft:magma_cube",
+        "minecraft:magma_cube",
+        "minecraft:magma_cube",
+        "minecraft:zombified_piglin",
+        "minecraft:zombified_piglin",
+        "minecraft:zombified_piglin",
+        "minecraft:zombified_piglin",
+        "minecraft:zombified_piglin",
+        "minecraft:zombified_piglin",
+        "minecraft:hoglin",
+        "minecraft:hoglin",
+        "minecraft:hoglin",
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:skeleton",
+        "minecraft:blaze"
+      ],
+      "spawn_range": 4,
+      "total_mobs": 6,
+      "simultaneous_mobs": 4,
+      "total_mobs_added_per_player": 2,
+      "simultaneous_mobs_added_per_player": 1,
+      "ticks_between_spawn": 40,
+      "loot_pool": [
+        {
+          "table": "more_stuff:trial_spawner/ominous/overworld/eject_portal_loot",
+          "weight": 14
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/nether/eject_bastion_other_loot",
+          "weight": 14
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/nether/eject_fortress_loot",
+          "weight": 14
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/nether/eject_hoglin_stable_loot",
+          "weight": 14
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/nether/eject_bastion_bridge_loot",
+          "weight": 14
+        },
+        {
+          "table": "more_stuff:trial_spawner/normal/nether/key",
+          "weight": 30
+        }
+      ],
+      "ominous_drop_loot": "more_stuff:trial_spawner/ominous/item_throw_pool/nether"
     },
-    "default_mossy": {
-      "Name": "minecraft:cracked_nether_bricks"
+    "ominous_config": {
+      "mobs": [
+        "minecraft:magma_cube",
+        "minecraft:zombified_piglin",
+        "minecraft:zombified_piglin",
+        "minecraft:hoglin",
+        "minecraft:skeleton",
+        "minecraft:blaze"
+      ],
+      "spawn_range": 6,
+      "total_mobs": 12,
+      "simultaneous_mobs": 4,
+      "total_mobs_added_per_player": 2,
+      "simultaneous_mobs_added_per_player": 2,
+      "ticks_between_spawn": 20,
+      "loot_pool": [
+        {
+          "table": "more_stuff:trial_spawner/ominous/nether/eject_bastion_treasure_loot",
+          "weight": 35
+        },
+        {
+          "table": "minecraft:gameplay/piglin_bartering",
+          "weight": 35
+        },
+        {
+          "table": "more_stuff:trial_spawner/ominous/nether/key",
+          "weight": 30
+        }
+      ],
+      "ominous_drop_loot": "more_stuff:trial_spawner/ominous/item_throw_pool/nether"
     }
   }
 }

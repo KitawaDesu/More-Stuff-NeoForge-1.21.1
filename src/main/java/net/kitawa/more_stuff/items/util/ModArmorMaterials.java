@@ -16,10 +16,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ModArmorMaterials {
+
+    // Existing materials
     public static final Holder<ArmorMaterial> WOOD_PLATE = register(
             "wood_plate",
             Util.make(new EnumMap<>(ArmorItem.Type.class), attributes -> {
@@ -35,14 +39,11 @@ public class ModArmorMaterials {
             0.0F,
             () -> Ingredient.of(ItemTags.PLANKS),
             List.of(
-                    new ArmorMaterial.Layer(
-                            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "wood_plate")
-                    ),
-                    new ArmorMaterial.Layer(
-                            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "wood_plate"), "_overlay", true
-                    )
+                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "wood_plate")),
+                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "wood_plate"), "_overlay", true)
             )
     );
+
     public static final Holder<ArmorMaterial> STONE_PLATE = register("plate",
             Util.make(new EnumMap<>(ArmorItem.Type.class), attributes -> {
                 attributes.put(ArmorItem.Type.BOOTS, 2);
@@ -51,7 +52,7 @@ public class ModArmorMaterials {
                 attributes.put(ArmorItem.Type.HELMET, 1);
                 attributes.put(ArmorItem.Type.BODY, 3);
             }), 2, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F,
-            () -> Ingredient.of(ItemTags.STONE_TOOL_MATERIALS)); // Uses item tag
+            () -> Ingredient.of(ItemTags.STONE_TOOL_MATERIALS));
 
     public static final Holder<ArmorMaterial> COPPER = register("copper",
             Util.make(new EnumMap<>(ArmorItem.Type.class), attribute -> {
@@ -61,7 +62,7 @@ public class ModArmorMaterials {
                 attribute.put(ArmorItem.Type.HELMET, 2);
                 attribute.put(ArmorItem.Type.BODY, 4);
             }), 8, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F,
-            () -> Ingredient.of(Items.COPPER_INGOT)); // Uses single item
+            () -> Ingredient.of(Items.COPPER_INGOT));
 
     public static final Holder<ArmorMaterial> ROSE_GOLDEN = register("rose_gold",
             Util.make(new EnumMap<>(ArmorItem.Type.class), attribute -> {
@@ -93,7 +94,43 @@ public class ModArmorMaterials {
             }), 40, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F,
             () -> Ingredient.of(ModItems.ROSARITE_INGOT.get()));
 
-    // ✨ Modified register method to accept Ingredient supplier
+    // ===== Shulker Armor Variants (All 16 colors + normal) =====
+    public static final Map<String, Holder<ArmorMaterial>> SHULKER_ARMORS = new HashMap<>();
+    private static final String[] SHULKER_COLORS = {
+            "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
+            "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black", "normal"
+    };
+
+    static {
+        for (String color : SHULKER_COLORS) {
+            SHULKER_ARMORS.put(color, registerShulkerArmor(color));
+        }
+    }
+
+    private static Holder<ArmorMaterial> registerShulkerArmor(String color) {
+        EnumMap<ArmorItem.Type, Integer> defenseMap = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+            map.put(ArmorItem.Type.BOOTS, 2);
+            map.put(ArmorItem.Type.LEGGINGS, 5);
+            map.put(ArmorItem.Type.CHESTPLATE, 6);
+            map.put(ArmorItem.Type.HELMET, 2);
+            map.put(ArmorItem.Type.BODY, 5);
+        });
+
+        // Use just "shulker" for the normal one
+        String name = color.equals("normal") ? "shulker" : "shulker_" + color;
+
+        return register(
+                name,
+                defenseMap,
+                8,
+                SoundEvents.ARMOR_EQUIP_IRON,
+                0.0F,
+                0.0F,
+                () -> Ingredient.of(Items.SHULKER_SHELL)
+        );
+    }
+
+    // ===== Register methods =====
     private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> typeProtection, int enchantability,
                                                   Holder<SoundEvent> equipSound, float toughness, float knockbackResistance,
                                                   Supplier<Ingredient> ingredientSupplier) {

@@ -2,6 +2,9 @@ package net.kitawa.more_stuff.util.screen;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
+import net.kitawa.more_stuff.util.configs.LifeBitDropsConfig;
+import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
 import net.kitawa.more_stuff.util.configs.MoreStuffGeneralConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -117,6 +120,7 @@ public class MoreStuffGeneralConfigScreen extends Screen {
         int buttonGap = 20;
         int buttonsStartX = this.width / 2 - buttonWidth - buttonGap / 2;
 
+// Save button
         Button saveButton = Button.builder(Component.literal("Save"), b -> {
             saveConfig();
             this.minecraft.setScreen(parent);
@@ -124,12 +128,23 @@ public class MoreStuffGeneralConfigScreen extends Screen {
         widgets.add(new WidgetWrapper(saveButton, buttonsStartX, lastRowY));
         addRenderableWidget(saveButton);
 
+// Back button
         Button backButton = Button.builder(Component.literal("Back"), b -> {
             reloadConfig();
             this.minecraft.setScreen(parent);
         }).bounds(buttonsStartX + buttonWidth + buttonGap, lastRowY, buttonWidth, 20).build();
         widgets.add(new WidgetWrapper(backButton, buttonsStartX + buttonWidth + buttonGap, lastRowY));
         addRenderableWidget(backButton);
+
+// Reset button (below, centered horizontally between Save and Back)
+        int resetButtonX = this.width / 2 - buttonWidth / 2; // center align
+        int resetButtonY = lastRowY + 25; // one row below save/back
+        Button resetButton = Button.builder(Component.literal("Reset"), b -> {
+            resetConfig();
+            this.minecraft.setScreen(parent);
+        }).bounds(resetButtonX, resetButtonY, buttonWidth, 20).build();
+        widgets.add(new WidgetWrapper(resetButton, resetButtonX, resetButtonY));
+        addRenderableWidget(resetButton);
     }
 
     private AbstractSliderButton createSlider(ConfigEntry entry, int x, int y) {
@@ -162,75 +177,56 @@ public class MoreStuffGeneralConfigScreen extends Screen {
     }
 
     private static void saveConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("general_config.toml");
-
-        try {
-            if (!Files.exists(folder)) Files.createDirectories(folder);
-
-            try (FileConfig config = FileConfig.builder(configFile)
-                    .writingMode(WritingMode.REPLACE)
-                    .build()) {
-
-                // Write cached fields to file
-                config.set("armorDyeingMultiplier", MoreStuffGeneralConfig.applyArmorDyeingMultiplier);
-                config.set("lootDyeingMultiplier", MoreStuffGeneralConfig.applyLootDyeingMultiplier);
-                config.set("logarithmicArmorFactor", MoreStuffGeneralConfig.logarithmicArmorScalingFactor);
-                config.set("logarithmicEnchantFactor", MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor);
-                config.set("naturalArmorMultiplier", MoreStuffGeneralConfig.naturalArmorMultiplier);
-                config.set("villagerArmorMultiplier", MoreStuffGeneralConfig.villagerArmorMultiplier);
-                config.set("naturalArmorEnchantChance", MoreStuffGeneralConfig.naturalArmorEnchantChance);
-                config.set("naturalWeaponEnchantChance", MoreStuffGeneralConfig.naturalWeaponEnchantChance);
-                config.set("colorR", MoreStuffGeneralConfig.r);
-                config.set("colorG", MoreStuffGeneralConfig.g);
-                config.set("colorB", MoreStuffGeneralConfig.b);
-                config.set("allowLogarithmicArmor", MoreStuffGeneralConfig.allowLogarithmicArmor);
-                config.set("allowLogarithmicEnchantments", MoreStuffGeneralConfig.allowLogarithmicEnchantments);
-
-                config.save();
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to save MoreStuffGeneralConfig: " + e.getMessage());
-            e.printStackTrace();
-        }
+        MoreStuffGeneralConfig.APPLY_ARMOR_DYEING_MULTIPLIER.set(MoreStuffGeneralConfig.applyArmorDyeingMultiplier);
+        MoreStuffGeneralConfig.APPLY_LOOT_DYEING_MULTIPLIER.set(MoreStuffGeneralConfig.applyLootDyeingMultiplier);
+        MoreStuffGeneralConfig.LOGARITHMIC_ARMOR_SCALING_FACTOR.set(MoreStuffGeneralConfig.logarithmicArmorScalingFactor);
+        MoreStuffGeneralConfig.LOGARITHMIC_ENCHANTMENT_SCALING_FACTOR.set(MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor);
+        MoreStuffGeneralConfig.NATURAL_ARMOR_MULTIPLIER.set(MoreStuffGeneralConfig.naturalArmorMultiplier);
+        MoreStuffGeneralConfig.VILLAGER_ARMOR_MULTIPLIER.set(MoreStuffGeneralConfig.villagerArmorMultiplier);
+        MoreStuffGeneralConfig.NATURAL_ARMOR_ENCHANT_CHANCE.set(MoreStuffGeneralConfig.naturalArmorEnchantChance);
+        MoreStuffGeneralConfig.NATURAL_WEAPON_ENCHANT_CHANCE.set(MoreStuffGeneralConfig.naturalWeaponEnchantChance);
+        MoreStuffGeneralConfig.R.set(MoreStuffGeneralConfig.r);
+        MoreStuffGeneralConfig.G.set(MoreStuffGeneralConfig.g);
+        MoreStuffGeneralConfig.B.set(MoreStuffGeneralConfig.b);
+        MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.set(MoreStuffGeneralConfig.allowLogarithmicArmor);
+        MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.set(MoreStuffGeneralConfig.allowLogarithmicEnchantments);
+        MoreStuffGeneralConfig.bake();
+        MoreStuffGeneralConfig.SPEC.save();
     }
 
     private static void reloadConfig() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve("more_stuff");
-        Path configFile = folder.resolve("general_config.toml");
+        MoreStuffGeneralConfig.applyArmorDyeingMultiplier = MoreStuffGeneralConfig.APPLY_ARMOR_DYEING_MULTIPLIER.get();
+        MoreStuffGeneralConfig.applyLootDyeingMultiplier = MoreStuffGeneralConfig.APPLY_LOOT_DYEING_MULTIPLIER.get();
+        MoreStuffGeneralConfig.logarithmicArmorScalingFactor = MoreStuffGeneralConfig.LOGARITHMIC_ARMOR_SCALING_FACTOR.get();
+        MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor = MoreStuffGeneralConfig.LOGARITHMIC_ENCHANTMENT_SCALING_FACTOR.get();
+        MoreStuffGeneralConfig.naturalArmorMultiplier = MoreStuffGeneralConfig.NATURAL_ARMOR_MULTIPLIER.get();
+        MoreStuffGeneralConfig.villagerArmorMultiplier = MoreStuffGeneralConfig.VILLAGER_ARMOR_MULTIPLIER.get();
+        MoreStuffGeneralConfig.naturalArmorEnchantChance = MoreStuffGeneralConfig.NATURAL_ARMOR_ENCHANT_CHANCE.get();
+        MoreStuffGeneralConfig.naturalWeaponEnchantChance = MoreStuffGeneralConfig.NATURAL_WEAPON_ENCHANT_CHANCE.get();
+        MoreStuffGeneralConfig.r = MoreStuffGeneralConfig.R.get();
+        MoreStuffGeneralConfig.g = MoreStuffGeneralConfig.G.get();
+        MoreStuffGeneralConfig.b = MoreStuffGeneralConfig.B.get();
+        MoreStuffGeneralConfig.allowLogarithmicArmor = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.get();
+        MoreStuffGeneralConfig.allowLogarithmicEnchantments = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.get();
+        MoreStuffGeneralConfig.bake();
+    }
 
-        if (Files.exists(configFile)) {
-            try (FileConfig config = FileConfig.builder(configFile).build()) {
-                config.load();
-
-                MoreStuffGeneralConfig.applyArmorDyeingMultiplier =
-                        config.getOrElse("armorDyeingMultiplier", MoreStuffGeneralConfig.applyArmorDyeingMultiplier);
-                MoreStuffGeneralConfig.applyLootDyeingMultiplier =
-                        config.getOrElse("lootDyeingMultiplier", MoreStuffGeneralConfig.applyLootDyeingMultiplier);
-                MoreStuffGeneralConfig.logarithmicArmorScalingFactor =
-                        config.getOrElse("logarithmicArmorFactor", MoreStuffGeneralConfig.logarithmicArmorScalingFactor);
-                MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor =
-                        config.getOrElse("logarithmicEnchantFactor", MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor);
-                MoreStuffGeneralConfig.naturalArmorMultiplier =
-                        config.getOrElse("naturalArmorMultiplier", MoreStuffGeneralConfig.naturalArmorMultiplier);
-                MoreStuffGeneralConfig.villagerArmorMultiplier =
-                        config.getOrElse("villagerArmorMultiplier", MoreStuffGeneralConfig.villagerArmorMultiplier);
-                MoreStuffGeneralConfig.naturalArmorEnchantChance =
-                        config.getOrElse("naturalArmorEnchantChance", MoreStuffGeneralConfig.naturalArmorEnchantChance);
-                MoreStuffGeneralConfig.naturalWeaponEnchantChance =
-                        config.getOrElse("naturalWeaponEnchantChance", MoreStuffGeneralConfig.naturalWeaponEnchantChance);
-                MoreStuffGeneralConfig.r =
-                        config.getOrElse("colorR", MoreStuffGeneralConfig.r);
-                MoreStuffGeneralConfig.g =
-                        config.getOrElse("colorG", MoreStuffGeneralConfig.g);
-                MoreStuffGeneralConfig.b =
-                        config.getOrElse("colorB", MoreStuffGeneralConfig.b);
-                MoreStuffGeneralConfig.allowLogarithmicArmor =
-                        config.getOrElse("allowLogarithmicArmor", MoreStuffGeneralConfig.allowLogarithmicArmor);
-                MoreStuffGeneralConfig.allowLogarithmicEnchantments =
-                        config.getOrElse("allowLogarithmicEnchantments", MoreStuffGeneralConfig.allowLogarithmicEnchantments);
-            }
-        }
+    private static void resetConfig() {
+        MoreStuffGeneralConfig.applyArmorDyeingMultiplier = MoreStuffGeneralConfig.APPLY_ARMOR_DYEING_MULTIPLIER.getDefault();
+        MoreStuffGeneralConfig.applyLootDyeingMultiplier = MoreStuffGeneralConfig.APPLY_LOOT_DYEING_MULTIPLIER.getDefault();
+        MoreStuffGeneralConfig.logarithmicArmorScalingFactor = MoreStuffGeneralConfig.LOGARITHMIC_ARMOR_SCALING_FACTOR.getDefault();
+        MoreStuffGeneralConfig.logarithmicEnchantmentScalingFactor = MoreStuffGeneralConfig.LOGARITHMIC_ENCHANTMENT_SCALING_FACTOR.getDefault();
+        MoreStuffGeneralConfig.naturalArmorMultiplier = MoreStuffGeneralConfig.NATURAL_ARMOR_MULTIPLIER.getDefault();
+        MoreStuffGeneralConfig.villagerArmorMultiplier = MoreStuffGeneralConfig.VILLAGER_ARMOR_MULTIPLIER.getDefault();
+        MoreStuffGeneralConfig.naturalArmorEnchantChance = MoreStuffGeneralConfig.NATURAL_ARMOR_ENCHANT_CHANCE.getDefault();
+        MoreStuffGeneralConfig.naturalWeaponEnchantChance = MoreStuffGeneralConfig.NATURAL_WEAPON_ENCHANT_CHANCE.getDefault();
+        MoreStuffGeneralConfig.r = MoreStuffGeneralConfig.R.getDefault();
+        MoreStuffGeneralConfig.g = MoreStuffGeneralConfig.G.getDefault();
+        MoreStuffGeneralConfig.b = MoreStuffGeneralConfig.B.getDefault();
+        MoreStuffGeneralConfig.allowLogarithmicArmor = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.getDefault();
+        MoreStuffGeneralConfig.allowLogarithmicEnchantments = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.getDefault();
+        MoreStuffGeneralConfig.bake();
+        ExperimentalUpdatesConfig.SPEC.save();
     }
 
     private static class WidgetWrapper {

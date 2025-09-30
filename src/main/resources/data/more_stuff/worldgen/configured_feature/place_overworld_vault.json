@@ -1,0 +1,47 @@
+{
+  "type": "more_stuff:place_vault",
+  "config": {
+    "normal_config": {
+      "loot_pool": [
+        { "table": "minecraft:chests/abandoned_mineshaft", "weight": 1 },
+        { "table": "minecraft:chests/simple_dungeon", "weight": 1 },
+        { "table": "minecraft:chests/spawn_bonus_chest", "weight": 1 },
+        { "table": "minecraft:chests/ancient_city_ice_box", "weight": 1 }
+      ],
+      "activation_range": 4.0,
+      "deactivation_range": 4.5,
+      "key_item": { "id": "more_stuff:dungeon_key", "Count": 1 }
+    },
+    "ominous_config": {
+      "loot_pool": [
+        { "table": "minecraft:chests/ruined_portal", "weight": 1 },
+        { "table": "minecraft:chests/ancient_city_treasure", "weight": 1 },
+        { "table": "minecraft:chests/shipwreck_treasure", "weight": 1 },
+        { "table": "minecraft:chests/buried_treasure", "weight": 1 },
+        { "table": "minecraft:chests/village/village_weaponsmith", "weight": 1 }
+      ],
+      "activation_range": 6.0,
+      "deactivation_range": 6.5,
+      "key_item": { "id": "more_stuff:ominous_dungeon_key", "Count": 1 }
+    },
+    "vault_block": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 85,
+          "data": {
+            "Name": "minecraft:vault",
+            "Properties": { "ominous": "false", "vault_state": "inactive" }
+          }
+        },
+        {
+          "weight": 15,
+          "data": {
+            "Name": "minecraft:vault",
+            "Properties": { "ominous": "true", "vault_state": "inactive" }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -27,6 +27,10 @@
     "more_stuff:rosarite_helmet",
     "more_stuff:rosarite_chestplate",
     "more_stuff:rosarite_leggings",
-    "more_stuff:rosarite_boots"
+    "more_stuff:rosarite_boots",
+    "#more_stuff:shulker_shell_helmets",
+    "#more_stuff:shulker_shell_chestplates",
+    "#more_stuff:shulker_shell_leggings",
+    "#more_stuff:shulker_shell_boots"
   ]
 }

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "more_stuff:placed_nether_vault",
+  "step": "underground_structures"
+}

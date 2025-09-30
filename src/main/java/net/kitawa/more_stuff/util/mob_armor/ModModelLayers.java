@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff.util.mob_armor;
 
 import net.kitawa.more_stuff.MoreStuff;
+import net.kitawa.more_stuff.experimentals.entities.models.ThrownJavelinModel;
 import net.kitawa.more_stuff.util.mixins.mobs.ModelLayersAccessor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;

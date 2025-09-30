@@ -44,6 +44,12 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(MoreStuff.MOD_ID);
 
+    public static final DeferredBlock<Block> DUNGEON_AIR_BLOCK = registerBlock("dungeon_air",
+            () -> new AirBlock(
+                    BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().air()
+            )
+    );
+
     public static final DeferredBlock<Block> STRIPPED_AZALEA_LOG = registerBlock("stripped_azalea_log",
             () -> new RotatedPillarBlock(
                     BlockBehaviour.Properties.of()

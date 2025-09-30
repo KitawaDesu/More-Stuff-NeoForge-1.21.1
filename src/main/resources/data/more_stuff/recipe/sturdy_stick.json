@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "more_stuff:config_enabled",
+      "class": "net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig",
+      "field": "isCombatUpdateAllowed"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "minecraft:logs"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 4,
+    "id": "more_stuff:sturdy_stick"
+  }
+}

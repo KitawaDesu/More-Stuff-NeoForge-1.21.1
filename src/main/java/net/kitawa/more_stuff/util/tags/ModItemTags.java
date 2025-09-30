@@ -29,6 +29,13 @@ public class ModItemTags {
     public static final TagKey<Item> OXIDIZED_COPPER_BLOCKS = create("oxidized_copper_blocks");
     public static final TagKey<Item> WAXED_OXIDIZED_COPPER_BLOCKS = create("waxed_oxidized_copper_blocks");
     public static final TagKey<Item> ROSE_GOLD_BLOCKS = create("rose_gold_blocks");
+    public static final TagKey<Item> IS_PROJECTILE_IMMUNE_ARMOR = create("is_projectile_immune_armor");
+    public static final TagKey<Item> SHULKER_SHELL_WOLF_ARMOR = create("shulker_shell_wolf_armor");
+    public static final TagKey<Item> SHULKER_SHELL_HORSE_ARMOR = create("shulker_shell_horse_armor");
+    public static final TagKey<Item> SHULKER_SHELL_HELMETS = create("shulker_shell_helmets");
+    public static final TagKey<Item> SHULKER_SHELL_CHESTPLATES = create("shulker_shell_chestplates");
+    public static final TagKey<Item> SHULKER_SHELL_LEGGINGS = create("shulker_shell_leggings");
+    public static final TagKey<Item> SHULKER_SHELL_BOOTS = create("shulker_shell_boots");
 
     private ModItemTags() {
     }

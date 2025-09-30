@@ -1,6 +1,8 @@
 package net.kitawa.more_stuff.util.mixins.mobs.entity;
 
+import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
 import net.kitawa.more_stuff.items.ModItems;
+import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
 import net.kitawa.more_stuff.util.configs.MoreStuffGeneralConfig;
 import net.kitawa.more_stuff.util.helpers.IfArmorCanAbsorbHelper;
 import net.kitawa.more_stuff.worldgen.biome.ModBiomes;
@@ -17,8 +19,10 @@ import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
@@ -59,7 +63,23 @@ public abstract class PiglinMixin extends AbstractPiglin implements CrossbowAtta
             Item leggings = randomSource.nextBoolean() ? Items.GOLDEN_LEGGINGS : ModItems.ROSE_GOLDEN_LEGGINGS.get();
 
             // Rose Gold Sword chance
-            this.spawnWithRoseGoldSwordChance(EquipmentSlot.MAINHAND, new ItemStack(ModItems.ROSE_GOLDEN_SWORD.get()), random, dayMultiplier);
+            ItemStack swordStack = new ItemStack(ModItems.ROSE_GOLDEN_SWORD.get());
+            this.spawnWithRoseGoldSwordChance(EquipmentSlot.MAINHAND, swordStack, random, dayMultiplier);
+
+            // 15% chance to replace sword with javelin
+            // 15% chance to replace sword with javelin (only if combat update is allowed)
+            if (ExperimentalUpdatesConfig.isCombatUpdateAllowed) {
+                Item currentItem = this.getItemBySlot(EquipmentSlot.MAINHAND).getItem();
+                if (currentItem == Items.GOLDEN_SWORD) {
+                    if (random.nextFloat() < 0.15F) {
+                        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ExperimentalCombatItems.GOLDEN_JAVELIN.get()));
+                    }
+                } else if (currentItem == ModItems.ROSE_GOLDEN_SWORD.get()) {
+                    if (random.nextFloat() < 0.15F) {
+                        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get()));
+                    }
+                }
+            }
 
             // Armor slots
             this.maybeWearArmor(EquipmentSlot.HEAD, new ItemStack(helmet), randomSource, dayMultiplier);
@@ -91,3 +111,4 @@ public abstract class PiglinMixin extends AbstractPiglin implements CrossbowAtta
         }
     }
 }
+

@@ -11,6 +11,7 @@
     "more_stuff:rosarite_horse_armor",
     "more_stuff:netherite_horse_armor",
     "minecraft:golden_horse_armor",
-    "minecraft:diamond_horse_armor"
+    "minecraft:diamond_horse_armor",
+    "#more_stuff:shulker_shell_horse_armor"
   ]
 }

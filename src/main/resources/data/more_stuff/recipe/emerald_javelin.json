@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "more_stuff:config_enabled",
+      "class": "net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig",
+      "field": "isCombatUpdateAllowed"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "javelins",
+  "key": {
+    "#": {
+      "item": "minecraft:emerald"
+    },
+    "S": {
+      "item": "more_stuff:sturdy_stick"
+    }
+  },
+  "pattern": [
+    " ##",
+    " S#",
+    "S  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "more_stuff:emerald_javelin"
+  }
+}

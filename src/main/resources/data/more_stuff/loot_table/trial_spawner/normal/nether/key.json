@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:barter",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "more_stuff:nether_key"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "more_stuff:trial_spawner/normal/nether/key"
+}
