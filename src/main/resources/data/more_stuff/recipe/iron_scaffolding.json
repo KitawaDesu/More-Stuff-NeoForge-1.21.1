@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "more_stuff:iron_bamboo"
+    },
+    "~": {
+      "item": "more_stuff:blazing_reeds"
+    }
+  },
+  "pattern": [
+    "I~I",
+    "I I",
+    "I I"
+  ],
+  "result": {
+    "count": 6,
+    "id": "more_stuff:iron_scaffolding"
+  }
+}

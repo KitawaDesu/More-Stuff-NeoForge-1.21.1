@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shields",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "more_stuff:anchor_block"
+    },
+    "V": {
+      "item": "more_stuff:voltaic_slate"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "VAV",
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "more_stuff:stormvein"
+  }
+}
