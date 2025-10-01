@@ -3,6 +3,8 @@ package net.kitawa.more_stuff.blocks.custom.electricity;
 
 import com.mojang.serialization.MapCodec;
 import net.kitawa.more_stuff.blocks.ModBlockEntities;
+import net.kitawa.more_stuff.blocks.util.ModdedBlockStateProperties;
+import net.kitawa.more_stuff.blocks.util.SimpleFluidLoggedBlock;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class OmniBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+public class OmniBlock extends BaseEntityBlock implements SimpleFluidLoggedBlock {
     public static final MapCodec<? extends BaseEntityBlock> CODEC = simpleCodec(OmniBlock::new);
 
     // === Blockstate properties ===
@@ -47,6 +49,7 @@ public class OmniBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     public static final BooleanProperty ANCHOR_WEST  = BooleanProperty.create("anchor_west");
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty LAVALOGGED = ModdedBlockStateProperties.LAVALOGGED; // 🔥 new
     public static final BooleanProperty END_POINT = BooleanProperty.create("end_point");
 
     // === Shapes ===
@@ -70,6 +73,7 @@ public class OmniBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
                 .setValue(ANCHOR_NORTH, false).setValue(ANCHOR_SOUTH, false)
                 .setValue(ANCHOR_EAST, false).setValue(ANCHOR_WEST, false)
                 .setValue(WATERLOGGED, false)
+                .setValue(LAVALOGGED, false) // 🔥
                 .setValue(END_POINT, false)
         );
     }
@@ -79,9 +83,38 @@ public class OmniBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         builder.add(CORE,
                 UP, DOWN, NORTH, SOUTH, EAST, WEST,
                 ANCHOR_UP, ANCHOR_DOWN, ANCHOR_NORTH, ANCHOR_SOUTH, ANCHOR_EAST, ANCHOR_WEST,
-                WATERLOGGED,
+                WATERLOGGED, LAVALOGGED, // 🔥
                 END_POINT
         );
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
+        return this.defaultBlockState()
+                .setValue(WATERLOGGED, fluid.getType() == Fluids.WATER)
+                .setValue(LAVALOGGED, fluid.getType() == Fluids.LAVA); // 🔥
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        if (state.getValue(WATERLOGGED)) {
+            return Fluids.WATER.getSource(false);
+        } else if (state.getValue(LAVALOGGED)) {
+            return Fluids.LAVA.getSource(false);
+        }
+        return super.getFluidState(state);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction dir, BlockState neighborState,
+                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) {
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        } else if (state.getValue(LAVALOGGED)) {
+            level.scheduleTick(pos, Fluids.LAVA, Fluids.LAVA.getTickDelay(level));
+        }
+        return super.updateShape(state, dir, neighborState, level, pos, neighborPos);
     }
 
     // === Connection Logic ===
@@ -131,27 +164,6 @@ public class OmniBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         boolean northSouth = state.getValue(NORTH) || state.getValue(SOUTH);
         boolean eastWest   = state.getValue(EAST) || state.getValue(WEST);
         return (vertical && (northSouth || eastWest)) || (northSouth && eastWest);
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
-        return this.defaultBlockState()
-                .setValue(WATERLOGGED, fluid.getType() == Fluids.WATER);
-    }
-
-    @Override
-    public FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    @Override
-    public BlockState updateShape(BlockState state, Direction dir, BlockState neighborState,
-                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
-        return super.updateShape(state, dir, neighborState, level, pos, neighborPos);
     }
     // === Shape ===
     @Override
@@ -282,4 +294,11 @@ public class OmniBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
     @Override
     public MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        // use the block's default light value
+        int baseLight = super.getLightEmission(state, level, pos);
+        return SimpleFluidLoggedBlock.super.getFluidLightEmission(state, baseLight);
+    }
 }

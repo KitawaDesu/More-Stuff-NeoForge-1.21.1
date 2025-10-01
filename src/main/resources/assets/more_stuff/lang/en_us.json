@@ -1223,5 +1223,20 @@
   "item.more_stuff.shulker_shell_wolf_armor": "Shulker Wolf Armor",
 
   "enchantment.more_stuff.divine_absorption": "Divine Absorption",
-  "item.more_stuff.warped_wart": "Warped Wart"
+  "item.more_stuff.warped_wart": "Warped Wart",
+
+  "block.more_stuff.copper_scaffolding": "Copper Scaffolding",
+  "item.more_stuff.copper_scaffolding": "Copper Scaffolding",
+
+  "block.more_stuff.iron_scaffolding": "Iron Scaffolding",
+  "item.more_stuff.iron_scaffolding": "Iron Scaffolding",
+
+  "block.more_stuff.golden_scaffolding": "Golden Scaffolding",
+  "item.more_stuff.golden_scaffolding": "Golden Scaffolding",
+
+  "block.more_stuff.ancient_scaffolding": "Ancient Scaffolding",
+  "item.more_stuff.ancient_scaffolding": "Ancient Scaffolding",
+
+  "block.more_stuff.pyrolized_scaffolding": "Pyrolized Scaffolding",
+  "item.more_stuff.pyrolized_scaffolding": "Pyrolized Scaffolding"
 }

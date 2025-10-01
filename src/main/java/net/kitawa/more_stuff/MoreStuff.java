@@ -1044,6 +1044,11 @@ public class MoreStuff {
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HANGING_GLOWMOSS.get(), RenderType.cutoutMipped());
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HANGING_GLOWMOSS_PLANT.get(), RenderType.cutoutMipped());
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GLOWMOSS_CARPET.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PYROLIZED_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.COPPER_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.IRON_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.GOLDEN_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ANCIENT_SCAFFOLDING.get(), RenderType.cutoutMipped());
                     }
             );
         }

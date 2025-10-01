@@ -2,9 +2,13 @@ package net.kitawa.more_stuff.blocks.custom.electricity;
 
 import com.mojang.serialization.MapCodec;
 import net.kitawa.more_stuff.blocks.ModBlockEntities;
+import net.kitawa.more_stuff.blocks.util.ModdedBlockStateProperties;
+import net.kitawa.more_stuff.blocks.util.SimpleFluidLoggedBlock;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,37 +29,32 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class TeslaCoilBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+public class TeslaCoilBlock extends BaseEntityBlock implements SimpleFluidLoggedBlock {
     public static final MapCodec<TeslaCoilBlock> CODEC = simpleCodec(TeslaCoilBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty LAVALOGGED = ModdedBlockStateProperties.LAVALOGGED;
     public static final BooleanProperty TOP = BooleanProperty.create("top");
     public static final BooleanProperty HAS_CHARGE = BooleanProperty.create("has_charge");
 
-    // === Collision Shapes ===
     private static final VoxelShape BOTTOM_SHAPE = Shapes.or(
-            // Main body [0,0,0] -> [16,13,16]
             Block.box(0.0, 0.0, 0.0, 16.0, 13.0, 16.0),
-            // Center rod [6.5,0,6.5] -> [9.5,16,9.5]
             Block.box(6.5, 0.0, 6.5, 9.5, 16.0, 9.5),
-            // Top plate [1,13,1] -> [15,14,15]
             Block.box(1.0, 13.0, 1.0, 15.0, 14.0, 15.0)
     );
 
     private static final VoxelShape TOP_SHAPE = Shapes.or(
-            // Outer body [0.55,3,0.7] -> [15.05,15,15.2]
             Block.box(0.55, 3.0, 0.7, 15.05, 15.0, 15.2),
-            // Center rod [6.5,0,6.5] -> [9.5,14,9.5]
             Block.box(6.5, 0.0, 6.5, 9.5, 14.0, 9.5),
-            // Top cube [5,10,5] -> [11,16,11]
-            Block.box(5.0, 10.0, 5.0, 11.0, 16.0, 11.0)
+            Block.box(5, 10, 5, 11, 16, 11)
     );
 
     public TeslaCoilBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(WATERLOGGED, false)
+                .setValue(LAVALOGGED, false)
                 .setValue(TOP, false)
-                .setValue(HAS_CHARGE, false) // default off
+                .setValue(HAS_CHARGE, false)
         );
     }
 
@@ -66,15 +65,98 @@ public class TeslaCoilBlock extends BaseEntityBlock implements SimpleWaterlogged
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, TOP, HAS_CHARGE);
+        builder.add(WATERLOGGED, LAVALOGGED, TOP, HAS_CHARGE);
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        if (state.getValue(WATERLOGGED)) {
+            return Fluids.WATER.getSource(false);
+        } else if (state.getValue(LAVALOGGED)) {
+            return Fluids.LAVA.getSource(false);
+        }
+        return super.getFluidState(state);
     }
 
-    // === Redstone Power ===
+    // === Placement ===
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockPos pos = ctx.getClickedPos();
+        BlockPos above = pos.above();
+        Level level = ctx.getLevel();
+
+        if (!level.getBlockState(above).canBeReplaced(ctx) || !level.getWorldBorder().isWithinBounds(above)) {
+            return null;
+        }
+
+        FluidState fluid = level.getFluidState(pos);
+        return this.defaultBlockState()
+                .setValue(TOP, false)
+                .setValue(WATERLOGGED, fluid.getType() == Fluids.WATER)
+                .setValue(LAVALOGGED, fluid.getType() == Fluids.LAVA)
+                .setValue(HAS_CHARGE, false);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+
+        if (!state.getValue(TOP)) {
+            BlockPos above = pos.above();
+            FluidState topFluid = level.getFluidState(above);
+
+            BlockState topState = this.defaultBlockState()
+                    .setValue(TOP, true)
+                    .setValue(WATERLOGGED, topFluid.getType() == Fluids.WATER)
+                    .setValue(LAVALOGGED, topFluid.getType() == Fluids.LAVA)
+                    .setValue(HAS_CHARGE, state.getValue(HAS_CHARGE));
+
+            level.setBlock(above, topState, 3);
+        }
+    }
+
+    // === Removal ===
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        super.onRemove(state, level, pos, newState, isMoving);
+
+        if (state.getBlock() != newState.getBlock()) {
+            if (!state.getValue(TOP)) {
+                BlockPos above = pos.above();
+                BlockState top = level.getBlockState(above);
+                if (top.getBlock() instanceof TeslaCoilBlock && top.getValue(TOP)) {
+                    level.removeBlock(above, false);
+                }
+            } else {
+                BlockPos below = pos.below();
+                BlockState bottom = level.getBlockState(below);
+                if (bottom.getBlock() instanceof TeslaCoilBlock && !bottom.getValue(TOP)) {
+                    level.removeBlock(below, false);
+                }
+            }
+        }
+    }
+
+    // === Fluids ===
+    @Override
+    public BlockState updateShape(BlockState state, Direction dir, BlockState neighborState,
+                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) {
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        }
+        if (state.getValue(LAVALOGGED)) {
+            level.scheduleTick(pos, Fluids.LAVA, Fluids.LAVA.getTickDelay(level));
+        }
+        return super.updateShape(state, dir, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        // Delegate to helper in SimpleFluidLoggedBlock
+        return SimpleFluidLoggedBlock.super.getFluidLightEmission(state, super.getLightEmission(state, level, pos));
+    }
+
+    // === Redstone / BE / tick ===
     @Override
     public boolean isSignalSource(BlockState state) { return true; }
 
@@ -89,41 +171,20 @@ public class TeslaCoilBlock extends BaseEntityBlock implements SimpleWaterlogged
         return getSignal(state, level, pos, dir);
     }
 
-    // === BlockEntity ===
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TeslaCoilBlockEntity(pos, state);
     }
 
-    // === Ticking ===
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.TESLA_COIL.get(),
-                (lvl, pos, st, be) -> {
+                (lvl, p, st, be) -> {
                     if (be instanceof TeslaCoilBlockEntity coil) {
-                        TeslaCoilBlockEntity.tick(lvl, pos, st, coil); // run BE logic
-                        propagateChargeNetwork(lvl, pos);              // also run network updates
+                        TeslaCoilBlockEntity.tick(lvl, p, st, coil);
+                        propagateChargeNetwork(lvl, p);
                     }
                 });
-    }
-
-    @Override
-    public BlockState updateShape(BlockState state, Direction dir, BlockState neighborState,
-                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
-
-        return super.updateShape(state, dir, neighborState, level, pos, neighborPos);
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        FluidState fluidstate = ctx.getLevel().getFluidState(ctx.getClickedPos());
-        return this.defaultBlockState()
-                .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER)
-                .setValue(TOP, false)
-                .setValue(HAS_CHARGE, false); // always place bottom first
     }
 
     private void propagateChargeNetwork(Level level, BlockPos pos) {
@@ -165,86 +226,6 @@ public class TeslaCoilBlock extends BaseEntityBlock implements SimpleWaterlogged
 
         // Clamp storedCharge to max 180
         coil.setStoredCharge(totalContribution);
-    }
-
-    @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        super.onPlace(state, level, pos, oldState, isMoving);
-
-        if (!state.getValue(TOP)) { // bottom block
-            // Ensure bottom keeps its own waterlogging
-            BlockState bottomState = this.defaultBlockState()
-                    .setValue(TOP, false)
-                    .setValue(WATERLOGGED, state.getValue(WATERLOGGED))
-                    .setValue(HAS_CHARGE, state.getValue(HAS_CHARGE));
-            level.setBlock(pos, bottomState, 3);
-
-            // Place the top block above, preserve water if present
-            BlockPos topPos = pos.above();
-            BlockState existingTop = level.getBlockState(topPos);
-            if (existingTop.canBeReplaced()) {
-                boolean waterlogged = existingTop.getFluidState().getType() == Fluids.WATER;
-                BlockState topState = this.defaultBlockState()
-                        .setValue(TOP, true)
-                        .setValue(WATERLOGGED, waterlogged)
-                        .setValue(HAS_CHARGE, bottomState.getValue(HAS_CHARGE));
-                level.setBlock(topPos, topState, 3);
-            } else {
-                // Fail-safe: remove bottom if top cannot be placed
-                level.removeBlock(pos, false);
-                return;
-            }
-        }
-
-        if (!level.isClientSide) {
-            level.scheduleTick(pos, this, 1);
-        }
-    }
-
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onRemove(state, level, pos, newState, isMoving);
-        if (!state.getValue(TOP)) {
-            BlockPos topPos = pos.above();
-            BlockState topState = level.getBlockState(topPos);
-            if (topState.getBlock() instanceof TeslaCoilBlock && topState.getValue(TOP)) {
-                level.removeBlock(topPos, false);
-            }
-        }
-    }
-
-    @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos,
-                                Block block, BlockPos fromPos, boolean isMoving) {
-        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
-
-        if (level.isClientSide) return;
-
-        // Recalculate bottom charge network
-        if (!state.getValue(TOP)) {
-            propagateChargeNetwork(level, pos);
-
-            // Update the top block's HAS_CHARGE to match bottom
-            BlockPos topPos = pos.above();
-            BlockState topState = level.getBlockState(topPos);
-            if (topState.getBlock() instanceof TeslaCoilBlock && topState.getValue(TOP)) {
-                boolean bottomCharge = state.getValue(HAS_CHARGE);
-                level.setBlock(topPos, topState.setValue(HAS_CHARGE, bottomCharge), 3);
-            }
-        }
-
-        // Optional: allow top to recalc without destroying it
-        if (state.getValue(TOP)) {
-            BlockPos bottomPos = pos.below();
-            BlockState bottomState = level.getBlockState(bottomPos);
-            if (bottomState.getBlock() instanceof TeslaCoilBlock && !bottomState.getValue(TOP)) {
-                // Copy HAS_CHARGE from bottom
-                boolean bottomCharge = bottomState.getValue(HAS_CHARGE);
-                if (state.getValue(HAS_CHARGE) != bottomCharge) {
-                    level.setBlock(pos, state.setValue(HAS_CHARGE, bottomCharge), 3);
-                }
-            }
-        }
     }
 
     @Override

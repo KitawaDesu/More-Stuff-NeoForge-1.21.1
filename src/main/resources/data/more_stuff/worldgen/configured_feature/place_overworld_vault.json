@@ -15,7 +15,7 @@
     "ominous_config": {
       "loot_pool": [
         { "table": "minecraft:chests/ruined_portal", "weight": 1 },
-        { "table": "minecraft:chests/ancient_city_treasure", "weight": 1 },
+        { "table": "minecraft:chests/ancient_city", "weight": 1 },
         { "table": "minecraft:chests/shipwreck_treasure", "weight": 1 },
         { "table": "minecraft:chests/buried_treasure", "weight": 1 },
         { "table": "minecraft:chests/village/village_weaponsmith", "weight": 1 }

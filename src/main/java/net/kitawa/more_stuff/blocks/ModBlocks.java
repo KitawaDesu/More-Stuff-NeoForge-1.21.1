@@ -10,6 +10,7 @@ import net.kitawa.more_stuff.blocks.custom.frozen_valley_biome_blocks.FreezingMa
 import net.kitawa.more_stuff.blocks.custom.frozen_valley_biome_blocks.PowderSoulSnowBlock;
 import net.kitawa.more_stuff.blocks.custom.general.*;
 import net.kitawa.more_stuff.blocks.custom.metallic_forest_blocks.*;
+import net.kitawa.more_stuff.blocks.custom.metallic_forest_blocks.scaffolding.*;
 import net.kitawa.more_stuff.blocks.custom.pyrolized_and_blazing_blocks.*;
 import net.kitawa.more_stuff.blocks.custom.redstonic_caves.PointedRedstonicBlock;
 import net.kitawa.more_stuff.items.ModItems;
@@ -17,7 +18,6 @@ import net.kitawa.more_stuff.worldgen.ModConfiguredFeatures;
 import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
@@ -43,12 +43,6 @@ public class ModBlocks {
 
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(MoreStuff.MOD_ID);
-
-    public static final DeferredBlock<Block> DUNGEON_AIR_BLOCK = registerBlock("dungeon_air",
-            () -> new AirBlock(
-                    BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().air()
-            )
-    );
 
     public static final DeferredBlock<Block> STRIPPED_AZALEA_LOG = registerBlock("stripped_azalea_log",
             () -> new RotatedPillarBlock(
@@ -2467,6 +2461,66 @@ public class ModBlocks {
                             .sound(SoundType.MOSS)
                             .pushReaction(PushReaction.DESTROY)
                             .lightLevel(p_50892_ -> 7)
+            )
+    );
+
+    public static final DeferredBlock<Block> COPPER_SCAFFOLDING = registerBlockNoItem("copper_scaffolding",
+            () -> new CopperScaffolding(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_ORANGE)
+                            .noCollission()
+                            .sound(SoundType.SCAFFOLDING)
+                            .dynamicShape()
+                            .isValidSpawn(Blocks::never)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> IRON_SCAFFOLDING = registerBlockNoItem("iron_scaffolding",
+            () -> new IronScaffolding(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.METAL)
+                            .noCollission()
+                            .sound(SoundType.SCAFFOLDING)
+                            .dynamicShape()
+                            .isValidSpawn(Blocks::never)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> GOLDEN_SCAFFOLDING = registerBlockNoItem("golden_scaffolding",
+            () -> new GoldenScaffolding(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GOLD)
+                            .noCollission()
+                            .sound(SoundType.SCAFFOLDING)
+                            .dynamicShape()
+                            .isValidSpawn(Blocks::never)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> ANCIENT_SCAFFOLDING = registerBlockNoItem("ancient_scaffolding",
+            () -> new AncientScaffolding(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GOLD)
+                            .noCollission()
+                            .sound(SoundType.SCAFFOLDING)
+                            .dynamicShape()
+                            .isValidSpawn(Blocks::never)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+
+    public static final DeferredBlock<Block> PYROLIZED_SCAFFOLDING = registerBlockNoItem("pyrolized_scaffolding",
+            () -> new PyrolizedScaffolding(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GOLD)
+                            .noCollission()
+                            .sound(SoundType.SCAFFOLDING)
+                            .dynamicShape()
+                            .isValidSpawn(Blocks::never)
+                            .pushReaction(PushReaction.DESTROY)
             )
     );
 

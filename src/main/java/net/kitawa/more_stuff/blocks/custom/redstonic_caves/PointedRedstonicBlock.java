@@ -3,12 +3,15 @@ package net.kitawa.more_stuff.blocks.custom.redstonic_caves;
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.serialization.MapCodec;
 import net.kitawa.more_stuff.blocks.ModBlocks;
+import net.kitawa.more_stuff.blocks.util.ModdedBlockStateProperties;
+import net.kitawa.more_stuff.blocks.util.SimpleFluidLoggedBlock;
 import net.kitawa.more_stuff.experimentals.items.entity.ThrownJavelin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -43,11 +46,12 @@ import java.util.function.Predicate;
 
 import static net.minecraft.world.level.block.PointedDripstoneBlock.maybeTransferFluid;
 
-public class PointedRedstonicBlock extends Block implements Fallable, SimpleWaterloggedBlock {
+public class PointedRedstonicBlock extends Block implements Fallable, SimpleFluidLoggedBlock {
     public static final MapCodec<PointedRedstonicBlock> CODEC = simpleCodec(PointedRedstonicBlock::new);
     public static final DirectionProperty TIP_DIRECTION = BlockStateProperties.VERTICAL_DIRECTION;
     public static final EnumProperty<DripstoneThickness> THICKNESS = BlockStateProperties.DRIPSTONE_THICKNESS;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty LAVALOGGED = ModdedBlockStateProperties.LAVALOGGED;
     private static final int MAX_SEARCH_LENGTH_WHEN_CHECKING_DRIP_TYPE = 11;
     private static final int DELAY_BEFORE_FALLING = 2;
     private static final float DRIP_PROBABILITY_PER_ANIMATE_TICK = 0.02F;
@@ -88,12 +92,13 @@ public class PointedRedstonicBlock extends Block implements Fallable, SimpleWate
                         .setValue(TIP_DIRECTION, Direction.UP)
                         .setValue(THICKNESS, DripstoneThickness.TIP)
                         .setValue(WATERLOGGED, Boolean.valueOf(false))
+                        .setValue(LAVALOGGED, Boolean.valueOf(false))
         );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(TIP_DIRECTION, THICKNESS, WATERLOGGED);
+        builder.add(TIP_DIRECTION, THICKNESS, WATERLOGGED, LAVALOGGED);
     }
 
     @Override
@@ -107,11 +112,12 @@ public class PointedRedstonicBlock extends Block implements Fallable, SimpleWate
      * Note that this method should ideally consider only the specific direction passed in.
      */
     @Override
-    protected BlockState updateShape(
-            BlockState state, Direction p_direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos
-    ) {
+    protected BlockState updateShape(BlockState state, Direction p_direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        }
+        if (state.getValue(LAVALOGGED)) {
+            level.scheduleTick(pos, Fluids.LAVA, Fluids.LAVA.getTickDelay(level)); // <- lava tick
         }
 
         if (p_direction != Direction.UP && p_direction != Direction.DOWN) {
@@ -200,23 +206,26 @@ public class PointedRedstonicBlock extends Block implements Fallable, SimpleWate
         BlockPos blockpos = context.getClickedPos();
         Direction direction = context.getNearestLookingVerticalDirection().getOpposite();
         Direction direction1 = calculateTipDirection(levelaccessor, blockpos, direction);
-        if (direction1 == null) {
-            return null;
-        } else {
-            boolean flag = !context.isSecondaryUseActive();
-            DripstoneThickness dripstonethickness = calculateDripstoneThickness(levelaccessor, blockpos, direction1, flag);
-            return dripstonethickness == null
-                    ? null
-                    : this.defaultBlockState()
-                    .setValue(TIP_DIRECTION, direction1)
-                    .setValue(THICKNESS, dripstonethickness)
-                    .setValue(WATERLOGGED, Boolean.valueOf(levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER));
-        }
+        if (direction1 == null) return null;
+
+        boolean flag = !context.isSecondaryUseActive();
+        DripstoneThickness dripstonethickness = calculateDripstoneThickness(levelaccessor, blockpos, direction1, flag);
+
+        Fluid fluidAtPos = levelaccessor.getFluidState(blockpos).getType();
+
+        return dripstonethickness == null ? null
+                : this.defaultBlockState()
+                .setValue(TIP_DIRECTION, direction1)
+                .setValue(THICKNESS, dripstonethickness)
+                .setValue(WATERLOGGED, fluidAtPos == Fluids.WATER)
+                .setValue(LAVALOGGED, fluidAtPos == Fluids.LAVA); // <- lava
     }
 
     @Override
     protected FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        if (state.getValue(WATERLOGGED)) return Fluids.WATER.getSource(false);
+        if (state.getValue(LAVALOGGED)) return Fluids.LAVA.getSource(false); // <- lava logging
+        return super.getFluidState(state);
     }
 
     @Override
@@ -568,6 +577,13 @@ public class PointedRedstonicBlock extends Block implements Fallable, SimpleWate
             VoxelShape voxelshape = state.getCollisionShape(level, pos);
             return !Shapes.joinIsNotEmpty(REQUIRED_SPACE_TO_DRIP_THROUGH_NON_SOLID_BLOCK, voxelshape, BooleanOp.AND);
         }
+    }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        // use the block's default light value
+        int baseLight = super.getLightEmission(state, level, pos);
+        return SimpleFluidLoggedBlock.super.getFluidLightEmission(state, baseLight);
     }
 
     static record FluidInfo(BlockPos pos, Fluid fluid, BlockState sourceState) {

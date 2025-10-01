@@ -36,7 +36,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import java.util.List;
 import java.util.Objects;
 
-public class JavelinItem extends Item implements ProjectileItem {
+public class JavelinItem extends TridentItem implements ProjectileItem {
     public static final int THROW_THRESHOLD_TIME = 10;
     public static final float SHOOT_POWER = 2.5F;
 

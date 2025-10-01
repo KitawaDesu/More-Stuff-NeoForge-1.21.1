@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-22T08:26:12.1895742	Tags for minecraft:block mod id more_stuff
+// 1.21.1	2025-10-01T10:30:26.6963003	Tags for minecraft:block mod id more_stuff
 be6c99f6f1db0a3e8ec25de15486a27474a013b8 data/minecraft/tags/block/base_stone_overworld.json
 c223cc38968bf1ce8bf5e61293a8d332e1938836 data/minecraft/tags/block/climbable.json
 35409c17b8453f819a92a3b921ef0af8520956f0 data/minecraft/tags/block/combination_step_sound_blocks.json
@@ -45,4 +45,5 @@ f57a1c0d935679dbbcab3f2e8a06cae2238a6735 data/more_stuff/tags/block/incorrect_fo
 f5af9cb99e405fc251bd04c616da327a17bd7695 data/more_stuff/tags/block/moss_can_generate_under.json
 60cf36243d315faa9924af6dde2a3eaf12ef0a23 data/more_stuff/tags/block/power_sources.json
 d6c914356af8f2c77948acdb451ab46a3002b1c6 data/more_stuff/tags/block/pyrolized_bamboo_plantable_on.json
+7b84abed7207adba04dccc47e87bb6a5405f232a data/more_stuff/tags/block/scaffolding.json
 8ccc39b9d4c277a3bafbe53576038c58f2402f90 data/more_stuff/tags/block/unsuitable_ceilings.json

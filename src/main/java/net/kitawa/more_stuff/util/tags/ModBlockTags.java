@@ -38,6 +38,7 @@ public class ModBlockTags {
     public static final TagKey<Block> METALLIC_BAMBOOS = create("metallic_bamboos");
     public static final TagKey<Block> KELP_LIKE = create("kelp_like");
     public static final TagKey<Block> KELP_PLANT_LIKE = create("kelp_plant_like");
+    public static final TagKey<Block> SCAFFOLDING = create("scaffolding");
 
     private ModBlockTags() {
     }

@@ -3,16 +3,14 @@ package net.kitawa.more_stuff.items;
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.blocks.ModBlocks;
 import net.kitawa.more_stuff.items.util.*;
+import net.kitawa.more_stuff.items.util.scaffolding.*;
 import net.kitawa.more_stuff.items.util.shears.*;
 import net.kitawa.more_stuff.items.util.weapons.ModdedMaceItem;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
-import net.kitawa.more_stuff.util.tags.ModItemTags;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -21,9 +19,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static net.kitawa.more_stuff.items.util.ModSmithingTemplateItem.*;
 
@@ -52,6 +47,21 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> OMINOUS_NETHER_KEY = ITEMS.register("ominous_nether_key",
             () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> COPPER_SCAFFOLDING = ITEMS.register("copper_scaffolding",
+            () -> new CopperScaffoldingBlockItem(ModBlocks.COPPER_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> IRON_SCAFFOLDING = ITEMS.register("iron_scaffolding",
+            () -> new IronScaffoldingBlockItem(ModBlocks.IRON_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> GOLDEN_SCAFFOLDING = ITEMS.register("golden_scaffolding",
+            () -> new GoldenScaffoldingBlockItem(ModBlocks.GOLDEN_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> ANCIENT_SCAFFOLDING = ITEMS.register("ancient_scaffolding",
+            () -> new AncientScaffoldingBlockItem(ModBlocks.ANCIENT_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> PYROLIZED_SCAFFOLDING = ITEMS.register("pyrolized_scaffolding",
+            () -> new PyrolizedScaffoldingBlockItem(ModBlocks.PYROLIZED_SCAFFOLDING.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> AQUANDA_BERRIES = ITEMS.register("aquanda_berries",
             () -> new ItemNameBlockItem(ModBlocks.AQUANDA_VINES.get(), new Item.Properties().food(ModFoods.AQUANDA_BERRIES)));
