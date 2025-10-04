@@ -610,7 +610,7 @@ public class ModBlocks {
             )
     );
 
-    public static final DeferredBlock<Block> ROSARITE_BLOCK = registerBlock("rosarite_block",
+    public static final DeferredBlock<Block> ROSARITE_BLOCK = registerBlockNoItem("rosarite_block",
             () -> new Block(
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.COLOR_BLACK)

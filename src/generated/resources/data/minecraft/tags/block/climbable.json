@@ -5,6 +5,11 @@
     "more_stuff:blazing_vines",
     "more_stuff:blazing_vines_plant",
     "more_stuff:hanging_glowmoss",
-    "more_stuff:hanging_glowmoss_plant"
+    "more_stuff:hanging_glowmoss_plant",
+    "more_stuff:pyrolized_scaffolding",
+    "more_stuff:copper_scaffolding",
+    "more_stuff:iron_scaffolding",
+    "more_stuff:golden_scaffolding",
+    "more_stuff:ancient_scaffolding"
   ]
 }

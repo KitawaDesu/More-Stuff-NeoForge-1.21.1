@@ -73,8 +73,6 @@ import terrablender.api.SurfaceRuleManager;
 
 import java.util.List;
 
-import static net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems.WOODEN_JAVELIN;
-
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(MoreStuff.MOD_ID)
 public class MoreStuff {
@@ -200,6 +198,8 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.AQUANDA_MOSS_CARPET.asItem().getDefaultInstance(), ModBlocks.GLOWMOSS_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.GLOWMOSS_BLOCK.asItem().getDefaultInstance(), ModBlocks.GLOWMOSS_CARPET.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.GLOWMOSS_CARPET.asItem().getDefaultInstance(), ModItems.HANGING_GLOWMOSS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.RED_MUSHROOM.asItem().getDefaultInstance(), ModBlocks.GLOWSHROOM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Blocks.RED_MUSHROOM_BLOCK.asItem().getDefaultInstance(), ModBlocks.GLOWSHROOM_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(ModBlocks.FROZEN_IRON_ORE.get().asItem().getDefaultInstance(), CreateCompatBlocks.NETHER_ZINC_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -537,6 +537,29 @@ public class MoreStuff {
             event.insertAfter(ModItems.QUARTZ_SWORD.get().getDefaultInstance(), ModItems.QUARTZ_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.STONE_AXE.getDefaultInstance(), ModItems.LAPIS_AXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.LAPIS_AXE.get().getDefaultInstance(), ModItems.QUARTZ_AXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            if (ExperimentalUpdatesConfig.isCombatUpdateAllowed) {
+                event.insertAfter(Items.WOODEN_SWORD.getDefaultInstance(), ExperimentalCombatItems.WOODEN_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(Items.STONE_SWORD.getDefaultInstance(), ExperimentalCombatItems.STONE_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.COPPER_SWORD.get().getDefaultInstance(), ExperimentalCombatItems.COPPER_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(Items.IRON_SWORD.getDefaultInstance(), ExperimentalCombatItems.IRON_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.ROSE_GOLDEN_SWORD.get().getDefaultInstance(), ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(Items.GOLDEN_SWORD.getDefaultInstance(), ExperimentalCombatItems.GOLDEN_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(Items.DIAMOND_SWORD.getDefaultInstance(), ExperimentalCombatItems.DIAMOND_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.EMERALD_SWORD.get().getDefaultInstance(), ExperimentalCombatItems.EMERALD_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(Items.NETHERITE_SWORD.getDefaultInstance(), ExperimentalCombatItems.NETHERITE_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.ROSARITE_SWORD.get().getDefaultInstance(), ExperimentalCombatItems.ROSARITE_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                if (ModList.get().isLoaded("create")) {
+                    event.insertAfter(CreateCompatItems.ZINC_SWORD.get().getDefaultInstance(), CreateCompatItems.ZINC_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(CreateCompatItems.BRASS_SWORD.get().getDefaultInstance(), CreateCompatItems.BRASS_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                }
+            }
+        }
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.insertAfter(Items.SCAFFOLDING.getDefaultInstance(), ModItems.PYROLIZED_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.PYROLIZED_SCAFFOLDING.get().getDefaultInstance(), ModItems.IRON_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.IRON_SCAFFOLDING.get().getDefaultInstance(), ModItems.COPPER_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.COPPER_SCAFFOLDING.get().getDefaultInstance(), ModItems.GOLDEN_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.GOLDEN_SCAFFOLDING.get().getDefaultInstance(), ModItems.ANCIENT_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 

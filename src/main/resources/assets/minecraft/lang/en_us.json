@@ -18,5 +18,7 @@
   "item.minecraft.shield": "Wooden Shield",
   "item.minecraft.shears": "Iron Shears",
   "item.minecraft.wolf_armor": "Armadillo Scute Wolf Armor",
-  "item.minecraft.brush": "Copper Brush"
+  "item.minecraft.brush": "Copper Brush",
+  "block.minecraft.bed.needs_breathing_or_conduit_power": "Waterlogged Beds Need Water Breathing or Conduit Power to Sleep in",
+  "block.minecraft.bed.needs_fire_resistance": "Lavalogged Beds Need Fire Resistance to Sleep in"
 }

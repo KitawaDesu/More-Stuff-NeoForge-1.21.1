@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "more_stuff:tesla_coil"
+          "name": "more_stuff:golden_scaffolding"
         }
       ],
       "rolls": 1
     }
   ],
-  "random_sequence": "more_stuff:blocks/tesla_coil"
+  "random_sequence": "more_stuff:blocks/golden_scaffolding"
 }

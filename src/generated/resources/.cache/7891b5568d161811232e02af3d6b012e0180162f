@@ -1,6 +1,6 @@
-// 1.21.1	2025-10-01T10:30:26.6963003	Tags for minecraft:block mod id more_stuff
+// 1.21.1	2025-10-02T01:11:30.1667311	Tags for minecraft:block mod id more_stuff
 be6c99f6f1db0a3e8ec25de15486a27474a013b8 data/minecraft/tags/block/base_stone_overworld.json
-c223cc38968bf1ce8bf5e61293a8d332e1938836 data/minecraft/tags/block/climbable.json
+a8e843eed8aaa79e3150dee0694426bb129b5684 data/minecraft/tags/block/climbable.json
 35409c17b8453f819a92a3b921ef0af8520956f0 data/minecraft/tags/block/combination_step_sound_blocks.json
 d53fd82c8ad6f847431cdc72450229e05b5de1da data/minecraft/tags/block/dirt.json
 0e07b6fad73a11be75382be3a03348ee1dd54d49 data/minecraft/tags/block/fences.json

@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -202,5 +203,9 @@ public class GoldenScaffolding extends Block implements SimpleFluidLoggedBlock {
         // use the block's default light value
         int baseLight = super.getLightEmission(state, level, pos);
         return SimpleFluidLoggedBlock.super.getFluidLightEmission(state, baseLight);
+    }
+
+    public boolean isScaffolding(BlockState state, LevelReader level, BlockPos pos, LivingEntity entity) {
+        return state.is(ModBlocks.GOLDEN_SCAFFOLDING);
     }
 }

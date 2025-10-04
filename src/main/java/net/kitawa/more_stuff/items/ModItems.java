@@ -58,10 +58,13 @@ public class ModItems {
             () -> new GoldenScaffoldingBlockItem(ModBlocks.GOLDEN_SCAFFOLDING.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> ANCIENT_SCAFFOLDING = ITEMS.register("ancient_scaffolding",
-            () -> new AncientScaffoldingBlockItem(ModBlocks.ANCIENT_SCAFFOLDING.get(), new Item.Properties()));
+            () -> new AncientScaffoldingBlockItem(ModBlocks.ANCIENT_SCAFFOLDING.get(), new Item.Properties().fireResistant()));
 
     public static final DeferredItem<Item> PYROLIZED_SCAFFOLDING = ITEMS.register("pyrolized_scaffolding",
             () -> new PyrolizedScaffoldingBlockItem(ModBlocks.PYROLIZED_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> ROSARITE_BLOCK = ITEMS.register("rosarite_block",
+            () -> new PyrolizedScaffoldingBlockItem(ModBlocks.ROSARITE_BLOCK.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> AQUANDA_BERRIES = ITEMS.register("aquanda_berries",
             () -> new ItemNameBlockItem(ModBlocks.AQUANDA_VINES.get(), new Item.Properties().food(ModFoods.AQUANDA_BERRIES)));

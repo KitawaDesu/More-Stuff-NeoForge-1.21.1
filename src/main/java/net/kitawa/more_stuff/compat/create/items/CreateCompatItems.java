@@ -5,9 +5,12 @@ import net.kitawa.more_stuff.compat.create.items.util.CreateCompatTeiredElytraIt
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatAnimalArmorItem;
 import net.kitawa.more_stuff.compat.create.items.util.shears.BrassShearsItem;
+import net.kitawa.more_stuff.experimentals.items.util.ToggleableJavelinItem;
 import net.kitawa.more_stuff.items.util.ModShieldItem;
+import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
 import net.kitawa.more_stuff.items.util.weapons.ModdedMaceItem;
 import net.kitawa.more_stuff.items.util.shears.IronShearsItem;
+import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,19 +29,41 @@ public class CreateCompatItems {
     public static final DeferredItem<Item> COPPER_DUST = ITEMS.register("copper_dust",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> ANCIENT_DUST = ITEMS.register("ancient_dust",
-            () -> new Item(new Item.Properties()));
+            () -> new Item(new Item.Properties().fireResistant()));
     public static final DeferredItem<Item> GOLDEN_DUST = ITEMS.register("golden_dust",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> IRON_DUST = ITEMS.register("iron_dust",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> CRUSHED_ANCIENT_DEBRIS = ITEMS.register("crushed_ancient_debris",
-            () -> new Item(new Item.Properties()));
+            () -> new Item(new Item.Properties().fireResistant()));
     public static final DeferredItem<Item> BRASS_DUST = ITEMS.register("brass_dust",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> ZINC_DUST = ITEMS.register("zinc_dust",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> CRUSHED_BRASS = ITEMS.register("crushed_brass",
             () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> ZINC_JAVELIN = ITEMS.register("zinc_javelin",
+            () -> new ToggleableJavelinItem("zinc_javelin",
+                    new SimpleTier(ModBlockTags.INCORRECT_FOR_ZINC_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "zinc_ingot")))),
+                    ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/item/javelin/zinc.png"),
+                    new Item.Properties()
+                            .durability((int) (250*1.5))
+                            .attributes(JavelinItem.createAttributes(new SimpleTier(ModBlockTags.INCORRECT_FOR_ZINC_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "zinc_ingot"))))))
+                            .component(DataComponents.TOOL, JavelinItem.createToolProperties()),
+                    () -> ExperimentalUpdatesConfig.isCombatUpdateAllowed, // dynamic check
+                    "§7Experimental Combat Update"));
+
+    public static final DeferredItem<Item> BRASS_JAVELIN = ITEMS.register("brass_javelin",
+            () -> new ToggleableJavelinItem("brass_javelin",
+                    new SimpleTier(ModBlockTags.INCORRECT_FOR_BRASS_TOOL, 190+250, 11.0F, 2.0F, 14, () -> Ingredient.of(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "brass_ingot")))),
+                    ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "textures/item/javelin/brass.png"),
+                    new Item.Properties()
+                            .durability((int) ((190+250)*1.5))
+                            .attributes(JavelinItem.createAttributes(new SimpleTier(ModBlockTags.INCORRECT_FOR_BRASS_TOOL, 190+250, 11.0F, 2.0F, 14, () -> Ingredient.of(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "brass_ingot"))))))
+                            .component(DataComponents.TOOL, JavelinItem.createToolProperties()),
+                    () -> ExperimentalUpdatesConfig.isCombatUpdateAllowed, // dynamic check
+                    "§7Experimental Combat Update"));
 
     public static final DeferredItem<Item> ZINC_SHIELD = ITEMS.register("zinc_shield",
             () -> new ModShieldItem(new Item.Properties().durability(500).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY), BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "zinc_ingot"))));

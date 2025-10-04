@@ -458,7 +458,20 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BLAZING_VINES.get())
                 .add(ModBlocks.BLAZING_VINES_PLANT.get())
                 .add(ModBlocks.HANGING_GLOWMOSS.get())
-                .add(ModBlocks.HANGING_GLOWMOSS_PLANT.get());
+                .add(ModBlocks.HANGING_GLOWMOSS_PLANT.get())
+                .add(ModBlocks.PYROLIZED_SCAFFOLDING.get())
+                .add(ModBlocks.COPPER_SCAFFOLDING.get())
+                .add(ModBlocks.IRON_SCAFFOLDING.get())
+                .add(ModBlocks.GOLDEN_SCAFFOLDING.get())
+                .add(ModBlocks.ANCIENT_SCAFFOLDING.get());
+
+        tag(ModBlockTags.SCAFFOLDING)
+                .add(Blocks.SCAFFOLDING)
+                .add(ModBlocks.PYROLIZED_SCAFFOLDING.get())
+                .add(ModBlocks.COPPER_SCAFFOLDING.get())
+                .add(ModBlocks.IRON_SCAFFOLDING.get())
+                .add(ModBlocks.GOLDEN_SCAFFOLDING.get())
+                .add(ModBlocks.ANCIENT_SCAFFOLDING.get());
 
         tag(ModBlockTags.KELP_LIKE)
                 .add(Blocks.KELP)
