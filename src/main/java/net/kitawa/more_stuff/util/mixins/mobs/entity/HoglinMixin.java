@@ -67,7 +67,7 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
         populateDefaultEquipmentEnchantments(level, random, difficulty);
 
         // Rare chance to spawn a rider piglin
-        if (random.nextInt(5) == 0) {
+        if (random.nextInt(50) == 0) {
             boolean inBastion = false;
 
             if (this.level() instanceof ServerLevel serverLevel) {
@@ -84,26 +84,27 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
 
             EntityType<? extends Mob> typeToSpawn = EntityType.PIGLIN;
 
-            if (!this.isBaby()) {
+            // Only allow baby piglins on baby hoglins
+            if (this.isBaby()) {
+                Mob piglin = typeToSpawn.create(this.level());
+                if (piglin instanceof Piglin p) {
+                    p.setBaby(true);
+                    p.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                    p.finalizeSpawn(level, difficulty, spawnType, null);
+                    p.startRiding(this);
+                }
+            } else {
                 // Adults: Piglin, with Brute chance in Bastions
                 if (inBastion && random.nextFloat() < 0.05F) {
                     typeToSpawn = EntityType.PIGLIN_BRUTE;
                 }
-            }
-
-            Mob piglin = typeToSpawn.create(this.level());
-            if (piglin != null) {
-                piglin.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                piglin.finalizeSpawn(level, difficulty, spawnType, null);
-
-                if (this.isBaby()) {
-                    // force piglin to be baby as well
-                    if (piglin instanceof Piglin p) {
-                        p.setBaby(true);
-                    }
+                // (spawn piglin normally, but don’t mount)
+                Mob piglin = typeToSpawn.create(this.level());
+                if (piglin != null) {
+                    piglin.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                    piglin.finalizeSpawn(level, difficulty, spawnType, null);
+                    // note: no riding if hoglin is adult
                 }
-
-                piglin.startRiding(this);
             }
         }
 
@@ -288,10 +289,5 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
         return this.canArmorAbsorb(damageSource) ? SoundEvents.WOLF_ARMOR_DAMAGE : SoundEvents.HOGLIN_HURT;
-    }
-
-    @Unique
-    public boolean hasArmor() {
-        return this.getBodyArmorItem().is(ModItemTags.ABSORBS_DAMAGE);
     }
 }
