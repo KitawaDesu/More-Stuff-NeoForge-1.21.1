@@ -135,21 +135,21 @@ public class TeslaCoilBlockEntity extends BlockEntity {
         for (BlockPos checkPos : BlockPos.betweenClosed(pos.offset(-20, -20, -20), pos.offset(20, 20, 20))) {
             if (level.getBlockState(checkPos).is(Blocks.LIGHTNING_ROD)) {
                 rods.add(checkPos.immutable());
-                if (rods.size() >= rodsRequired) break;
             }
         }
 
-        // rods consume charge
-        int rodConsumed = Math.min(rods.size(), rodsRequired) * 30;
-        leftover += (charge - rodConsumed); // remaining charge after rods
+        int rodsToUse = Math.min(rods.size(), rodsRequired);
+        int rodConsumed = rodsToUse * 30;
+        leftover += (charge - rodConsumed);
 
-        for (BlockPos rodPos : rods) {
+        for (int i = 0; i < rodsToUse; i++) {
+            BlockPos rodPos = rods.get(i);
             Vec3 rodEnd = BeamUtils.adjustRodEnd(level.getBlockState(rodPos), Vec3.atCenterOf(rodPos));
             Vec3 hit = BeamUtils.findBeamEnd(level, start, rodEnd, 2);
             be.activeBeams.add(BeamUtils.buildPath(server.random, start, hit, 30));
         }
 
-        // === Step 2: Distribute leftover charge to entities ===
+        // === Step 2: Distribute leftover charge to entities (in 30-charge chunks) ===
         if (leftover > 0) {
             double radius = Math.min(charge / 1.75, 40);
             List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, new AABB(pos).inflate(radius));
@@ -172,56 +172,34 @@ public class TeslaCoilBlockEntity extends BlockEntity {
                     entityWeights.put(entity, weight);
                 }
 
-                // number of targets = leftover / 30 (at least 1)
-                int targets = Math.max(1, leftover / 30);
-                List<LivingEntity> chosen = pickWeightedEntities(entityWeights, random, targets);
+                // process leftover in full 30-charge chunks
+                int chunks = leftover / 30;
+                for (int i = 0; i < chunks && !entityWeights.isEmpty(); i++) {
+                    List<LivingEntity> chosen = pickWeightedEntities(entityWeights, random, 1);
+                    LivingEntity target = chosen.get(0);
 
-                int perEntity = leftover / chosen.size();
-                for (LivingEntity target : chosen) {
+                    int spend = 30;
+                    leftover -= spend;
+
                     Vec3 end = target.position().add(0, target.getBbHeight() * 0.5, 0);
                     Vec3 hit = BeamUtils.findBeamEnd(level, start, end, 2);
-                    be.activeBeams.add(BeamUtils.buildPath(server.random, start, hit, perEntity));
+                    be.activeBeams.add(BeamUtils.buildPath(server.random, start, hit, spend));
 
                     // Only deal damage if beam actually reaches entity
                     if (hit.distanceToSqr(end) < 0.5) {
-                        float damage = Math.max(0, perEntity - (float) start.distanceTo(end)) * 0.05f;
+                        float damage = Math.max(0, spend - (float) start.distanceTo(end)) * 0.05f;
                         if (damage > 0) {
-                            // Check if entity is blocking
-                            if (target.isBlocking() && target.getUseItem().getItem() instanceof ShieldItem) {
-                                // Check if the target is facing the OmniBlock
-                                Vec3 lookVec = target.getLookAngle().normalize();
-                                Vec3 toBlock = start.subtract(target.position().add(0, target.getBbHeight() * 0.5, 0)).normalize();
-                                double dot = lookVec.dot(toBlock); // 1.0 = fully facing, -1.0 = opposite
-
-                                if (dot > 0.5) { // Adjust threshold as needed (0.5 = roughly 60° cone)
-                                    ItemStack shieldStack = target.getUseItem();
-                                    EquipmentSlot shieldSlot = target.getOffhandItem() == shieldStack ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-
-                                    shieldStack.hurtAndBreak((int) (15 + (15 * ((leftover / 2.5) * 0.37361))), target, shieldSlot);
-
-                                    // Reduce damage to zero
-                                    target.hurt(level.damageSources().source(
-                                                    Objects.requireNonNull(ModDamageSources.ELECTRICITY.getDelegate().getKey())),
-                                            damage * 0.0f
-                                    );
-                                    level.playSound(null, pos, SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0f, 1.0f);
-                                } else {
-                                    // Normal damage if not facing
-                                    target.hurt(level.damageSources().source(
-                                                    Objects.requireNonNull(ModDamageSources.ELECTRICITY.getDelegate().getKey())),
-                                            damage
-                                    );
-                                }
-                            } else {
-                                // Normal damage if not blocking
-                                target.hurt(level.damageSources().source(
-                                                Objects.requireNonNull(ModDamageSources.ELECTRICITY.getDelegate().getKey())),
-                                        damage
-                                );
-                            }
+                            target.hurt(level.damageSources().source(
+                                            Objects.requireNonNull(ModDamageSources.ELECTRICITY.getDelegate().getKey())),
+                                    damage
+                            );
                         }
                     }
+
+                    // Remove chosen from pool so it won't get hit twice this cycle
+                    entityWeights.remove(target);
                 }
+
                 level.playSound(null, pos, SoundEvents.SHULKER_SHOOT, SoundSource.BLOCKS, 1.0f, 2.0f);
             }
         }
