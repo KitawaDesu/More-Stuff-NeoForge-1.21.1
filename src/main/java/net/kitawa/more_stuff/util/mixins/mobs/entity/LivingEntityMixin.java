@@ -1,18 +1,19 @@
 package net.kitawa.more_stuff.util.mixins.mobs.entity;
 
-import net.kitawa.more_stuff.blocks.custom.frostbitten_caverns.IceSheetBlock;
-import net.kitawa.more_stuff.util.tags.ModEnchantmentTags;
+import net.kitawa.more_stuff.blocks.custom.overworld.frostbitten_caverns.IceSheetBlock;
+import net.kitawa.more_stuff.enchantments.ModEnchantments;
 import net.kitawa.more_stuff.util.tags.ModItemTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,6 +21,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,63 +45,50 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
     private void injectActuallyHurt(DamageSource damageSource, float damageAmount, CallbackInfo ci) {
-        if (damageSource.is(DamageTypeTags.BYPASSES_WOLF_ARMOR)) {
-            return; // skip all logic
-        }
+        if (damageSource.is(DamageTypeTags.BYPASSES_WOLF_ARMOR)) return;
 
-        List<EquipmentSlot> armorSlots = List.of(
-                EquipmentSlot.HEAD,
-                EquipmentSlot.CHEST,
-                EquipmentSlot.LEGS,
-                EquipmentSlot.FEET,
-                EquipmentSlot.BODY
-        );
+        LivingEntity self = (LivingEntity)(Object)this;
 
-        for (EquipmentSlot slot : armorSlots) {
-            ItemStack stack = this.getItemBySlot(slot);
-
-            if (tryAbsorb(this.getControllingPassenger(), stack, slot, damageAmount)) {
-                ci.cancel(); // damage absorbed successfully, cancel the hit
+        for (EquipmentSlot slot : List.of(
+                EquipmentSlot.HEAD, EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.BODY)) {
+            ItemStack stack = self.getItemBySlot(slot);
+            if (tryAbsorb(self, stack, slot, damageAmount)) {
+                ci.cancel();
                 return;
             }
         }
     }
 
-@Shadow
-public abstract ItemStack getItemBySlot(EquipmentSlot slot);
+    @Shadow
+    public abstract ItemStack getItemBySlot(EquipmentSlot slot);
 
     private boolean tryAbsorb(LivingEntity entity, ItemStack stack, EquipmentSlot slot, float damageAmount) {
         if (stack.isEmpty()) return false;
 
-        boolean canAbsorb = stack.is(ModItemTags.ABSORBS_DAMAGE) ||
-                EnchantmentHelper.hasTag(stack, ModEnchantmentTags.ALLOWS_ARMOR_ABSORPTION);
+        boolean hasItemTag = stack.is(ModItemTags.ABSORBS_DAMAGE);
+        boolean hasEnchantTag = hasEnchantment(stack, entity, ModEnchantments.DIVINE_ABSORPTION);
 
-        if (!canAbsorb) return false;
+        if (!hasItemTag && !hasEnchantTag) return false;
 
         int maxDamage = stack.getMaxDamage();
         int currentDamage = stack.getDamageValue();
         int durabilityLeft = maxDamage - currentDamage;
-
-        // Calculate 10% durability threshold (minimum 1)
         int minDurabilityLeft = Math.max(1, Math.round(maxDamage * 0.10f));
         int minDamageValue = maxDamage - minDurabilityLeft;
 
-        // Skip absorption if below 10% durability
-        if (durabilityLeft <= minDurabilityLeft) {
-            return false;
-        }
+        if (durabilityLeft <= minDurabilityLeft) return false;
 
         int oldDamage = currentDamage;
 
         stack.hurtAndBreak(Mth.ceil(damageAmount), entity, slot);
 
-        // Clamp post-damage durability to 10% minimum
         if (stack.getDamageValue() > minDamageValue) {
             stack.setDamageValue(minDamageValue);
         }
 
-        // Play crackiness effect if state changed
-        if (Crackiness.WOLF_ARMOR.byDamage(oldDamage, maxDamage) != Crackiness.WOLF_ARMOR.byDamage(stack)) {
+        int newDamage = stack.getDamageValue();
+        if (Crackiness.WOLF_ARMOR.byDamage(oldDamage, maxDamage) != Crackiness.WOLF_ARMOR.byDamage(newDamage, maxDamage)) {
             entity.playSound(SoundEvents.WOLF_ARMOR_CRACK);
 
             if (entity.level() instanceof ServerLevel serverLevel && !stack.isEmpty()) {
@@ -111,18 +100,15 @@ public abstract ItemStack getItemBySlot(EquipmentSlot slot);
             }
         }
 
-        return true; // Absorbed successfully
+        return true;
     }
 
     @Inject(method = "checkTotemDeathProtection", at = @At("HEAD"), cancellable = true)
     private void injectArmorAbsorptionTag(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
-        if (damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return;
-        }
+        if (damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) return;
 
         LivingEntity entity = (LivingEntity)(Object)this;
 
-        // Store the tagged item and a way to remove it
         ItemStack taggedItem = null;
         Runnable removeItem = null;
 
@@ -130,27 +116,28 @@ public abstract ItemStack getItemBySlot(EquipmentSlot slot);
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
                 ItemStack stack = entity.getItemBySlot(slot);
-                if (!stack.isEmpty() && EnchantmentHelper.hasTag(stack, EnchantmentTags.CURSE)) {
+                if (!stack.isEmpty() && hasCurseOfSacrification(stack, entity)) {
                     taggedItem = stack;
-                    removeItem = () -> entity.setItemSlot(slot, ItemStack.EMPTY);
+                    final EquipmentSlot finalSlot = slot;
+                    removeItem = () -> entity.setItemSlot(finalSlot, ItemStack.EMPTY);
                     break;
                 }
             }
         }
 
-        // Check hand slots (if nothing found in armor)
+        // Check hand slots if nothing found in armor
         if (taggedItem == null) {
             for (InteractionHand hand : InteractionHand.values()) {
                 ItemStack stack = entity.getItemInHand(hand);
-                if (!stack.isEmpty() && EnchantmentHelper.hasTag(stack, EnchantmentTags.CURSE)) {
+                if (!stack.isEmpty() && hasCurseOfSacrification(stack, entity)) {
                     taggedItem = stack;
-                    removeItem = () -> entity.setItemInHand(hand, ItemStack.EMPTY);
+                    final InteractionHand finalHand = hand;
+                    removeItem = () -> entity.setItemInHand(finalHand, ItemStack.EMPTY);
                     break;
                 }
             }
         }
 
-        // If found, apply totem effect and delete item
         if (taggedItem != null && removeItem != null) {
             if (entity instanceof ServerPlayer serverPlayer) {
                 serverPlayer.awardStat(Stats.ITEM_USED.get(taggedItem.getItem()));
@@ -165,63 +152,51 @@ public abstract ItemStack getItemBySlot(EquipmentSlot slot);
             entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
             entity.level().broadcastEntityEvent(entity, (byte) 35);
 
-            // Delete the actual item
             removeItem.run();
-
             cir.setReturnValue(true);
         }
     }
 
-    private ItemStack findTaggedItem(LivingEntity entity) {
-        // Check armor slots
-        for (ItemStack armorStack : entity.getArmorSlots()) {
-            if (EnchantmentHelper.hasTag(armorStack, ModEnchantmentTags.ALLOWS_ITEM_TO_BE_SACRIFICED)) {
-                return armorStack.copy();
-            }
-        }
+    private boolean hasCurseOfSacrification(ItemStack stack, LivingEntity entity) {
+        return entity.level().registryAccess()
+                .lookup(Registries.ENCHANTMENT)
+                .flatMap(reg -> reg.get(ModEnchantments.CURSE_OF_SACRIFICATION))
+                .map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack) > 0)
+                .orElse(false);
+    }
 
-        // Check hand slots
-        for (InteractionHand hand : InteractionHand.values()) {
-            ItemStack handStack = entity.getItemInHand(hand);
-            if (EnchantmentHelper.hasTag(handStack, ModEnchantmentTags.ALLOWS_ITEM_TO_BE_SACRIFICED)) {
-                return handStack.copy();
-            }
-        }
-
-        return null;
+    private boolean hasEnchantment(ItemStack stack, LivingEntity entity, ResourceKey<Enchantment> key) {
+        return entity.level().registryAccess()
+                .lookup(Registries.ENCHANTMENT)
+                .flatMap(reg -> reg.get(key))
+                .map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack) > 0)
+                .orElse(false);
     }
 
     @ModifyVariable(
             method = "travel",
-            at = @At(value = "STORE"), // right after f2 is stored
+            at = @At(value = "STORE"),
             ordinal = 0
     )
     private float ms$checkUnderAndAbove(float original) {
         float friction = original;
-
         BlockPos basePos = this.getBlockPosBelowThatAffectsMyMovement();
-
         boolean foundOverride = false;
 
-        // check upwards from that block, up to ~0.6 blocks
         for (int i = 0; i <= 1; i++) {
             BlockPos checkPos = basePos.above(i);
             double relativeY = this.getY() - checkPos.getY();
 
-            // only consider blocks that overlap the entity’s feet up to 0.6 above ground
             if (relativeY >= -0.01 && relativeY <= 0.6) {
                 BlockState state = this.level().getBlockState(checkPos);
-
                 if (state.getBlock() instanceof IceSheetBlock ice) {
-                    // If we find an IceSheetBlock, override completely and ignore the block below
                     friction = ice.getCustomFriction();
                     foundOverride = true;
-                    break; // no need to keep checking further
+                    break;
                 }
             }
         }
 
-        // If we didn’t find an override block, fall back to vanilla (block below)
         return foundOverride ? friction : original;
     }
 }

@@ -2,7 +2,7 @@ package net.kitawa.more_stuff.util.mixins.mobs.entity;
 
 import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
 import net.kitawa.more_stuff.experimentals.items.entity.ThrownJavelin;
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
 import net.kitawa.more_stuff.util.helpers.IfArmorCanAbsorbHelper;
 import net.kitawa.more_stuff.util.helpers.JavelinAttackGoal;

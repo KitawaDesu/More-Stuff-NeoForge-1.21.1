@@ -1,0 +1,13 @@
+{
+  "item": "minecraft:prismarine_shard",
+  "type": "more_stuff:tip",
+  "components": {
+    "more_stuff:arrow_gravity": 0.03,
+    "more_stuff:arrow_base_damage": 1.6,
+    "more_stuff:arrow_damage_multiplier": 0.9,
+    "more_stuff:arrow_water_inertia": 0.48,
+    "more_stuff:arrow_tip": "minecraft:prismarine_shard",
+    "more_stuff:arrow_pierce_level": 1,
+    "more_stuff:arrow_crit_chance": 0.15
+  }
+}

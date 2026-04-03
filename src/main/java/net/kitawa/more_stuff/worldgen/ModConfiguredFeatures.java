@@ -11,11 +11,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 public class ModConfiguredFeatures {
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> AQUANDA = registerKey("aquanda");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AQUANDA_BONEMEAL = registerKey("aquanda_bonemeal");
     public static final ResourceKey<ConfiguredFeature<?, ?>> AQUANDA_MOSS_PATCH_BONEMEAL = registerKey("aquanda_moss_patch_bonemeal");
     public static final ResourceKey<ConfiguredFeature<?, ?>> AQUANDA_MOSS_PATCH_BONEMEAL_UNDERWATER = registerKey("aquanda_moss_patch_bonemeal_underwater");
     public static final ResourceKey<ConfiguredFeature<?, ?>> EBONY_FUNGUS_PLANTED = registerKey("ebony_fungus_planted");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BLAZING_FOREST_VEGETATION_BONEMEAL = registerKey("blazing_forest_vegetation_bonemeal");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BLAZING_VINES_BONEMEAL = registerKey("blazing_vines_bonemeal");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_NETHER_COPPER = registerKey("ore_nether_copper");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_NETHER_IRON = registerKey("ore_nether_iron");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_NETHER_EXPERIENCE = registerKey("ore_nether_experience");
@@ -28,6 +29,9 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_GLOWSHROOM = registerKey("huge_glowshroom");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GLOWMOSS_PATCH_BONEMEAL = registerKey("glowmoss_patch_bonemeal");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GLOWMOSS_PATCH_BONEMEAL_UNDERWATER = registerKey("glowmoss_patch_bonemeal_underwater");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HYBERNATUS = registerKey("hybernatus");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PHANTASMIC_FOLIAGE = registerKey("phantasmic_foliage");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HYBERNATIC_FOLIAGE = registerKey("hybernatic_foliage");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, name));

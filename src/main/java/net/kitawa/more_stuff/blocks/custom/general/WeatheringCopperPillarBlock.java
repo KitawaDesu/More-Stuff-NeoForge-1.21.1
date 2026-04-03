@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class WeatheringCopperPillarBlock extends RotatedPillarBlock implements WeatheringCopper {
-    // Codec for serialization/deserialization
     public static final MapCodec<WeatheringCopperPillarBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     WeatheringCopper.WeatherState.CODEC
@@ -29,20 +28,18 @@ public class WeatheringCopperPillarBlock extends RotatedPillarBlock implements W
     }
 
     @Override
-    public MapCodec<? extends RotatedPillarBlock> codec() {
+    public MapCodec<WeatheringCopperPillarBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        // Delegate to the WeatheringCopper change-over-time logic
-        this.changeOverTime(state, level, pos, random);
+    protected boolean isRandomlyTicking(BlockState state) {
+        return WeatheringCopper.getNext(state.getBlock()).isPresent();
     }
 
     @Override
-    protected boolean isRandomlyTicking(BlockState state) {
-        // Only randomly tick if there is a next oxidation stage
-        return WeatheringCopper.getNext(state.getBlock()).isPresent();
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        this.changeOverTime(state, level, pos, random);
     }
 
     @Override
@@ -50,4 +47,3 @@ public class WeatheringCopperPillarBlock extends RotatedPillarBlock implements W
         return this.weatherState;
     }
 }
-

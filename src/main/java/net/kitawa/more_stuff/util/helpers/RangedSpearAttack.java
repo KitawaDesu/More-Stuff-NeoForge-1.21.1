@@ -2,7 +2,7 @@ package net.kitawa.more_stuff.util.helpers;
 
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.experimentals.items.entity.ThrownJavelin;
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -20,6 +20,7 @@ import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 import java.util.Objects;
 
@@ -143,37 +144,41 @@ public class RangedSpearAttack implements BehaviorControl<Piglin> {
         isCharging = true;
         piglin.startUsingItem(InteractionHand.MAIN_HAND);
 
-        level.getServer().execute(() -> {
-            Projectile spear;
-            if (item instanceof TridentItem) {
-                spear = new ThrownTrident(level, piglin, stack);
-            } else {
-                ThrownJavelin javelin = new ThrownJavelin(level, piglin, stack);
-                javelin.setItemStack(stack);
-                spear = javelin;
-            }
+        // Always run sync — we don't need a deferred server execute here
+        // because we're already on the server tick thread
+        Projectile projectile;
 
-            double dx = target.getX() - piglin.getX();
-            double dy = target.getY(0.333) - spear.getY();
-            double dz = target.getZ() - piglin.getZ();
-            double power = Math.sqrt(dx * dx + dz * dz) * 0.2D;
+        if (item instanceof JavelinItem) {
+            // --- Custom projectile ---
+            ThrownJavelin javelin = new ThrownJavelin(level, piglin, stack.copy());
+            javelin.setItemStack(stack.copy());
+            projectile = javelin;
+        } else {
+            // --- Vanilla fallback ---
+            projectile = new ThrownTrident(level, piglin, stack.copy());
+        }
 
-            float velocity = item instanceof TridentItem ? 1.6F : JavelinItem.SHOOT_POWER;
-            spear.shoot(dx, dy + power, dz, velocity, 1.0F);
+        double dx = target.getX() - piglin.getX();
+        double dy = target.getY(0.333) - projectile.getY();
+        double dz = target.getZ() - piglin.getZ();
+        double power = Math.sqrt(dx * dx + dz * dz) * 0.2D;
 
-            level.addFreshEntity(spear);
+        float velocity = (item instanceof JavelinItem) ? JavelinItem.SHOOT_POWER : 1.6F;
+        projectile.shoot(dx, dy + power, dz, velocity, 1.0F);
 
-            piglin.stopUsingItem();
-            removeSlowdown(piglin);
+        level.addFreshEntity(projectile);
 
-            // Switch flags
-            isCharging = false;
-            justThrew = true; // back up *once* after throw
+        piglin.stopUsingItem();
+        removeSlowdown(piglin);
 
-            level.playSound(null, piglin.blockPosition(),
-                    SoundEvents.TRIDENT_THROW.value(),
-                    SoundSource.HOSTILE,
-                    1.0F, 1.0F);
-        });
+        // Switch flags
+        isCharging = false;
+        justThrew = true;
+
+        // or your custom javelin throw sound
+        level.playSound(null, piglin.blockPosition(),
+                SoundEvents.TRIDENT_THROW.value(),
+                SoundSource.HOSTILE,
+                1.0F, 1.0F);
     }
 }

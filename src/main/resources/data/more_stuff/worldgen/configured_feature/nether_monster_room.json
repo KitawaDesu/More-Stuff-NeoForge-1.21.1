@@ -1,6 +1,7 @@
 {
   "type": "more_stuff:monster_room",
   "config": {
+    "debug": false,
     "cobbled_replacements": [
       {
         "target": {
@@ -125,7 +126,7 @@
         {
           "weight": 85,
           "data": {
-            "Name": "minecraft:spawner"
+            "Name": "more_stuff:golden_spawner"
           }
         },
         {

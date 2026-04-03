@@ -3,14 +3,12 @@ package net.kitawa.more_stuff.util.datagen;
 import net.kitawa.more_stuff.compat.create.blocks.CreateCompatBlocks;
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.blocks.ModBlocks;
+import net.kitawa.more_stuff.compat.create.blocks.CreateIronworksCompatBlocks;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -41,16 +39,28 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModBlockTags.METALLIC_BAMBOOS)
                 .add(ModBlocks.IRON_BAMBOO_SAPLING.get())
                 .add(ModBlocks.IRON_BAMBOO_STALK.get())
-                .add(ModBlocks.IRON_NYLIUM.get())
                 .add(ModBlocks.GOLDEN_BAMBOO_SAPLING.get())
                 .add(ModBlocks.GOLDEN_BAMBOO_STALK.get())
-                .add(ModBlocks.GOLDEN_NYLIUM.get())
                 .add(ModBlocks.COPPER_BAMBOO_SAPLING.get())
                 .add(ModBlocks.COPPER_BAMBOO_STALK.get())
-                .add(ModBlocks.COPPER_NYLIUM.get())
                 .add(ModBlocks.ANCIENT_BAMBOO_SAPLING.get())
                 .add(ModBlocks.ANCIENT_BAMBOO_STALK.get())
-                .add(ModBlocks.ANCIENT_NYLIUM.get());
+                .add(ModBlocks.PYROLIZED_BAMBOO_SAPLING.get())
+                .add(ModBlocks.PYROLIZED_BAMBOO_STALK.get())
+                .add(ModBlocks.PALLADIUM_BAMBOO_SAPLING.get())
+                .add(ModBlocks.PALLADIUM_BAMBOO_STALK.get())
+                .add(ModBlocks.BRASS_BAMBOO_SAPLING.get())
+                .add(ModBlocks.BRASS_BAMBOO_STALK.get())
+                .add(ModBlocks.BRONZE_BAMBOO_SAPLING.get())
+                .add(ModBlocks.BRONZE_BAMBOO_STALK.get())
+                .add(ModBlocks.CINCINNASITE_BAMBOO_SAPLING.get())
+                .add(ModBlocks.CINCINNASITE_BAMBOO_STALK.get())
+                .add(ModBlocks.TIN_BAMBOO_SAPLING.get())
+                .add(ModBlocks.TIN_BAMBOO_STALK.get())
+                .add(ModBlocks.ZINC_BAMBOO_SAPLING.get())
+                .add(ModBlocks.ZINC_BAMBOO_STALK.get())
+                .add(ModBlocks.STEEL_BAMBOO_SAPLING.get())
+                .add(ModBlocks.STEEL_BAMBOO_STALK.get());
 
         tag(ModBlockTags.ELECTRICITY_CAN_TRAVEL_THROUGH)
                 // Copper blocks with all oxidation stages and waxed variants
@@ -163,6 +173,21 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .addTag(ModBlockTags.POWER_SOURCES)
                 .add(ModBlocks.TESLA_COIL.get());
 
+        tag(BlockTags.LEAVES)
+                .add(ModBlocks.AQUANDA_GEL.get())
+                .add(ModBlocks.GLOWING_AQUANDA_GEL.get())
+                .add(ModBlocks.HYBERNATUS_LEAVES.get());
+
+        tag(BlockTags.IMPERMEABLE)
+                .add(ModBlocks.AQUANDA_GEL.get())
+                .add(ModBlocks.GLOWING_AQUANDA_GEL.get())
+                .add(ModBlocks.HYBERNATUS_LEAVES.get())
+                .add(ModBlocks.HYBERNATIC_CRYSTAL_BLOCK.get())
+                .add(ModBlocks.PHANTASMIC_GRASS.get())
+                .add(ModBlocks.PHANTASMIC_NYLIUM.get())
+                .add(ModBlocks.PHANTASMIC_ENDSTONE.get())
+                .add(ModBlocks.PHANTASMIC_TALL_GRASS.get());
+
         tag(ModBlockTags.POWER_SOURCES)
                 .add(ModBlocks.ANCHOR_BLOCK.get())
                 .add(ModBlocks.REDSTONIC_BLOCK.get())
@@ -179,6 +204,13 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.IRON_NYLIUM.get())
                 .add(ModBlocks.GOLDEN_NYLIUM.get())
                 .add(ModBlocks.ANCIENT_NYLIUM.get())
+                .add(ModBlocks.PALLADIUM_NYLIUM.get())
+                .add(ModBlocks.BRASS_NYLIUM.get())
+                .add(ModBlocks.BRONZE_NYLIUM.get())
+                .add(ModBlocks.CINCINNASITE_NYLIUM.get())
+                .add(ModBlocks.TIN_NYLIUM.get())
+                .add(ModBlocks.ZINC_NYLIUM.get())
+                .add(ModBlocks.STEEL_NYLIUM.get())
                 .add(ModBlocks.BLAZING_MAGMA_BLOCK.get())
                 .add(ModBlocks.PYROLIZED_EXPERIENCE_ORE.get())
                 .add(ModBlocks.NETHER_EXPERIENCE_ORE.get())
@@ -296,7 +328,83 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.WAXED_COPPER_PILLAR.get())
                 .add(ModBlocks.WAXED_EXPOSED_COPPER_PILLAR.get())
                 .add(ModBlocks.WAXED_OXIDIZED_COPPER_PILLAR.get())
-                .add(ModBlocks.WAXED_WEATHERED_COPPER_PILLAR.get());
+                .add(ModBlocks.WAXED_WEATHERED_COPPER_PILLAR.get())
+                .add(CreateCompatBlocks.PYROLIZED_ZINC_ORE.get())
+                .add(CreateCompatBlocks.NETHER_ZINC_ORE.get())
+                .add(CreateCompatBlocks.FROZEN_ZINC_ORE.get())
+                .add(CreateIronworksCompatBlocks.PYROLIZED_TIN_ORE.get())
+                .add(CreateIronworksCompatBlocks.NETHER_TIN_ORE.get())
+                .add(CreateIronworksCompatBlocks.FROZEN_TIN_ORE.get())
+                .add(ModBlocks.COBBLED_SANDSTONE.get())
+                .add(ModBlocks.COBBLED_RED_SANDSTONE.get())
+                .add(ModBlocks.SANDSTONE_BRICKS.get())
+                .add(ModBlocks.RED_SANDSTONE_BRICKS.get())
+                .add(ModBlocks.ANDESITE_BRICKS.get())
+                .add(ModBlocks.GRANITE_BRICKS.get())
+                .add(ModBlocks.DIORITE_BRICKS.get())
+                .add(ModBlocks.CUT_ANDESITE.get())
+                .add(ModBlocks.CUT_GRANITE.get())
+                .add(ModBlocks.CUT_DIORITE.get())
+                .add(ModBlocks.BASALT_BRICKS.get())
+                .add(ModBlocks.CHISELED_BASALT.get())
+                .add(ModBlocks.CUT_GOLD_BLOCK.get())
+                .add(ModBlocks.CUT_GOLDEN_BRICKS.get())
+                .add(ModBlocks.BASALT_TILES.get())
+                .add(ModBlocks.CUT_BASALT.get())
+                .add(ModBlocks.POLISHED_DRIPSTONE.get())
+                .add(ModBlocks.POLISHED_DRIPSTONE.get())
+                .add(ModBlocks.POLISHED_CALCITE.get())
+                .add(ModBlocks.CUT_DRIPSTONE.get())
+                .add(ModBlocks.CUT_CALCITE.get())
+                .add(ModBlocks.CUT_TUFF.get())
+                .add(ModBlocks.CUT_DEEPSLATE.get())
+                .add(ModBlocks.DRIPSTONE_BRICKS.get())
+                .add(ModBlocks.CALCITE_BRICKS.get())
+                .add(ModBlocks.CUT_GOLD_BLOCK.get())
+                .add(ModBlocks.CUT_GOLDEN_BRICKS.get())
+                .add(ModBlocks.TUFF_TILES.get())
+                .add(ModBlocks.CUT_QUARTZ_BLOCK.get())
+                .add(ModBlocks.QUARTZ_TILES.get())
+                .add(ModBlocks.CALCITE_TILES.get())
+                .add(ModBlocks.DRIPSTONE_TILES.get())
+                .add(ModBlocks.ANDESITE_TILES.get())
+                .add(ModBlocks.DIORITE_TILES.get())
+                .add(ModBlocks.GRANITE_TILES.get())
+                .add(ModBlocks.POLISHED_BLACKSTONE_TILES.get())
+                .add(ModBlocks.POLISHED_PRISMARINE.get())
+                .add(ModBlocks.CUT_PRISMARINE.get())
+                .add(ModBlocks.PRISMARINE_TILES.get())
+                .add(ModBlocks.PRISMARINE_BRICK_PILLAR.get())
+                .add(ModBlocks.POLISHED_BLACKSTONE_BRICK_PILLAR.get())
+                .add(ModBlocks.BASALT_BRICK_PILLAR.get())
+                .add(ModBlocks.TUFF_BRICK_PILLAR.get())
+                .add(ModBlocks.ANDESITE_BRICK_PILLAR.get())
+                .add(ModBlocks.GRANITE_BRICK_PILLAR.get())
+                .add(ModBlocks.DIORITE_BRICK_PILLAR.get())
+                .add(ModBlocks.CALCITE_BRICK_PILLAR.get())
+                .add(ModBlocks.DRIPSTONE_BRICK_PILLAR.get())
+                .add(ModBlocks.STONE_BRICK_PILLAR.get())
+                .add(ModBlocks.COPPER_CHAIN.get())
+                .add(ModBlocks.EXPOSED_COPPER_CHAIN.get())
+                .add(ModBlocks.WEATHERED_COPPER_CHAIN.get())
+                .add(ModBlocks.OXIDIZED_COPPER_CHAIN.get())
+                .add(ModBlocks.WAXED_COPPER_CHAIN.get())
+                .add(ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.get())
+                .add(ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.get())
+                .add(ModBlocks.WAXED_OXIDIZED_COPPER_CHAIN.get())
+                .add(ModBlocks.GOLDEN_CHAIN.get())
+                .add(ModBlocks.ROSE_GOLDEN_CHAIN.get())
+                .add(ModBlocks.GOLDEN_SPAWNER.get())
+                .add(ModBlocks.STONE_BRICK_TILES.get())
+                .add(ModBlocks.CUT_POLISHED_BLACKSTONE.get())
+                .add(ModBlocks.SANDSTONE_TILES.get())
+                .add(ModBlocks.SANDSTONE_BRICK_PILLAR.get())
+                .add(ModBlocks.RED_SANDSTONE_TILES.get())
+                .add(ModBlocks.RED_SANDSTONE_BRICK_PILLAR.get())
+                .add(ModBlocks.PHANTASMIC_ENDSTONE.get())
+                .add(ModBlocks.PHANTASMIC_NYLIUM.get())
+                .add(ModBlocks.HYBERNATIC_NYLIUM.get())
+                .add(ModBlocks.HYBERNATIC_CRYSTAL_BLOCK.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.COPPER_BAMBOO_SAPLING.get())
@@ -327,7 +435,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GLOWMOSS_BLOCK.get())
                 .add(ModBlocks.GLOWMOSS_CARPET.get())
                 .add(ModBlocks.HANGING_GLOWMOSS.get())
-                .add(ModBlocks.HANGING_GLOWMOSS_PLANT.get());
+                .add(ModBlocks.HANGING_GLOWMOSS_PLANT.get())
+                .add(ModBlocks.HYBERNATUS_LEAVES.get());
 
         tag(BlockTags.SOUL_SPEED_BLOCKS)
                 .add(ModBlocks.SOUL_SNOW_BLOCK.get())
@@ -343,10 +452,19 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .add(ModBlocks.COPPER_NYLIUM.get())
-                .add(ModBlocks.IRON_NYLIUM.get());
+                .add(ModBlocks.IRON_NYLIUM.get())
+                .add(ModBlocks.PALLADIUM_NYLIUM.get())
+                .add(ModBlocks.ZINC_NYLIUM.get())
+                .add(ModBlocks.TIN_NYLIUM.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.GOLDEN_NYLIUM.get());
+                .add(ModBlocks.GOLDEN_NYLIUM.get())
+                .add(ModBlocks.CUT_GOLD_BLOCK.get())
+                .add(ModBlocks.CUT_GOLDEN_BRICKS.get())
+                .add(ModBlocks.CINCINNASITE_NYLIUM.get())
+                .add(ModBlocks.BRASS_NYLIUM.get())
+                .add(ModBlocks.BRONZE_NYLIUM.get())
+                .add(ModBlocks.STEEL_NYLIUM.get());
 
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.ANCIENT_NYLIUM.get())
@@ -404,18 +522,16 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL)
                 .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL);
 
-        if (ModList.get().isLoaded("create")) {
             tag(ModBlockTags.INCORRECT_FOR_BRASS_TOOL)
                     .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL);
 
             tag(ModBlockTags.INCORRECT_FOR_ZINC_TOOL)
                     .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL);
 
-            tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                    .add(CreateCompatBlocks.PYROLIZED_ZINC_ORE.get())
-                    .add(CreateCompatBlocks.NETHER_ZINC_ORE.get())
-                    .add(CreateCompatBlocks.FROZEN_ZINC_ORE.get());
-        }
+            tag(BlockTags.NYLIUM)
+                    .add(ModBlocks.ZINC_NYLIUM.get())
+                    .add(ModBlocks.BRASS_NYLIUM.get())
+                    .add(ModBlocks.TIN_NYLIUM.get());
 
         tag(ModBlockTags.AQUANDA_STEMS)
                 .add(ModBlocks.AQUANDA_STEM.get())
@@ -435,14 +551,17 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.AZALEA_WOOD.get())
                 .add(ModBlocks.STRIPPED_AZALEA_WOOD.get());
 
+        tag(ModBlockTags.HYBERNATUS_LOGS)
+                .add(ModBlocks.HYBERNATUS_LOG.get())
+                .add(ModBlocks.STRIPPED_HYBERNATUS_LOG.get())
+                .add(ModBlocks.HYBERNATUS_WOOD.get())
+                .add(ModBlocks.STRIPPED_HYBERNATUS_WOOD.get());
+
         tag(BlockTags.LOGS)
                 .addTag(ModBlockTags.AQUANDA_STEMS)
                 .addTag(ModBlockTags.EBONY_STEMS)
-                .addTag(ModBlockTags.AZALEA_LOGS);
-
-        tag(BlockTags.LEAVES)
-                .add(ModBlocks.AQUANDA_GEL.get())
-                .add(ModBlocks.GLOWING_AQUANDA_GEL.get());
+                .addTag(ModBlockTags.AZALEA_LOGS)
+                .addTag(ModBlockTags.HYBERNATUS_LOGS);
 
         tag(ModBlockTags.MOSS_CAN_GENERATE_UNDER)
                 .addTag(BlockTags.AIR)
@@ -459,19 +578,21 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BLAZING_VINES_PLANT.get())
                 .add(ModBlocks.HANGING_GLOWMOSS.get())
                 .add(ModBlocks.HANGING_GLOWMOSS_PLANT.get())
-                .add(ModBlocks.PYROLIZED_SCAFFOLDING.get())
-                .add(ModBlocks.COPPER_SCAFFOLDING.get())
-                .add(ModBlocks.IRON_SCAFFOLDING.get())
-                .add(ModBlocks.GOLDEN_SCAFFOLDING.get())
-                .add(ModBlocks.ANCIENT_SCAFFOLDING.get());
+                .addTag(ModBlockTags.SCAFFOLDING);
 
         tag(ModBlockTags.SCAFFOLDING)
                 .add(Blocks.SCAFFOLDING)
+
                 .add(ModBlocks.PYROLIZED_SCAFFOLDING.get())
                 .add(ModBlocks.COPPER_SCAFFOLDING.get())
                 .add(ModBlocks.IRON_SCAFFOLDING.get())
                 .add(ModBlocks.GOLDEN_SCAFFOLDING.get())
-                .add(ModBlocks.ANCIENT_SCAFFOLDING.get());
+                .add(ModBlocks.ANCIENT_SCAFFOLDING.get())
+
+                .add(ModBlocks.ZINC_SCAFFOLDING.get())
+                .add(ModBlocks.TIN_SCAFFOLDING.get())
+                .add(ModBlocks.PALLADIUM_SCAFFOLDING.get())
+                .add(ModBlocks.CINCINNASITE_SCAFFOLDING.get());
 
         tag(ModBlockTags.KELP_LIKE)
                 .add(Blocks.KELP)
@@ -525,6 +646,157 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.COPPER_NYLIUM.get())
                 .add(ModBlocks.GOLDEN_NYLIUM.get())
                 .add(ModBlocks.IRON_NYLIUM.get())
-                .add(ModBlocks.BLAZING_NYLIUM.get());
+                .add(ModBlocks.BLAZING_NYLIUM.get())
+                .add(ModBlocks.ZINC_NYLIUM.get())
+                .add(ModBlocks.TIN_NYLIUM.get())
+                .add(ModBlocks.STEEL_NYLIUM.get())
+                .add(ModBlocks.ROSE_GOLDEN_NYLIUM.get())
+                .add(ModBlocks.BRASS_NYLIUM.get())
+                .add(ModBlocks.BRONZE_NYLIUM.get())
+                .add(ModBlocks.CINCINNASITE_NYLIUM.get())
+                .add(ModBlocks.PALLADIUM_NYLIUM.get());
+
+        tag(ModBlockTags.ZINC_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.ZINC_BAMBOO_SAPLING.get())
+                .add(ModBlocks.ZINC_NYLIUM.get())
+                .add(ModBlocks.ZINC_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.ZINC_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.ZINC_BAMBOO_SAPLING.get())
+                .add(ModBlocks.ZINC_NYLIUM.get())
+                .add(ModBlocks.ZINC_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.ROSE_GOLDEN_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.ROSE_GOLDEN_BAMBOO_SAPLING.get())
+                .add(ModBlocks.ROSE_GOLDEN_NYLIUM.get())
+                .add(ModBlocks.ROSE_GOLDEN_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.ROSE_GOLDEN_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.ROSE_GOLDEN_BAMBOO_SAPLING.get())
+                .add(ModBlocks.ROSE_GOLDEN_NYLIUM.get())
+                .add(ModBlocks.ROSE_GOLDEN_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.BRASS_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.BRASS_BAMBOO_SAPLING.get())
+                .add(ModBlocks.BRASS_NYLIUM.get())
+                .add(ModBlocks.BRASS_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.BRASS_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.BRASS_BAMBOO_SAPLING.get())
+                .add(ModBlocks.BRASS_NYLIUM.get())
+                .add(ModBlocks.BRASS_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.TIN_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.TIN_BAMBOO_SAPLING.get())
+                .add(ModBlocks.TIN_NYLIUM.get())
+                .add(ModBlocks.TIN_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.TIN_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.TIN_BAMBOO_SAPLING.get())
+                .add(ModBlocks.TIN_NYLIUM.get())
+                .add(ModBlocks.TIN_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.STEEL_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.STEEL_BAMBOO_SAPLING.get())
+                .add(ModBlocks.STEEL_NYLIUM.get())
+                .add(ModBlocks.STEEL_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.STEEL_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.STEEL_BAMBOO_SAPLING.get())
+                .add(ModBlocks.STEEL_NYLIUM.get())
+                .add(ModBlocks.STEEL_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.BRONZE_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.BRONZE_BAMBOO_SAPLING.get())
+                .add(ModBlocks.BRONZE_NYLIUM.get())
+                .add(ModBlocks.BRONZE_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.BRONZE_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.BRONZE_BAMBOO_SAPLING.get())
+                .add(ModBlocks.BRONZE_NYLIUM.get())
+                .add(ModBlocks.BRONZE_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.PALLADIUM_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.PALLADIUM_BAMBOO_SAPLING.get())
+                .add(ModBlocks.PALLADIUM_NYLIUM.get())
+                .add(ModBlocks.PALLADIUM_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.PALLADIUM_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.PALLADIUM_BAMBOO_SAPLING.get())
+                .add(ModBlocks.PALLADIUM_NYLIUM.get())
+                .add(ModBlocks.PALLADIUM_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.CINCINNASITE_BAMBOO_PLANTABLE_ON)
+                .addTag(BlockTags.NYLIUM)
+                .addTag(BlockTags.BAMBOO_PLANTABLE_ON)
+                .add(ModBlocks.CINCINNASITE_BAMBOO_SAPLING.get())
+                .add(ModBlocks.CINCINNASITE_NYLIUM.get())
+                .add(ModBlocks.CINCINNASITE_BAMBOO_STALK.get());
+
+        tag(ModBlockTags.CINCINNASITE_BAMBOO_GROWABLE_ON)
+                .add(ModBlocks.CINCINNASITE_BAMBOO_SAPLING.get())
+                .add(ModBlocks.CINCINNASITE_NYLIUM.get())
+                .add(ModBlocks.CINCINNASITE_BAMBOO_STALK.get());
+
+        ModBlocks.TERRACOTTA_BRICKS.values().forEach(block ->
+                tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                        .add(block.get())
+        );
+        ModBlocks.TERRACOTTA_COBBLED.values().forEach(block ->
+                tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                        .add(block.get())
+        );
+        tag(BlockTags.GUARDED_BY_PIGLINS)
+                .add(ModBlocks.GOLDEN_SPAWNER.get())
+                .add(ModBlocks.GOLDEN_CHAIN.get())
+                .add(ModBlocks.GOLDEN_NYLIUM.get())
+                .add(ModBlocks.GOLDEN_BAMBOO_STALK.get())
+                .add(ModBlocks.GOLDEN_BAMBOO_SAPLING.get())
+                .add(ModBlocks.CHISELED_ROSE_GOLD.get())
+                .add(ModBlocks.ROSE_GOLDEN_CHAIN.get())
+                .add(ModBlocks.ROSE_GOLDEN_NYLIUM.get())
+                .add(ModBlocks.ROSE_GOLD_TRAPDOOR.get())
+                .add(ModBlocks.ROSE_GOLD_BLOCK.get())
+                .add(ModBlocks.ROSE_GOLD_DOOR.get())
+                .add(ModBlocks.ROSE_GOLD_GRATE.get())
+                .add(ModBlocks.ROSE_GOLD_PILLAR.get())
+                .add(ModBlocks.ROSE_GOLDEN_BAMBOO_STALK.get())
+                .add(ModBlocks.ROSE_GOLDEN_BAMBOO_SAPLING.get());
+
+        ModBlocks.SOUL_LANTERNS.forEach((color, block) -> {
+
+            // Always true
+            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get());
+            tag(BlockTags.PIGLIN_REPELLENTS).add(block.get());
+
+            // Only gold or rose_gold get piglin guarded
+            if (color.equals("golden") || color.equals("rose_golden")) {
+                tag(BlockTags.GUARDED_BY_PIGLINS).add(block.get());
+            }
+        });
+        ModBlocks.LANTERNS.forEach((color, block) -> {
+
+            // Always mineable
+            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get());
+
+            // Only gold or rose_gold get piglin guarded
+            if (color.equals("golden") || color.equals("rose_golden")) {
+                tag(BlockTags.GUARDED_BY_PIGLINS).add(block.get());
+            }
+        });
     }
 }

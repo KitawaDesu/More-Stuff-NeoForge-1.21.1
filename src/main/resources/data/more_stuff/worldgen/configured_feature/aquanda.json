@@ -12,7 +12,7 @@
           "type": "minecraft:weighted_state_provider",
           "entries": [
             {
-              "weight": 1,
+              "weight": 2,
               "data": {
                 "Name": "more_stuff:aquanda_vines",
                 "Properties": {
@@ -21,7 +21,7 @@
               }
             },
             {
-              "weight": 11,
+              "weight": 98,
               "data": {
                 "Name": "more_stuff:aquanda_vines",
                 "Properties": {
@@ -73,21 +73,10 @@
       "wide_bottom_layer_hole_chance": 0.25
     },
     "foliage_provider": {
-      "type": "minecraft:weighted_state_provider",
-      "entries": [
-        {
-          "weight": 3,
-          "data": {
-            "Name": "more_stuff:aquanda_gel"
-          }
-        },
-        {
-          "weight": 1,
-          "data": {
-            "Name": "more_stuff:glowing_aquanda_gel"
-          }
-        }
-      ]
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "more_stuff:aquanda_gel"
+      }
     },
     "force_dirt": false,
     "ignore_vines": true,

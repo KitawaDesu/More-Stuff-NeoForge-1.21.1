@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff.util.mob_armor;
 
 import net.kitawa.more_stuff.MoreStuff;
+import net.kitawa.more_stuff.entities.monster.renderers.models.VeilStalkerModel;
 import net.kitawa.more_stuff.experimentals.entities.models.ThrownJavelinModel;
 import net.kitawa.more_stuff.util.mixins.mobs.ModelLayersAccessor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -17,6 +18,7 @@ public class ModModelLayers {
     public static final Map<ModelLayerLocation, LayerDefinition> LAYERS = new HashMap();
     public static final ModelLayerLocation HOGLIN_ARMOR = register("hoglin_armor", ModLayerDefinitions.HoglinArmor());
     public static final ModelLayerLocation ZOGLIN_ARMOR = register("zoglin_armor", ModLayerDefinitions.HoglinArmor());
+    public static final ModelLayerLocation VEIL_STALKER = register("veil_stalker", ModLayerDefinitions.VeilStalker());
 
     public ModModelLayers() {
     }

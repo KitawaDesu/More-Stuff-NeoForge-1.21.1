@@ -4,28 +4,28 @@
   "group": "rose_gold_nuggets",
   "ingredients": [
     {
-      "item": "more_stuff:copper_nugget"
+      "tag": "c:nuggets/copper"
     },
     {
-      "item": "more_stuff:copper_nugget"
+      "tag": "c:nuggets/copper"
     },
     {
-      "item": "more_stuff:copper_nugget"
+      "tag": "c:nuggets/copper"
     },
     {
-      "item": "more_stuff:copper_nugget"
+      "tag": "c:nuggets/copper"
     },
     {
-      "item": "gold_nugget"
+      "tag": "c:nuggets/gold"
     },
     {
-      "item": "gold_nugget"
+      "tag": "c:nuggets/gold"
     },
     {
-      "item": "gold_nugget"
+      "tag": "c:nuggets/gold"
     },
     {
-      "item": "gold_nugget"
+      "tag": "c:nuggets/gold"
     }
   ],
   "result": {

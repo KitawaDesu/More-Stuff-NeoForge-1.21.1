@@ -15,6 +15,7 @@ public class ModBlockTags {
     public static final TagKey<Block> AQUANDA_STEMS = create("aquanda_stems");
     public static final TagKey<Block> EBONY_STEMS = create("ebony_stems");
     public static final TagKey<Block> AZALEA_LOGS = create("ebony_logs");
+    public static final TagKey<Block> HYBERNATUS_LOGS = create("hybernatus_logs");
     public static final TagKey<Block> MOSS_CAN_GENERATE_UNDER = create("moss_can_generate_under");
     public static final TagKey<Block> CAN_BE_ALTERED_GROUND = create("can_be_altered_ground");
     public static final TagKey<Block> GOLDEN_BAMBOO_PLANTABLE_ON = create("golden_bamboo_plantable_on");
@@ -27,6 +28,18 @@ public class ModBlockTags {
     public static final TagKey<Block> ANCIENT_BAMBOO_GROWABLE_ON = create("ancient_bamboo_growable_on");
     public static final TagKey<Block> PYROLIZED_BAMBOO_PLANTABLE_ON = create("pyrolized_bamboo_plantable_on");
     public static final TagKey<Block> PYROLIZED_BAMBOO_GROWABLE_ON = create("pyrolized_bamboo_growable_on");
+    public static final TagKey<Block> ZINC_BAMBOO_PLANTABLE_ON = create("zinc_bamboo_plantable_on");
+    public static final TagKey<Block> ZINC_BAMBOO_GROWABLE_ON = create("zinc_bamboo_growable_on");
+    public static final TagKey<Block> ROSE_GOLDEN_BAMBOO_PLANTABLE_ON = create("rose_golden_bamboo_plantable_on");
+    public static final TagKey<Block> ROSE_GOLDEN_BAMBOO_GROWABLE_ON = create("rose_golden_bamboo_growable_on");
+    public static final TagKey<Block> BRASS_BAMBOO_PLANTABLE_ON = create("brass_bamboo_plantable_on");
+    public static final TagKey<Block> BRASS_BAMBOO_GROWABLE_ON = create("brass_bamboo_growable_on");
+    public static final TagKey<Block> TIN_BAMBOO_PLANTABLE_ON = create("tin_bamboo_plantable_on");
+    public static final TagKey<Block> TIN_BAMBOO_GROWABLE_ON = create("tin_bamboo_growable_on");
+    public static final TagKey<Block> STEEL_BAMBOO_PLANTABLE_ON = create("steel_bamboo_plantable_on");
+    public static final TagKey<Block> STEEL_BAMBOO_GROWABLE_ON = create("steel_bamboo_growable_on");
+    public static final TagKey<Block> BRONZE_BAMBOO_PLANTABLE_ON = create("bronze_bamboo_plantable_on");
+    public static final TagKey<Block> BRONZE_BAMBOO_GROWABLE_ON = create("bronze_bamboo_growable_on");
     public static final TagKey<Block> INCORRECT_FOR_ZINC_TOOL = create("incorrect_for_zinc_tool");
     public static final TagKey<Block> INCORRECT_FOR_BRASS_TOOL = create("incorrect_for_brass_tool");
     public static final TagKey<Block> BLAZING_REEDS_PLANTABLE_ON = create("blazing_reeds_plantable_on");
@@ -39,6 +52,14 @@ public class ModBlockTags {
     public static final TagKey<Block> KELP_LIKE = create("kelp_like");
     public static final TagKey<Block> KELP_PLANT_LIKE = create("kelp_plant_like");
     public static final TagKey<Block> SCAFFOLDING = create("scaffolding");
+    public static final TagKey<Block> WITHER_SKELETON_WOLVES_SPAWNABLE_ON = create("wither_skeleton_wolves_spawnable_on");
+    public static final TagKey<Block> CINCINNASITE_BAMBOO_PLANTABLE_ON = create("cincinnasite_bamboo_plantable_on");
+    public static final TagKey<Block> CINCINNASITE_BAMBOO_GROWABLE_ON = create("cincinnasite_bamboo_growable_on");
+    public static final TagKey<Block> PALLADIUM_BAMBOO_PLANTABLE_ON = create("palladium_bamboo_plantable_on");
+    public static final TagKey<Block> PALLADIUM_BAMBOO_GROWABLE_ON = create("palladium_bamboo_growable_on");
+    public static final TagKey<Block> REVEALS_HIDDEN_BLOCKS = create("reveals_hidden_blocks");
+    public static final TagKey<Block> ENDER_NYLIUM = create("ender_nylium");
+    public static final TagKey<Block> CULLS_REVEALABLES = create("culls_revealables");
 
     private ModBlockTags() {
     }

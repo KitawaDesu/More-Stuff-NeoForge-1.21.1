@@ -1,86 +1,27 @@
 {
-  "type": "minecraft:random_selector",
+  "type": "more_stuff:blockstate_vines",
   "config": {
-    "features": [
-      {
-        "chance": 0,
-        "feature": {
-          "feature": "more_stuff:blazing_vines",
-          "placement": [
-            {
-              "type": "minecraft:count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min_inclusive": 1,
-                "max_inclusive": 3
-              }
-            },
-            {
-              "type": "minecraft:random_offset",
-              "xz_spread": {
-                "type": "minecraft:uniform",
-                "min_inclusive": -3,
-                "max_inclusive": 3
-              },
-              "y_spread": {
-                "type": "minecraft:uniform",
-                "min_inclusive": -1,
-                "max_inclusive": 1
-              }
-            },
-            {
-              "type": "minecraft:block_predicate_filter",
-              "predicate": {
-                "type": "minecraft:has_sturdy_face",
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
-                "direction": "up"
-              }
-            }
-          ]
-        }
+    "spread_width": 3,
+    "spread_height": 1,
+    "max_height": 2,
+    "head_block": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "more_stuff:blazing_vines",
+        "Properties": { "age": "22" }
       }
-    ],
-    "default": {
-      "feature": "more_stuff:blazing_vines",
-      "placement": [
-        {
-          "type": "minecraft:count",
-          "count": {
-            "type": "minecraft:uniform",
-            "min_inclusive": 1,
-            "max_inclusive": 3
-          }
-        },
-        {
-          "type": "minecraft:random_offset",
-          "xz_spread": {
-            "type": "minecraft:uniform",
-            "min_inclusive": -3,
-            "max_inclusive": 3
-          },
-          "y_spread": {
-            "type": "minecraft:uniform",
-            "min_inclusive": -1,
-            "max_inclusive": 1
-          }
-        },
-        {
-          "type": "minecraft:block_predicate_filter",
-          "predicate": {
-            "type": "minecraft:has_sturdy_face",
-            "offset": [
-              0,
-              -1,
-              0
-            ],
-            "direction": "up"
-          }
-        }
-      ]
-    }
+    },
+    "body_block": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "more_stuff:blazing_vines_plant",
+        "Properties": {}
+      }
+    },
+    "place_on_blocks": [
+      "minecraft:netherrack",
+      "more_stuff:blazing_nylium",
+      "more_stuff:ebony_wart_block"
+    ]
   }
 }

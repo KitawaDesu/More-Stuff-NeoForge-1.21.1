@@ -18,7 +18,7 @@ public class ThrownJavelinRenderer extends EntityRenderer<ThrownJavelin> {
 
     public ThrownJavelinRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new ThrownJavelinModel(context.bakeLayer(ThrownJavelinModel.SPEAR_LAYER));
+        this.model = new ThrownJavelinModel(context.bakeLayer(ThrownJavelinModel.LAYER_LOCATION));
     }
 
     @Override

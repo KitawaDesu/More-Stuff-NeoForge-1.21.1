@@ -8,7 +8,9 @@
   ],
   "key": {
     "N": [
-      "more_stuff:copper_nugget"
+      {
+        "tag": "c:nuggets/copper"
+      }
     ]
   },
   "result": {

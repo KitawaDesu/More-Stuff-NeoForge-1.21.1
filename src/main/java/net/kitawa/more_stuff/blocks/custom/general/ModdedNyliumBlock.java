@@ -14,16 +14,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.lighting.LightEngine;
 
+import java.util.Optional;
+
 public class ModdedNyliumBlock extends Block implements BonemealableBlock {
 
     private final ResourceKey<ConfiguredFeature<?, ?>> vegetationFeature;
-
+    private final Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryFeature;
     private final Block netherrackblock;
 
-    public ModdedNyliumBlock(ResourceKey<ConfiguredFeature<?, ?>> vegetationFeature, Block netherrackBlock, Properties properties) {
+    public ModdedNyliumBlock(
+            ResourceKey<ConfiguredFeature<?, ?>> vegetationFeature,
+            Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryFeature,
+            Block netherrackBlock,
+            Properties properties) {
         super(properties);
         this.vegetationFeature = vegetationFeature;
+        this.secondaryFeature = secondaryFeature;
         this.netherrackblock = netherrackBlock;
+    }
+
+    // convenience constructor for no secondary feature
+    public ModdedNyliumBlock(
+            ResourceKey<ConfiguredFeature<?, ?>> vegetationFeature,
+            Block netherrackBlock,
+            Properties properties) {
+        this(vegetationFeature, Optional.empty(), netherrackBlock, properties);
     }
 
     private static boolean canBeNylium(BlockState state, LevelReader reader, BlockPos pos) {
@@ -53,14 +68,14 @@ public class ModdedNyliumBlock extends Block implements BonemealableBlock {
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos abovePos = pos.above();
+        var registry = level.registryAccess().registry(Registries.CONFIGURED_FEATURE);
 
-        level.registryAccess()
-                .registry(Registries.CONFIGURED_FEATURE)
-                .flatMap(registry -> registry.getHolder(vegetationFeature))
-                .ifPresent(holder -> {
-                    ConfiguredFeature<?, ?> feature = holder.value();
-                    feature.place(level, level.getChunkSource().getGenerator(), random, abovePos);
-                });
+        registry.flatMap(reg -> reg.getHolder(vegetationFeature))
+                .ifPresent(holder -> holder.value().place(level, level.getChunkSource().getGenerator(), random, abovePos));
+
+        secondaryFeature.ifPresent(key ->
+                registry.flatMap(reg -> reg.getHolder(key))
+                        .ifPresent(holder -> holder.value().place(level, level.getChunkSource().getGenerator(), random, abovePos)));
     }
 
     @Override

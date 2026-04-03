@@ -1,10 +1,12 @@
 package net.kitawa.more_stuff.util.datagen;
 
 import net.kitawa.more_stuff.compat.create.blocks.CreateCompatBlocks;
+import net.kitawa.more_stuff.compat.create.blocks.CreateIronworksCompatBlocks;
 import net.kitawa.more_stuff.compat.create.items.CreateCompatItems;
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.blocks.ModBlocks;
 import net.kitawa.more_stuff.items.ModItems;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -45,6 +46,14 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        for (String color : ModItems.SLIME_COLORS) {
+            basicItem(ModItems.SLIME_BALLS.get(color).get());
+        }
+        basicItem(ModItems.AQUANDA_SLIME_BALL.get());
+        spawnEggItem(ModItems.AQUANDA_SLIME_SPAWN_EGG.get());
+        spawnEggItem(ModItems.ZOMBIE_WOLF_SPAWN_EGG.get());
+        spawnEggItem(ModItems.VEIL_STALKER_SPAWN_EGG.get());
+        spawnEggItem(ModItems.VEIL_WRAITH_SPAWN_EGG.get());
         trimmedArmorItem(ModItems.COPPER_HELMET);
         trimmedArmorItem(ModItems.COPPER_CHESTPLATE);
         trimmedArmorItem(ModItems.COPPER_LEGGINGS);
@@ -65,7 +74,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         trimmedArmorItem(ModItems.ROSARITE_CHESTPLATE);
         trimmedArmorItem(ModItems.ROSARITE_LEGGINGS);
         trimmedArmorItem(ModItems.ROSARITE_BOOTS);
-        if (ModList.get().isLoaded("create")) {
             trimmedArmorItem(CreateCompatItems.BRASS_HELMET);
             trimmedArmorItem(CreateCompatItems.BRASS_CHESTPLATE);
             trimmedArmorItem(CreateCompatItems.BRASS_LEGGINGS);
@@ -94,18 +102,39 @@ public class ModItemModelProvider extends ItemModelProvider {
             basicItem(CreateCompatItems.ZINC_DUST.get());
             basicItem(CreateCompatItems.IRON_DUST.get());
             basicItem(CreateCompatItems.GOLDEN_DUST.get());
+            basicItem(CreateCompatItems.ROSE_GOLDEN_DUST.get());
+            basicItem(CreateCompatItems.TIN_DUST.get());
+            basicItem(CreateCompatItems.STEEL_DUST.get());
+            basicItem(CreateCompatItems.BRONZE_DUST.get());
             handheldItem(CreateCompatItems.ZINC_HORSE_ARMOR);
             handheldItem(CreateCompatItems.BRASS_HORSE_ARMOR);
             simpleBlockItem(CreateCompatBlocks.FROZEN_ZINC_ORE.get());
             simpleBlockItem(CreateCompatBlocks.NETHER_ZINC_ORE.get());
             simpleBlockItem(CreateCompatBlocks.PYROLIZED_ZINC_ORE.get());
+            simpleBlockItem(CreateIronworksCompatBlocks.FROZEN_TIN_ORE.get());
+            simpleBlockItem(CreateIronworksCompatBlocks.NETHER_TIN_ORE.get());
+            simpleBlockItem(CreateIronworksCompatBlocks.PYROLIZED_TIN_ORE.get());
 
             handheldItem(CreateCompatItems.BRASS_MACE);
             handheldItem(CreateCompatItems.ZINC_MACE);
 
             basicItem(CreateCompatItems.BRASS_SHEARS.get());
             basicItem(CreateCompatItems.ZINC_SHEARS.get());
-        }
+
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.COPPER_CHAIN.get().asItem()));
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.EXPOSED_COPPER_CHAIN.get().asItem()));
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.WEATHERED_COPPER_CHAIN.get().asItem()));
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.OXIDIZED_COPPER_CHAIN.get().asItem()));
+
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.WAXED_COPPER_CHAIN.get().asItem()));
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.get().asItem()));
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.get().asItem()));
+        chainItem(BuiltInRegistries.ITEM.getKey(ModBlocks.WAXED_OXIDIZED_COPPER_CHAIN.get().asItem()));
+
+        basicItem(ModBlocks.GOLDEN_CHAIN.get().asItem());
+        basicItem(ModBlocks.ROSE_GOLDEN_CHAIN.get().asItem());
+        ModBlocks.SOUL_LANTERNS.values().forEach(b -> basicItem(b.get().asItem()));
+        ModBlocks.LANTERNS.values().forEach(b -> basicItem(b.get().asItem()));
 
         basicItem(ModItems.DUNGEON_KEY.get());
         basicItem(ModItems.OMINOUS_DUNGEON_KEY.get());
@@ -378,5 +407,18 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/handheld")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID,"item/" + item.getId().getPath()));
+    }
+
+    public ItemModelBuilder chainItem(ResourceLocation item) {
+        String path = item.getPath();
+
+        // Remove the "waxed_" prefix from the texture path
+        if (path.startsWith("waxed_")) {
+            path = path.substring("waxed_".length());
+        }
+
+        return getBuilder(item.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + path));
     }
 }

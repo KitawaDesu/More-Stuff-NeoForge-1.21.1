@@ -1,10 +1,11 @@
 package net.kitawa.more_stuff.experimentals.items;
 
 import net.kitawa.more_stuff.MoreStuff;
+import net.kitawa.more_stuff.experimentals.items.util.ToggleableDynamicArrowItem;
 import net.kitawa.more_stuff.experimentals.items.util.ToggleableItem;
 import net.kitawa.more_stuff.experimentals.items.util.ToggleableJavelinItem;
 import net.kitawa.more_stuff.items.ModItems;
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
 import net.kitawa.more_stuff.util.tags.ModBlockTags;
 import net.minecraft.core.component.DataComponents;
@@ -24,6 +25,11 @@ public class ExperimentalCombatItems {
 
     public static final DeferredItem<Item> STURDY_STICK = ITEMS.register("sturdy_stick",
             () -> new ToggleableItem(new Properties(),
+                    () -> ExperimentalUpdatesConfig.isCombatUpdateAllowed, // dynamic check
+                    "§7Experimental Combat Update"));
+
+    public static final DeferredItem<Item> DYNAMIC_ARROW = ITEMS.register("dynamic_arrow",
+            () -> new ToggleableDynamicArrowItem(new Properties(),
                     () -> ExperimentalUpdatesConfig.isCombatUpdateAllowed, // dynamic check
                     "§7Experimental Combat Update"));
 

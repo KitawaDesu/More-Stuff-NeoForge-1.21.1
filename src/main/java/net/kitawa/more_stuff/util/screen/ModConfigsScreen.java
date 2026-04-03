@@ -56,7 +56,7 @@ public class ModConfigsScreen extends Screen {
         widgets.add(new WidgetWrapper(generalConfigButton, this.width / 2 - buttonWidth / 2, currentY));
         addRenderableWidget(generalConfigButton);
 
-        currentY += buttonHeight + spacing;
+        currentY += buttonHeight + spacing; // move down for next button
 
         // --- Back Button ---
         Button backButton = Button.builder(Component.literal("Back"), b -> this.minecraft.setScreen(parent))

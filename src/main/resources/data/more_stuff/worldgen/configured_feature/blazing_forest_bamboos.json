@@ -1,32 +1,27 @@
 {
-  "type": "minecraft:vegetation_patch",
+  "type": "more_stuff:nether_bamboo",
   "config": {
-    "surface": "floor",
-    "depth": 1,
-    "vertical_range": 5,
-    "extra_bottom_block_chance": 0,
-    "extra_edge_column_chance": 0,
-    "vegetation_chance": 0.005,
-    "xz_radius": {
-      "type": "minecraft:uniform",
-      "min_inclusive": 4,
-      "max_inclusive": 7
-    },
-    "replaceable": "#more_stuff:blazing_nylium",
-    "ground_state": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "more_stuff:blazing_nylium"
-      }
-    },
-    "vegetation_feature": {
-      "feature": "more_stuff:pyrolized_forest_bamboo",
-      "placement": [
-        {
-          "type": "minecraft:count",
-          "count": 1
+    "ground_blocks": [
+      {
+        "block": {
+          "type": "minecraft:simple_state_provider",
+          "state": { "Name": "more_stuff:blazing_nylium" }
         }
-      ]
-    }
+      }
+    ],
+    "shoot_blocks": [
+      {
+        "block": {
+          "type": "minecraft:simple_state_provider",
+          "state": { "Name": "more_stuff:pyrolized_bamboo_stalk" }
+        }
+      }
+    ],
+    "ground_can_replace": {
+      "predicate_type": "minecraft:tag_match",
+      "tag": "more_stuff:nether_bamboo_ground_can_replace"
+    },
+    "probability": 0.2,
+    "debug": false
   }
 }

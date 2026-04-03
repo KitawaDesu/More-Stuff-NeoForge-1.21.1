@@ -70,4 +70,36 @@ public class ModFeatures {
             FEATURES.register("place_vault",
                     () -> new PlaceVaultFeature(VaultFeatureConfig.CODEC));
 
+    public static final DeferredHolder<Feature<?>, NetherBambooFeature> NETHER_BAMBOO =
+            FEATURES.register("nether_bamboo",
+                    () -> new NetherBambooFeature(NetherBambooFeatureConfiguration.CODEC));
+
+    public static final DeferredHolder<Feature<?>, ProbabilityPatchFeature> PROBABILITY_PATCH =
+            FEATURES.register("probability_patch",
+                    () -> new ProbabilityPatchFeature(ProbabilityPatchFeatureConfiguration.CODEC));
+
+    public static final DeferredHolder<Feature<?>, BlockstateColumnsFeature> BLOCKSTATE_COLUMNS =
+            FEATURES.register("blockstate_columns",
+                    () -> new BlockstateColumnsFeature(BlockstateColumnFeatureConfiguration.CODEC));
+
+    public static final DeferredHolder<Feature<?>, BlockstateIslandsFeature> BLOCKSTATE_ISLANDS =
+            FEATURES.register("blockstate_islands",
+                    () -> new BlockstateIslandsFeature(BlockstateIslandsConfig.CODEC));
+
+    public static final DeferredHolder<Feature<?>, ColumnClustersFeature> COLUMN_CLUSER =
+            FEATURES.register("column_cluster",
+                    () -> new ColumnClustersFeature(ColumnClustersConfig.CODEC));
+
+    public static final DeferredHolder<Feature<?>, BlockstateVinesFeature> BLOCKSTATE_VINES =
+            FEATURES.register("blockstate_vines",
+                    () -> new BlockstateVinesFeature(BlockstateVinesConfig.CODEC));
+
+    public static final DeferredHolder<Feature<?>, SubchunkBiomeReplaceFeature> SUBCHUNK_BIOME_REPLACE =
+            FEATURES.register("subchunk_biome_replace",
+                    () -> new SubchunkBiomeReplaceFeature(SubchunkBiomeReplaceConfig.CODEC));
+
+    public static final DeferredHolder<Feature<?>, GeodeFeature> GEODE_FEATURE =
+            FEATURES.register("geode",
+                    () -> new GeodeFeature(GeodeConfiguration.CODEC));
+
 }

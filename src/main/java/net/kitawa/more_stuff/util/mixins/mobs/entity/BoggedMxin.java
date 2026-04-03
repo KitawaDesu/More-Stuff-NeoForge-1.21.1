@@ -16,6 +16,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Bogged.class)
 public abstract class BoggedMxin extends AbstractSkeleton implements Shearable {
@@ -25,24 +28,20 @@ public abstract class BoggedMxin extends AbstractSkeleton implements Shearable {
     }
 
     /**
-     * @author
-     * KitawaDesu
-     * @reason
-     * To Allow My Custom Shears to be Used on Boggeds
+     * @author KitawaDesu
+     * @reason Inject shear logic for custom shears without overwriting vanilla behavior
      */
-    @Overwrite
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    private void moreStuff$customShearInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (false && itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) { // Neo: Shear logic is handled by IShearable
+
+        if (itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) {
             this.shear(SoundSource.PLAYERS);
             this.gameEvent(GameEvent.SHEAR, player);
             if (!this.level().isClientSide) {
                 itemstack.hurtAndBreak(1, player, getSlotForHand(hand));
             }
-
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else {
-            return super.mobInteract(player, hand);
+            cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide));
         }
     }
 

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
@@ -16,8 +17,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
@@ -93,6 +96,7 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
                     ResourceLocation.CODEC.optionalFieldOf("trap_loot").forGetter(cfg -> cfg.trapLoot),
                     BlockState.CODEC.fieldOf("default_cobble").forGetter(cfg -> cfg.defaultCobble),
                     BlockState.CODEC.fieldOf("default_mossy").forGetter(cfg -> cfg.defaultMossy),
+                    Codec.BOOL.fieldOf("debug").forGetter(cfg -> cfg.debug),
                     NormalConfig.CODEC.fieldOf("normal_config").forGetter(cfg -> cfg.normalConfig),
                     OminousConfig.CODEC.fieldOf("ominous_config").forGetter(cfg -> cfg.ominousConfig)
             ).apply(instance, MonsterRoomFeatureConfiguration::new)
@@ -107,15 +111,18 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
     public final Optional<ResourceLocation> trapLoot;
     public final BlockState defaultCobble;
     public final BlockState defaultMossy;
-
+    public final boolean debug;
     public final NormalConfig normalConfig;
     public final OminousConfig ominousConfig;
 
-    // Runtime fields
+    // --- Runtime fields
     public final SimpleWeightedRandomList<ResourceKey<LootTable>> normalLootPool;
     public final SimpleWeightedRandomList<ResourceKey<LootTable>> ominousLootPool;
     public final ResourceKey<LootTable> normalDropLoot;
     public final ResourceKey<LootTable> ominousDropLoot;
+
+    // --- NEW: Protected block states
+    public final Set<Block> protectedStates = new HashSet<>();
 
     public MonsterRoomFeatureConfiguration(
             List<Replacement> cobbledReplacements,
@@ -127,6 +134,7 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
             Optional<ResourceLocation> trapLoot,
             BlockState defaultCobble,
             BlockState defaultMossy,
+            boolean debug,
             NormalConfig normalConfig,
             OminousConfig ominousConfig
     ) {
@@ -139,6 +147,7 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
         this.trapLoot = trapLoot;
         this.defaultCobble = defaultCobble;
         this.defaultMossy = defaultMossy;
+        this.debug = debug;
         this.normalConfig = normalConfig;
         this.ominousConfig = ominousConfig;
 
@@ -159,6 +168,10 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
         this.ominousDropLoot = ominousConfig.ominousDropLoot()
                 .map(loc -> ResourceKey.create(Registries.LOOT_TABLE, loc))
                 .orElse(BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS);
+
+        // --- Fill protectedStates set from all replacements
+        for (Replacement r : cobbledReplacements) protectedStates.add(r.state().getBlock());
+        for (Replacement r : mossyReplacements) protectedStates.add(r.state().getBlock());
     }
 
     private static SimpleWeightedRandomList<ResourceKey<LootTable>> buildWeightedLoot(List<WeightedLoot> list, ResourceKey<LootTable> default1, ResourceKey<LootTable> default2) {
@@ -190,11 +203,16 @@ public class MonsterRoomFeatureConfiguration implements FeatureConfiguration {
         return BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(DEFAULT_MOBS[random.nextInt(DEFAULT_MOBS.length)]);
     }
 
+    // --- UPDATED: respects protectedStates
     public BlockState getReplacement(BlockState original, int yLevel, RandomSource random) {
+        // If block is protected, never replace
+        if (protectedStates.contains(original.getBlock())) return original;
+
         List<Replacement> list = yLevel == -1 && random.nextInt(4) != 0 ? mossyReplacements : cobbledReplacements;
         for (Replacement repl : list) {
-            if (repl.target.test(original, random)) return repl.state;
+            if (repl.target.test(original, random)) return repl.state();
         }
+
         return (yLevel == -1 && random.nextInt(4) != 0) ? defaultMossy : defaultCobble;
     }
 

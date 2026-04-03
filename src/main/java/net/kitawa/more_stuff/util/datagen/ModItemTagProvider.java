@@ -11,6 +11,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -32,6 +33,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+
+        tag(ItemTags.ARROWS)
+                .add(ExperimentalCombatItems.DYNAMIC_ARROW.get());
 
 // Unwaxed
         tag(ModItemTags.ROSE_GOLD_BLOCKS)
@@ -329,8 +333,34 @@ public class ModItemTagProvider extends ItemTagsProvider {
         }
 
         tag(ModItemTags.ABSORBS_DAMAGE)
-                .addTag(ModItemTags.WOLF_ARMOR)
-                .addTag(ModItemTags.HOGLIN_ARMOR);
+                .add(Items.WOLF_ARMOR)
+                .add(ModItems.HOGLIN_ARMOR.get());
+
+        tag(ModItemTags.ARROW_TIPS)
+                .add(Items.FLINT)
+                .add(Items.PRISMARINE_SHARD)
+                .addTag(ItemTags.PLANKS)
+                .addTag(ItemTags.STONE_TOOL_MATERIALS)
+                .add(Items.IRON_INGOT)
+                .add(Items.COPPER_INGOT)
+                .add(Items.GOLD_INGOT)
+                .add(Items.DIAMOND)
+                .add(Items.EMERALD)
+                .add(Items.NETHERITE_INGOT);
+
+        tag(ModItemTags.ARROW_SHAFTS)
+                .add(Items.STICK)
+                .add(Items.BLAZE_ROD)
+                .add(Items.BREEZE_ROD);
+
+        tag(ModItemTags.ARROW_FLETCHINGS)
+                .add(Items.FEATHER)
+                .add(Items.PAPER);
+
+        tag(ModItemTags.ARROW_MODIFIERS)
+                .add(Items.POTION)
+                .add(Items.SPLASH_POTION)
+                .add(Items.LINGERING_POTION);
 
         tag(ModItemTags.SHEARS)
                 .add(Items.SHEARS)
@@ -441,7 +471,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.PLANKS)
                 .add(ModBlocks.AQUANDA_PLANKS.asItem())
                 .add(ModBlocks.AZALEA_PLANKS.asItem())
-                .add(ModBlocks.EBONY_PLANKS.asItem());
+                .add(ModBlocks.EBONY_PLANKS.asItem())
+                .add(ModBlocks.HYBERNATUS_PLANKS.asItem());
 
         this.tag(ItemTags.TRIMMABLE_ARMOR)
                 .add(ModItems.WOOD_PLATE_HELMET.get())
@@ -511,7 +542,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .addTag(ModItemTags.SHEARS);
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
-                .addTag(ModItemTags.HORSE_ARMOR);
+                .addTag(ModItemTags.HORSE_ARMOR)
+                .addTag(ModItemTags.WOLF_ARMOR)
+                .addTag(ModItemTags.HOGLIN_ARMOR);
 
         tag(ItemTags.WEAPON_ENCHANTABLE)
                 .add(ModItems.WOODEN_MACE.get())
@@ -608,7 +641,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
 
         tag(ItemTags.DURABILITY_ENCHANTABLE)
-                .addTag(Tags.Items.TOOLS_SHIELD);
+                .addTag(Tags.Items.TOOLS_SHIELD)
+                .addTag(ModItemTags.WOLF_ARMOR)
+                .addTag(ModItemTags.HOGLIN_ARMOR);
 
         tag(ItemTags.VANISHING_ENCHANTABLE)
                 .addTag(Tags.Items.TOOLS_SHIELD)
@@ -636,7 +671,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ExperimentalCombatItems.EMERALD_JAVELIN.get())
                 .add(ExperimentalCombatItems.DIAMOND_JAVELIN.get())
                 .add(ExperimentalCombatItems.NETHERITE_JAVELIN.get())
-                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get());
+                .add(ExperimentalCombatItems.ROSARITE_JAVELIN.get())
+                .addTag(ModItemTags.WOLF_ARMOR)
+                .addTag(ModItemTags.HOGLIN_ARMOR);
 
         tag(ItemTags.CROSSBOW_ENCHANTABLE)
                 .add(ExperimentalCombatItems.WOODEN_JAVELIN.get())

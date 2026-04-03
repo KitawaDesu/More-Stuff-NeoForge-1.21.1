@@ -1,6 +1,7 @@
 {
   "type": "more_stuff:monster_room",
   "config": {
+    "debug": false,
     "cobbled_replacements": [
       {
         "target": {
@@ -18,6 +19,204 @@
         },
         "state": {
           "Name": "minecraft:cobbled_deepslate"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:white_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:white_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:orange_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:orange_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:magenta_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:magenta_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:light_blue_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:light_blue_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:yellow_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:yellow_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:lime_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:lime_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:pink_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:pink_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:gray_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:gray_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:light_gray_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:light_gray_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:cyan_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:cyan_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:purple_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:purple_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:blue_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:blue_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:brown_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:brown_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:green_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:green_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:red_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:red_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:black_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:black_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:red_sandstone"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_red_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sandstone"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:red_sand"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_red_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sand"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:dirt"
+        },
+        "state": {
+          "Name": "minecraft:packed_mud"
         }
       }
     ],
@@ -37,7 +236,205 @@
           "tag": "minecraft:deepslate_ore_replaceables"
         },
         "state": {
-          "Name": "minecraft:cobbled_deepslate"
+          "Name": "more_stuff:mossy_cobbled_deepslate"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:white_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:white_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:orange_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:orange_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:magenta_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:magenta_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:light_blue_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:light_blue_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:yellow_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:yellow_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:lime_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:lime_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:pink_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:pink_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:gray_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:gray_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:light_gray_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:light_gray_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:cyan_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:cyan_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:purple_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:purple_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:blue_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:blue_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:brown_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:brown_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:green_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:green_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:red_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:red_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:black_terracotta"
+        },
+        "state": {
+          "Name": "more_stuff:black_cobbled_terracotta"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:red_sandstone"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_red_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sandstone"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:red_sand"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_red_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sand"
+        },
+        "state": {
+          "Name": "more_stuff:cobbled_sandstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:dirt"
+        },
+        "state": {
+          "Name": "minecraft:packed_mud"
         }
       }
     ],
@@ -123,9 +520,9 @@
         "minecraft:zombie",
         "minecraft:zombie",
         "minecraft:zombie",
-        "minecraft:zombie",
-        "minecraft:zombie",
-        "minecraft:zombie",
+        "more_stuff:zombie_wolf",
+        "more_stuff:zombie_wolf",
+        "more_stuff:zombie_wolf",
         "minecraft:spider",
         "minecraft:spider",
         "minecraft:spider",
@@ -138,9 +535,9 @@
         "minecraft:slime",
         "minecraft:slime",
         "minecraft:slime",
-        "minecraft:slime",
-        "minecraft:slime",
-        "minecraft:slime",
+        "more_stuff:colored_slime",
+        "more_stuff:colored_slime",
+        "more_stuff:colored_slime",
         "minecraft:creeper",
         "minecraft:creeper",
         "minecraft:creeper",
@@ -184,6 +581,7 @@
         "minecraft:spider",
         "minecraft:cave_spider",
         "minecraft:slime",
+        "more_stuff:colored_slime",
         "minecraft:creeper",
         "minecraft:breeze",
         "minecraft:pillage",

@@ -15,8 +15,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(SnowGolem.class)
+@Mixin(value = SnowGolem.class, priority = 500)
 public abstract class SnowGolemMixin extends AbstractGolem implements Shearable, RangedAttackMob {
 
     protected SnowGolemMixin(EntityType<? extends AbstractGolem> entityType, Level level) {
@@ -24,24 +27,20 @@ public abstract class SnowGolemMixin extends AbstractGolem implements Shearable,
     }
 
     /**
-     * @author
-     * KitawaDesu
-     * @reason
-     * To Allow My Custom Shears to be Used on Snow Golems
+     * @author KitawaDesu
+     * @reason Inject shear logic for custom shears without overwriting vanilla behavior
      */
-    @Overwrite
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    private void moreStuff$customShearInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (false && itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) { // Neo: Shear logic is handled by IShearable
+
+        if (itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) {
             this.shear(SoundSource.PLAYERS);
             this.gameEvent(GameEvent.SHEAR, player);
             if (!this.level().isClientSide) {
                 itemstack.hurtAndBreak(1, player, getSlotForHand(hand));
             }
-
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else {
-            return InteractionResult.PASS;
+            cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide));
         }
     }
 }

@@ -1,7 +1,7 @@
 package net.kitawa.more_stuff.experimentals.items.entity;
 
 import net.kitawa.more_stuff.experimentals.entities.ExperimentalCombatEntities;
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

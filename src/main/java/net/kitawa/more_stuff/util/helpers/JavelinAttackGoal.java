@@ -1,10 +1,9 @@
 package net.kitawa.more_stuff.util.helpers;
 
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
-import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;

@@ -3,6 +3,7 @@ package net.kitawa.more_stuff.items.life_tokens;
 import net.kitawa.more_stuff.util.configs.LifeTokensConfig;
 import net.kitawa.more_stuff.util.configs.LifeBitDropsConfig;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +13,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -33,7 +36,6 @@ public class LifeBitDrops {
     }
 
     private static void execute(ServerLevel world, LivingEntity entity, double x, double y, double z) {
-        // Check config dynamically at runtime
         if (!LifeTokensConfig.addLifeTokens) return;
 
         float maxHealth = entity.getMaxHealth();
@@ -42,7 +44,6 @@ public class LifeBitDrops {
         double mobToughness = safeGetAttribute(entity, Attributes.ARMOR_TOUGHNESS);
         double mobAttackDamage = safeGetAttribute(entity, Attributes.ATTACK_DAMAGE);
 
-        // Use runtime getters instead of static fields
         float random = world.getRandom().nextFloat();
         Double biasedTowards = LifeBitDropsConfig.BIASED_TOWARDS_PERCENTAGE.get();
         Double minimumDrop = LifeBitDropsConfig.MINIMUM_DROP_PERCENTAGE.get();
@@ -58,6 +59,7 @@ public class LifeBitDrops {
         float mobAttackBonus = (float)(mobAttackDamage * LifeBitDropsConfig.MOB_ATTACK_DAMAGE_BONUS.get());
 
         float healthPenalty = 0f, armorPenalty = 0f, toughnessPenalty = 0f, attackDamagePenalty = 0f;
+        float lootingMultiplier = 1.0f;
 
         LivingEntity killer = entity.getKillCredit();
         if (killer instanceof Player player) {
@@ -74,10 +76,19 @@ public class LifeBitDrops {
                     * LifeBitDropsConfig.PLAYER_TOUGHNESS_PENALTY.get());
             attackDamagePenalty = (float)(Math.max(0, playerAttackDamage - LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_THRESHOLD.get())
                     * LifeBitDropsConfig.PLAYER_ATTACK_DAMAGE_PENALTY.get());
+
+            int lootingLevel = EnchantmentHelper.getItemEnchantmentLevel(
+                    player.level().registryAccess()
+                            .lookupOrThrow(Registries.ENCHANTMENT)
+                            .getOrThrow(Enchantments.LOOTING),
+                    player.getMainHandItem()
+            );
+            lootingMultiplier = 1.0f + lootingLevel * 0.25f;
         }
 
-        float rawDropAmount = (maxHealth * percentage) + (armorBonus + toughnessBonus + mobAttackBonus)
-                - (healthPenalty + armorPenalty + toughnessPenalty + attackDamagePenalty);
+        float rawDropAmount = ((maxHealth * percentage) + (armorBonus + toughnessBonus + mobAttackBonus)
+                - (healthPenalty + armorPenalty + toughnessPenalty + attackDamagePenalty))
+                * lootingMultiplier;
 
         int dropAmount = Math.max(0, (int) rawDropAmount);
 

@@ -1,5 +1,7 @@
 package net.kitawa.more_stuff.compat.create.items;
 
+import net.kitawa.more_stuff.blocks.ModBlocks;
+import net.kitawa.more_stuff.compat.create.blocks.CreateCompatBlocks;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatArmorMaterials;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatTeiredElytraItem;
 import net.kitawa.more_stuff.MoreStuff;
@@ -7,7 +9,8 @@ import net.kitawa.more_stuff.compat.create.items.util.CreateCompatAnimalArmorIte
 import net.kitawa.more_stuff.compat.create.items.util.shears.BrassShearsItem;
 import net.kitawa.more_stuff.experimentals.items.util.ToggleableJavelinItem;
 import net.kitawa.more_stuff.items.util.ModShieldItem;
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.ModdedBrushItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.kitawa.more_stuff.items.util.weapons.ModdedMaceItem;
 import net.kitawa.more_stuff.items.util.shears.IronShearsItem;
 import net.kitawa.more_stuff.util.configs.ExperimentalUpdatesConfig;
@@ -40,8 +43,24 @@ public class CreateCompatItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> ZINC_DUST = ITEMS.register("zinc_dust",
             () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> CRUSHED_BRASS = ITEMS.register("crushed_brass",
+    public static final DeferredItem<Item> ROSE_GOLDEN_DUST = ITEMS.register("rose_golden_dust",
             () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> TIN_DUST = ITEMS.register("tin_dust",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> STEEL_DUST = ITEMS.register("steel_dust",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> BRONZE_DUST = ITEMS.register("bronze_dust",
+            () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> ZINC_BRUSH = ITEMS.register("zinc_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(84)
+                    .stacksTo(1), 166, BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "zinc_ingot"))));
+
+    public static final DeferredItem<Item> BRASS_BRUSH = ITEMS.register("brass_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(84+64)
+                    .stacksTo(1), 90, BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "brass_ingot"))));
 
     public static final DeferredItem<Item> ZINC_JAVELIN = ITEMS.register("zinc_javelin",
             () -> new ToggleableJavelinItem("zinc_javelin",

@@ -21,11 +21,15 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> ORE_EXPERIENCE_DELTAS = registerKey("ore_experience_deltas");
     public static final ResourceKey<PlacedFeature> ORE_ZINC_NETHER = registerKey("ore_zinc_nether");
     public static final ResourceKey<PlacedFeature> ORE_ZINC_DELTAS = registerKey("ore_zinc_deltas");
+    public static final ResourceKey<PlacedFeature> ORE_TIN_NETHER = registerKey("ore_tin_nether");
+    public static final ResourceKey<PlacedFeature> ORE_TIN_DELTAS = registerKey("ore_tin_deltas");
     public static final ResourceKey<PlacedFeature> DELTA = registerKey("delta");
     public static final ResourceKey<PlacedFeature> BLAZING_REEDS = registerKey("blazing_reeds");
     public static final ResourceKey<PlacedFeature> NETHER_MONSTER_ROOM = registerKey("nether_monster_room");
     public static final ResourceKey<PlacedFeature> PLACED_NETHER_VAULT = registerKey("placed_nether_vault");
     public static final ResourceKey<PlacedFeature> PLACED_OVERWORLD_VAULT = registerKey("placed_overworld_vault");
+    public static final ResourceKey<PlacedFeature> EXPOSED_BLOCK_FLOOR = registerKey("exposed_block_floor");
+    public static final ResourceKey<PlacedFeature> EXPOSED_BLOCK_CEILING = registerKey("exposed_block_ceiling");
 
     private static ResourceKey<PlacedFeature> registerKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, name));

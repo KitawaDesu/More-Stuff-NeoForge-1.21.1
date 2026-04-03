@@ -42,7 +42,10 @@
     [],
     [],
     [
-      "more_stuff:metallic_bamboo"
+      "more_stuff:nether_bamboo",
+      "more_stuff:pyrolized_bamboo",
+      "more_stuff:nether_bamboo_light",
+      "more_stuff:pyrolized_bamboo_light"
     ],
     [
       "minecraft:spring_open",
@@ -61,7 +64,9 @@
     [
       "minecraft:spring_lava",
       "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal"
+      "minecraft:red_mushroom_normal",
+      "minecraft:crimson_forest_vegetation",
+      "minecraft:warped_forest_vegetation"
     ],
     []
   ],

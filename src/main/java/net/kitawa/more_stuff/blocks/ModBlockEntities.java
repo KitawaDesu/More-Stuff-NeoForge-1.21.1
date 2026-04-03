@@ -1,10 +1,10 @@
 package net.kitawa.more_stuff.blocks;
 
-import net.kitawa.more_stuff.blocks.custom.electricity.OmniBlockEntity;
-import net.kitawa.more_stuff.blocks.custom.electricity.TeslaCoilBlockEntity;
-import net.minecraft.world.level.block.Blocks;
+import net.kitawa.more_stuff.blocks.custom.general.entities.ModdedSpawnerBlockEntity;
+import net.kitawa.more_stuff.blocks.custom.overworld.electricity.OmniBlockEntity;
+import net.kitawa.more_stuff.blocks.custom.overworld.electricity.TeslaCoilBlockEntity;
+import net.kitawa.more_stuff.blocks.custom.general.entities.ModdedBrushableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -29,6 +29,25 @@ public class ModBlockEntities {
                             TeslaCoilBlockEntity::new,
                             ModBlocks.TESLA_COIL.get() // or your OmniBlock
                     ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ModdedBrushableBlockEntity>> BRUSHABLE_BLOCK_NO_FALL =
+            BLOCK_ENTITIES.register("brushable_block_no_fall",
+                    () -> BlockEntityType.Builder.of(
+                            ModdedBrushableBlockEntity::new,
+                            ModBlocks.SUSPICIOUS_DIRT.get(),
+                            ModBlocks.SUSPICIOUS_COARSE_DIRT.get(),
+                            ModBlocks.SUSPICIOUS_SOUL_SOIL.get(),
+                            ModBlocks.SUSPICIOUS_SOUL_SAND.get(),
+                            ModBlocks.SUSPICIOUS_RED_SAND.get()
+                    ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ModdedSpawnerBlockEntity>> MOD_SPAWNER =
+            BLOCK_ENTITIES.register("mod_spawner",
+                    () -> BlockEntityType.Builder.of(
+                            ModdedSpawnerBlockEntity::new,
+                            ModBlocks.GOLDEN_SPAWNER.get()
+                    ).build(null));
+
 
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);

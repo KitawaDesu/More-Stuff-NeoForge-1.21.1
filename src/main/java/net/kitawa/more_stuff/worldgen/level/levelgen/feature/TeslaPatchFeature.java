@@ -2,10 +2,9 @@ package net.kitawa.more_stuff.worldgen.level.levelgen.feature;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.kitawa.more_stuff.blocks.ModBlocks;
-import net.kitawa.more_stuff.blocks.custom.electricity.OmniBlock;
-import net.kitawa.more_stuff.blocks.custom.electricity.TeslaCoilBlock;
+import net.kitawa.more_stuff.blocks.custom.overworld.electricity.OmniBlock;
+import net.kitawa.more_stuff.blocks.custom.overworld.electricity.TeslaCoilBlock;
 import net.kitawa.more_stuff.worldgen.level.levelgen.feature.configuration.TeslaPatchConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

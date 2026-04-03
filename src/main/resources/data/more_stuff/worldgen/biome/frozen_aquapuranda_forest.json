@@ -146,7 +146,7 @@
         "weight": 100
       },
       {
-        "type": "minecraft:slime",
+        "type": "more_stuff:aquanda_slime",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100

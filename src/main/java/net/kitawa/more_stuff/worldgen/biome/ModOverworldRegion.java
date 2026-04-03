@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff.worldgen.biome;
 
 import com.mojang.datafixers.util.Pair;
+import net.kitawa.more_stuff.util.configs.MoreStuffGeneralConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +34,20 @@ public class ModOverworldRegion extends Region {
             builder.replaceBiome(Biomes.WARM_OCEAN, ModBiomes.WARM_AQUAPURANDA_FOREST);
         });
 
+// === Add Crystalline Caverns ===
+        Climate.Parameter rareTemps       = Climate.Parameter.span(-0.2F, 0.8F); // any moderate temperature
+        Climate.Parameter rareDepth       = Climate.Parameter.span(0.5F, 1.0F);  // deep caves
+        Climate.Parameter rareContinental = Climate.Parameter.span(-0.05F, 0.05F); // very rare in interiors
+        Climate.Parameter rareErosion     = Climate.Parameter.span(-1.0F, 1.0F);
+        Climate.Parameter rareHumidity    = Climate.Parameter.span(-1.0F, 1.0F);
+        Climate.Parameter rareWeirdness   = Climate.Parameter.span(-0.05F, 0.05F); // very rare
+        float offset = 0.0F;
+
+        Climate.ParameterPoint crystallineCavernsPoint = new Climate.ParameterPoint(
+                rareTemps, rareHumidity, rareContinental, rareErosion, rareDepth, rareWeirdness, (long) offset
+        );
+
+        mapper.accept(Pair.of(crystallineCavernsPoint, ModBiomes.CRYSTALLINE_CAVERNS));
 
         // === Replace Dripstone Caves with Frostbitten Caverns in cold temps ===
         Climate.Parameter coldTemps       = Climate.Parameter.span(-1.0F, -0.45F); // Only cold band
@@ -41,11 +56,11 @@ public class ModOverworldRegion extends Region {
         Climate.Parameter caveErosion     = Climate.Parameter.span(-1.0F, 1.0F);
         Climate.Parameter caveHumidity    = Climate.Parameter.span(-1.0F, 1.0F);
         Climate.Parameter caveWeirdness   = Climate.Parameter.span(-1.0F, 1.0F);
-        float offset                      = 0.0F;
 
         Climate.ParameterPoint frostCavernsPoint = new Climate.ParameterPoint(
                 coldTemps, caveHumidity, caveContinental, caveErosion, caveDepth, caveWeirdness, (long) offset
         );
+
         mapper.accept(Pair.of(frostCavernsPoint, ModBiomes.FROSTBITTEN_CAVERNS));
 
         Climate.Parameter continentalness = Climate.Parameter.span(-1.0F, -0.8F);
@@ -67,24 +82,27 @@ public class ModOverworldRegion extends Region {
 
         mapper.accept(Pair.of(redstonicCavesPoint, ModBiomes.REDSTONIC_CAVES));
 
+    if (MoreStuffGeneralConfig.allowVoltaicHollows) {
+    Climate.Parameter fullTemps = Climate.Parameter.span(-1.0F, 1F); // Only cold band
+    Climate.Parameter DeepCaveDepth = Climate.Parameter.span(0.3F, 1.0F);
+    Climate.Parameter fullContinental = Climate.Parameter.span(-1.0F, 1.0F);    // Interior-ish
+    Climate.Parameter fullErosion = Climate.Parameter.span(-1.0F, 1.0F);
+    Climate.Parameter fullHumidity = Climate.Parameter.span(-1.0F, 1.0F);
+    Climate.Parameter voltaicWeirdness = Climate.Parameter.span(0.6F, 1.0F);
 
-        Climate.Parameter fullTemps       = Climate.Parameter.span(-1.0F, 1F); // Only cold band
-        Climate.Parameter DeepCaveDepth       = Climate.Parameter.span(0.3F, 1.0F);
-        Climate.Parameter fullContinental = Climate.Parameter.span(-1.0F, 1.0F);    // Interior-ish
-        Climate.Parameter fullErosion     = Climate.Parameter.span(-1.0F, 1.0F);
-        Climate.Parameter fullHumidity    = Climate.Parameter.span(-1.0F, 1.0F);
-        Climate.Parameter voltaicWeirdness   = Climate.Parameter.span(0.6F, 1.0F);
-
-        Climate.ParameterPoint VoltaicHollowsPoint = new Climate.ParameterPoint(
-                fullTemps, fullHumidity, fullContinental, fullErosion, DeepCaveDepth, voltaicWeirdness, (long) offset
-        );
-        mapper.accept(Pair.of(VoltaicHollowsPoint, ModBiomes.VOLTAIC_HOLLOWS));
+    Climate.ParameterPoint VoltaicHollowsPoint = new Climate.ParameterPoint(
+            fullTemps, fullHumidity, fullContinental, fullErosion, DeepCaveDepth, voltaicWeirdness, (long) offset
+    );
+    mapper.accept(Pair.of(VoltaicHollowsPoint, ModBiomes.VOLTAIC_HOLLOWS));
+    }
 
  // Only cold band
         Climate.Parameter warmTemps       = Climate.Parameter.span(-0.15F, 1F);
         Climate.Parameter DeeperCaveDepth       = Climate.Parameter.span(0.4F, 1.1F);
         Climate.Parameter lushHumidity    = Climate.Parameter.span(-1.0F, -0.7F);
         Climate.Parameter nonvoltaicWeirdness   = Climate.Parameter.span(-1.0F, 0.6F);
+        Climate.Parameter fullContinental = Climate.Parameter.span(-1.0F, 1.0F);    // Interior-ish
+        Climate.Parameter fullErosion = Climate.Parameter.span(-1.0F, 1.0F);
 
         Climate.ParameterPoint fungalPoint = new Climate.ParameterPoint(
                 warmTemps, lushHumidity, fullContinental, fullErosion, DeeperCaveDepth, nonvoltaicWeirdness, (long) offset

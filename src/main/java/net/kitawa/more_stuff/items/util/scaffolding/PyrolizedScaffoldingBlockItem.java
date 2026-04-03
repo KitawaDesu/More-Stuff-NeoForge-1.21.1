@@ -1,7 +1,6 @@
 package net.kitawa.more_stuff.items.util.scaffolding;
 
-import net.kitawa.more_stuff.blocks.custom.metallic_forest_blocks.scaffolding.GoldenScaffolding;
-import net.kitawa.more_stuff.blocks.custom.metallic_forest_blocks.scaffolding.PyrolizedScaffolding;
+import net.kitawa.more_stuff.blocks.custom.nether.metallic_forest_blocks.scaffolding.PyrolizedScaffolding;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

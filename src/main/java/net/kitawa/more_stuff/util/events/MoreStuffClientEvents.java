@@ -1,10 +1,14 @@
 package net.kitawa.more_stuff.util.events;
 
+
+import net.kitawa.more_stuff.blocks.ModBlockEntityRenderers;
 import net.kitawa.more_stuff.compat.create.items.CreateCompatItems;
 import net.kitawa.more_stuff.experimentals.entities.models.ThrownJavelinModel;
 import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
 import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.util.mob_armor.layers.VexArmorLayer;
+import net.kitawa.more_stuff.util.screen.FletchingTableScreen;
+import net.kitawa.more_stuff.util.screen.ModMenus;
 import net.minecraft.client.renderer.entity.VexRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -12,11 +16,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +35,16 @@ import java.util.List;
 public class MoreStuffClientEvents {
 
     @SubscribeEvent
+    public static void onRegisterScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenus.FLETCHING_TABLE.get(), FletchingTableScreen::new);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         // Register your thrown javelin model layer
-        event.registerLayerDefinition(ThrownJavelinModel.SPEAR_LAYER, ThrownJavelinModel::createLayer);
+        event.registerLayerDefinition(ThrownJavelinModel.LAYER_LOCATION, ThrownJavelinModel::createLayer);
     }
+
 
     @SubscribeEvent
     public static void addLayer(EntityRenderersEvent.AddLayers event) {
@@ -42,6 +55,7 @@ public class MoreStuffClientEvents {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+        ModBlockEntityRenderers.register();
         event.enqueueWork(() -> {
             List<Item> customShields = new ArrayList<>(List.of(
                     ModItems.STONE_SHIELD.get(),
@@ -115,10 +129,10 @@ public class MoreStuffClientEvents {
                     ExperimentalCombatItems.ROSARITE_JAVELIN.get()
             ));
 
-            //if (ModList.get().isLoaded("create")) {
-            //    elytras.add(CreateCompatItems.ZINC_ELYTRA.get());
-            //    elytras.add(CreateCompatItems.BRASS_ELYTRA.get());
-            //}
+            if (ModList.get().isLoaded("create")) {
+                javelins.add(CreateCompatItems.ZINC_JAVELIN.get());
+                javelins.add(CreateCompatItems.BRASS_JAVELIN.get());
+            }
 
             ResourceLocation throwingId = ResourceLocation.withDefaultNamespace("throwing");
 
@@ -131,31 +145,38 @@ public class MoreStuffClientEvents {
         });
 
         event.enqueueWork(() -> {
-            List<Item> javelins = new ArrayList<>(List.of(
-                    ExperimentalCombatItems.WOODEN_JAVELIN.get(),
-                    ExperimentalCombatItems.STONE_JAVELIN.get(),
-                    ExperimentalCombatItems.QUARTZ_JAVELIN.get(),
-                    ExperimentalCombatItems.LAPIS_JAVELIN.get(),
-                    ExperimentalCombatItems.COPPER_JAVELIN.get(),
-                    ExperimentalCombatItems.IRON_JAVELIN.get(),
-                    ExperimentalCombatItems.GOLDEN_JAVELIN.get(),
-                    ExperimentalCombatItems.ROSE_GOLDEN_JAVELIN.get(),
-                    ExperimentalCombatItems.EMERALD_JAVELIN.get(),
-                    ExperimentalCombatItems.DIAMOND_JAVELIN.get(),
-                    ExperimentalCombatItems.NETHERITE_JAVELIN.get(),
-                    ExperimentalCombatItems.ROSARITE_JAVELIN.get()
+            List<Item> brushes = new ArrayList<>(List.of(
+                    ModItems.WOODEN_BRUSH.get(),
+                    ModItems.STONE_BRUSH.get(),
+                    ModItems.QUARTZ_BRUSH.get(),
+                    ModItems.LAPIS_BRUSH.get(),
+                    ModItems.IRON_BRUSH.get(),
+                    ModItems.GOLDEN_BRUSH.get(),
+                    ModItems.ROSE_GOLDEN_BRUSH.get(),
+                    ModItems.EMERALD_BRUSH.get(),
+                    ModItems.DIAMOND_BRUSH.get(),
+                    ModItems.NETHERITE_BRUSH.get(),
+                    ModItems.ROSARITE_BRUSH.get()
             ));
 
-            ResourceLocation itemId = ResourceLocation.withDefaultNamespace("is_item_model");
+            if (ModList.get().isLoaded("create")) {
+                brushes.add(CreateCompatItems.ZINC_BRUSH.get());
+                brushes.add(CreateCompatItems.BRASS_BRUSH.get());
+            }
 
-            for (Item item : javelins) {
-                ItemProperties.register(item, itemId, (stack, level, entity, seed) -> {
-                    // GUI / item frame / ground: entity == null → return 1
-                    if (entity == null) {
-                        return 1.0F;
-                    }
-                    return 0.0F;
-                });
+            ResourceLocation BRUSHING_ID = ResourceLocation.withDefaultNamespace("brushing");
+
+            for (Item brush : brushes) {
+                ItemProperties.register(
+                        brush,
+                        BRUSHING_ID,
+                        (stack, level, entity, seed) -> {
+                            if (entity != null && entity.isUsingItem() && entity.getUseItem() == stack) {
+                                return (float) (entity.getUseItemRemainingTicks() % 10) / 10.0F;
+                            }
+                            return 0.0F;
+                        }
+                );
             }
         });
     }

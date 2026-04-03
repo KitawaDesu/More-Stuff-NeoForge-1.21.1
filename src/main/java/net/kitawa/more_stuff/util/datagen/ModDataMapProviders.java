@@ -28,6 +28,10 @@ public class ModDataMapProviders extends DataMapProvider {
         addOxidizable(ModBlocks.EXPOSED_COPPER_PILLAR.get(), ModBlocks.WEATHERED_COPPER_PILLAR.get());
         addOxidizable(ModBlocks.WEATHERED_COPPER_PILLAR.get(), ModBlocks.OXIDIZED_COPPER_PILLAR.get());
 
+        addOxidizable(ModBlocks.COPPER_CHAIN.get(), ModBlocks.EXPOSED_COPPER_CHAIN.get());
+        addOxidizable(ModBlocks.EXPOSED_COPPER_CHAIN.get(), ModBlocks.WEATHERED_COPPER_CHAIN.get());
+        addOxidizable(ModBlocks.WEATHERED_COPPER_CHAIN.get(), ModBlocks.OXIDIZED_COPPER_CHAIN.get());
+
         // === Waxables ===
         addWaxable(ModBlocks.CUT_COPPER_BRICKS.get(), ModBlocks.WAXED_CUT_COPPER_BRICKS.get());
         addWaxable(ModBlocks.EXPOSED_CUT_COPPER_BRICKS.get(), ModBlocks.WAXED_EXPOSED_CUT_COPPER_BRICKS.get());
@@ -38,6 +42,11 @@ public class ModDataMapProviders extends DataMapProvider {
         addWaxable(ModBlocks.EXPOSED_COPPER_PILLAR.get(), ModBlocks.WAXED_EXPOSED_COPPER_PILLAR.get());
         addWaxable(ModBlocks.WEATHERED_COPPER_PILLAR.get(), ModBlocks.WAXED_WEATHERED_COPPER_PILLAR.get());
         addWaxable(ModBlocks.OXIDIZED_COPPER_PILLAR.get(), ModBlocks.WAXED_OXIDIZED_COPPER_PILLAR.get());
+
+        addWaxable(ModBlocks.COPPER_CHAIN.get(), ModBlocks.WAXED_COPPER_CHAIN.get());
+        addWaxable(ModBlocks.EXPOSED_COPPER_CHAIN.get(), ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.get());
+        addWaxable(ModBlocks.WEATHERED_COPPER_CHAIN.get(), ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.get());
+        addWaxable(ModBlocks.OXIDIZED_COPPER_CHAIN.get(), ModBlocks.WAXED_OXIDIZED_COPPER_CHAIN.get());
     }
 
     // === Helper Methods ===

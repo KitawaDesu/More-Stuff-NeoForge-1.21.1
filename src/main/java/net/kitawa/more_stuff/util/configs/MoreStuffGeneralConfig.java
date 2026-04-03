@@ -63,6 +63,10 @@ public class MoreStuffGeneralConfig {
             .comment("Blue value for general color (0-255)")
             .defineInRange("B", 255, 0, 255);
 
+    public static final ModConfigSpec.BooleanValue ALLOW_VOLTAIC_HOLLOWS = BUILDER
+            .comment("Allow logarithmic enchantments")
+            .define("allowLogarithmicEnchantments", true);
+
     // --- Final spec ---
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -78,6 +82,7 @@ public class MoreStuffGeneralConfig {
     public static boolean allowLogarithmicArmor;
     public static boolean allowLogarithmicEnchantments;
     public static int r, g, b;
+    public static boolean allowVoltaicHollows;
 
     /** Sync spec -> cached values */
     public static void bake() {
@@ -94,6 +99,7 @@ public class MoreStuffGeneralConfig {
         r = R.get();
         g = G.get();
         b = B.get();
+        allowVoltaicHollows = ALLOW_VOLTAIC_HOLLOWS.get();
     }
 
     @SubscribeEvent

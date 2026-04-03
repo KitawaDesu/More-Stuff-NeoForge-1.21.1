@@ -2,6 +2,7 @@ package net.kitawa.more_stuff.items;
 
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.blocks.ModBlocks;
+import net.kitawa.more_stuff.entities.ModEntities;
 import net.kitawa.more_stuff.items.util.*;
 import net.kitawa.more_stuff.items.util.scaffolding.*;
 import net.kitawa.more_stuff.items.util.shears.*;
@@ -11,6 +12,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,6 +22,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.kitawa.more_stuff.items.util.ModSmithingTemplateItem.*;
 
@@ -37,6 +43,16 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> WARPED_NETHER_BRICK = ITEMS.register("warped_nether_brick",
             () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> ROUGH_DIAMOND_CLUMP = ITEMS.register("rough_diamond_clump",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> ROUGH_EMERALD_CLUMP = ITEMS.register("rough_emerald_clump",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> ROUGH_LAPIS_CLUMP = ITEMS.register("rough_lapis_clump",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> ROUGH_QUARTZ_CLUMP = ITEMS.register("rough_quartz_clump",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> HYBERNATIC_SHARD = ITEMS.register("hybernatic_shard",
+            () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> DUNGEON_KEY = ITEMS.register("dungeon_key",
             () -> new Item(new Item.Properties()));
@@ -48,11 +64,41 @@ public class ModItems {
     public static final DeferredItem<Item> OMINOUS_NETHER_KEY = ITEMS.register("ominous_nether_key",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> ZOMBIE_WOLF_SPAWN_EGG = ITEMS.register("zombie_wolf_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.ZOMBIE_WOLF.get(), 14144467, 7969893, new Item.Properties()));
+
+    public static final DeferredItem<Item> AQUANDA_SLIME_SPAWN_EGG = ITEMS.register("aquanda_slime_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.AQUANDA_SLIME.get(), 0x3CC7FF, 0x005C99, new Item.Properties()));
+
+    public static final DeferredItem<Item> VEIL_STALKER_SPAWN_EGG = ITEMS.register("veil_stalker_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.VEIL_STALKER.get(), 0x031510, 0xA77DA7, new Item.Properties()));
+
+    public static final DeferredItem<Item> VEIL_WRAITH_SPAWN_EGG = ITEMS.register("veil_wraith_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.VEIL_WRAITH.get(), 1447446, 0xA77DA7, new Item.Properties()));
+
+    public static final DeferredItem<Item> VEIL_PASTE = ITEMS.register("veil_paste",
+            () -> new VeilPasteItem(new Item.Properties()));
+
     public static final DeferredItem<Item> COPPER_SCAFFOLDING = ITEMS.register("copper_scaffolding",
             () -> new CopperScaffoldingBlockItem(ModBlocks.COPPER_SCAFFOLDING.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> IRON_SCAFFOLDING = ITEMS.register("iron_scaffolding",
             () -> new IronScaffoldingBlockItem(ModBlocks.IRON_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> ZINC_SCAFFOLDING = ITEMS.register("zinc_scaffolding",
+            () -> new ZincScaffoldingBlockItem(ModBlocks.ZINC_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> TIN_SCAFFOLDING = ITEMS.register("tin_scaffolding",
+            () -> new TinScaffoldingBlockItem(ModBlocks.TIN_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> BRASS_SCAFFOLDING = ITEMS.register("brass_scaffolding",
+            () -> new BrassScaffoldingBlockItem(ModBlocks.BRASS_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> BRONZE_SCAFFOLDING = ITEMS.register("bronze_scaffolding",
+            () -> new BronzeScaffoldingBlockItem(ModBlocks.BRONZE_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> STEEL_SCAFFOLDING = ITEMS.register("steel_scaffolding",
+            () -> new SteelScaffoldingBlockItem(ModBlocks.STEEL_SCAFFOLDING.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> GOLDEN_SCAFFOLDING = ITEMS.register("golden_scaffolding",
             () -> new GoldenScaffoldingBlockItem(ModBlocks.GOLDEN_SCAFFOLDING.get(), new Item.Properties()));
@@ -63,8 +109,14 @@ public class ModItems {
     public static final DeferredItem<Item> PYROLIZED_SCAFFOLDING = ITEMS.register("pyrolized_scaffolding",
             () -> new PyrolizedScaffoldingBlockItem(ModBlocks.PYROLIZED_SCAFFOLDING.get(), new Item.Properties()));
 
+    public static final DeferredItem<Item> CINCINNASITE_SCAFFOLDING = ITEMS.register("cincinnasite_scaffolding",
+            () -> new CincinnasiteScaffoldingBlockItem(ModBlocks.CINCINNASITE_SCAFFOLDING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> PALLADIUM_SCAFFOLDING = ITEMS.register("palladium_scaffolding",
+            () -> new PalladiumScaffoldingBlockItem(ModBlocks.PALLADIUM_SCAFFOLDING.get(), new Item.Properties()));
+
     public static final DeferredItem<Item> ROSARITE_BLOCK = ITEMS.register("rosarite_block",
-            () -> new PyrolizedScaffoldingBlockItem(ModBlocks.ROSARITE_BLOCK.get(), new Item.Properties()));
+            () -> new BlockItem(ModBlocks.ROSARITE_BLOCK.get(), new Item.Properties().fireResistant()));
 
     public static final DeferredItem<Item> AQUANDA_BERRIES = ITEMS.register("aquanda_berries",
             () -> new ItemNameBlockItem(ModBlocks.AQUANDA_VINES.get(), new Item.Properties().food(ModFoods.AQUANDA_BERRIES)));
@@ -74,6 +126,8 @@ public class ModItems {
             () -> new ItemNameBlockItem(ModBlocks.AQUANDA_KELP.get(), new Item.Properties()));
     public static final DeferredItem<Item> GOLDEN_BAMBOO = ITEMS.register("golden_bamboo",
             () -> new ItemNameBlockItem(ModBlocks.GOLDEN_BAMBOO_SAPLING.get(), new Item.Properties()));
+    public static final DeferredItem<Item> ROSE_GOLDEN_BAMBOO = ITEMS.register("rose_golden_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.ROSE_GOLDEN_BAMBOO_SAPLING.get(), new Item.Properties()));
     public static final DeferredItem<Item> COPPER_BAMBOO = ITEMS.register("copper_bamboo",
             () -> new ItemNameBlockItem(ModBlocks.COPPER_BAMBOO_SAPLING.get(), new Item.Properties()));
     public static final DeferredItem<Item> IRON_BAMBOO = ITEMS.register("iron_bamboo",
@@ -86,6 +140,27 @@ public class ModItems {
             () -> new ItemNameBlockItem(ModBlocks.BLAZING_VINES.get(), new Item.Properties()));
     public static final DeferredItem<Item> WARPED_WART = ITEMS.register("warped_wart",
             () -> new ItemNameBlockItem(ModBlocks.WARPED_WART.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> ZINC_BAMBOO = ITEMS.register("zinc_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.ZINC_BAMBOO_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> BRASS_BAMBOO = ITEMS.register("brass_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.BRASS_BAMBOO_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> TIN_BAMBOO = ITEMS.register("tin_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.TIN_BAMBOO_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> BRONZE_BAMBOO = ITEMS.register("bronze_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.BRONZE_BAMBOO_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> STEEL_BAMBOO = ITEMS.register("steel_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.STEEL_BAMBOO_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> CINCINNASITE_BAMBOO = ITEMS.register("cincinnasite_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.CINCINNASITE_BAMBOO_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> PALLADIUM_BAMBOO = ITEMS.register("palladium_bamboo",
+            () -> new ItemNameBlockItem(ModBlocks.PALLADIUM_BAMBOO_SAPLING.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> ROSE_GOLD_INGOT = ITEMS.register("rose_gold_ingot",
             () -> new Item(new Item.Properties()));
@@ -137,6 +212,69 @@ public class ModItems {
             () -> new ModShieldItem(new Item.Properties().durability(1309).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY).fireResistant(), Items.NETHERITE_INGOT));
     public static final DeferredItem<Item> ROSARITE_SHIELD = ITEMS.register("rosarite_shield",
             () -> new ModShieldItem(new Item.Properties().durability(1745).component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY).fireResistant(), ModItems.ROSARITE_INGOT.get()));
+
+    public static final DeferredItem<Item> WOODEN_BRUSH = ITEMS.register("wooden_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(20)
+                    .stacksTo(1), 500, ItemTags.PLANKS));
+
+    public static final DeferredItem<Item> STONE_BRUSH = ITEMS.register("stone_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(44)
+                    .stacksTo(1), 250, ItemTags.STONE_TOOL_MATERIALS));
+
+    public static final DeferredItem<Item> QUARTZ_BRUSH = ITEMS.register("quartz_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(44)
+                    .stacksTo(1), 250, Items.LAPIS_LAZULI));
+
+    public static final DeferredItem<Item> LAPIS_BRUSH = ITEMS.register("lapis_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(44)
+                    .stacksTo(1), 250, Items.QUARTZ));
+
+    public static final DeferredItem<Item> COPPER_BRUSH = ITEMS.register("copper_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(64)
+                    .stacksTo(1), 200, Items.COPPER_INGOT));
+
+    public static final DeferredItem<Item> IRON_BRUSH = ITEMS.register("iron_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(84)
+                    .stacksTo(1), 166, Items.IRON_INGOT));
+
+    public static final DeferredItem<Item> GOLDEN_BRUSH = ITEMS.register("golden_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(11)
+                    .stacksTo(1), 83, Items.GOLD_INGOT));
+
+    public static final DeferredItem<Item> DIAMOND_BRUSH = ITEMS.register("diamond_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(525)
+                    .stacksTo(1), 125, Items.DIAMOND));
+
+    public static final DeferredItem<Item> EMERALD_BRUSH = ITEMS.register("emerald_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(525)
+                    .stacksTo(1), 125, Items.EMERALD));
+
+    public static final DeferredItem<Item> NETHERITE_BRUSH = ITEMS.register("netherite_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(684)
+                    .stacksTo(1)
+                    .fireResistant(), 111, Items.NETHERITE_INGOT));
+
+    public static final DeferredItem<Item> ROSE_GOLDEN_BRUSH = ITEMS.register("rose_golden_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(75)
+                    .stacksTo(1), 58, ModItems.ROSE_GOLD_INGOT.get()));
+
+    public static final DeferredItem<Item> ROSARITE_BRUSH = ITEMS.register("rosarite_brush",
+            () -> new ModdedBrushItem(new Item.Properties()
+                    .durability(748)
+                    .stacksTo(1)
+                    .fireResistant(), 48, ModItems.ROSARITE_INGOT.get()));
+
 
     public static final DeferredItem<Item> ROSE_GOLDEN_PICKAXE = ITEMS.register("rose_golden_pickaxe",
             () -> new PickaxeItem(new SimpleTier(ModBlockTags.INCORRECT_FOR_ROSE_GOLDEN_TOOL, 190+32, 17.0F, 2.0F, 13+22, () -> Ingredient.of(ModItems.ROSE_GOLD_INGOT)), new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1.0F, -2.8F))));
@@ -503,6 +641,22 @@ public class ModItems {
                             new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(15))));
         }
     }
+
+    public static final String[] SLIME_COLORS = {
+            "white","orange","magenta","light_blue","yellow","lime","pink","gray",
+            "light_gray","cyan","purple","blue","brown","green","red","black","clear","tinted"
+    };
+
+    public static final Map<String, DeferredItem<Item>> SLIME_BALLS = new HashMap<>();
+
+    static {
+        for (String color : SLIME_COLORS) {
+            SLIME_BALLS.put(color,
+                    ITEMS.register(color + "_slime_ball", () -> new Item(new Item.Properties())));
+        }
+    }
+    public static final DeferredItem<Item> AQUANDA_SLIME_BALL = ITEMS.register("aquanda_slime_ball",
+            () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

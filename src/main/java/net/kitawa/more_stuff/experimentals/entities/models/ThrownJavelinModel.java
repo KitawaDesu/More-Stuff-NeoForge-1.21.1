@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ThrownJavelinModel extends Model {
-    public static final ModelLayerLocation SPEAR_LAYER =
-            new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "thrown_spear"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION =
+            new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("more_stuff", "javelin"), "main");
 
     private final ModelPart body;
     private final ModelPart middleSpike3;

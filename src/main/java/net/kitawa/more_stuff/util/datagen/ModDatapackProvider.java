@@ -4,7 +4,6 @@ package net.kitawa.more_stuff.util.datagen;
 import net.kitawa.more_stuff.MoreStuff;
 import net.kitawa.more_stuff.items.trims.ModTrimMaterials;
 import net.kitawa.more_stuff.worldgen.ModBiomeModifiers;
-import net.kitawa.more_stuff.worldgen.ModPlacedFeatures;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;

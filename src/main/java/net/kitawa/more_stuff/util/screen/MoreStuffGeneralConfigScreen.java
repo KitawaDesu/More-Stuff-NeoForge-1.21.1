@@ -102,7 +102,10 @@ public class MoreStuffGeneralConfigScreen extends Screen {
                         v -> { MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.set(v); MoreStuffGeneralConfig.allowLogarithmicArmor = v; }),
                 new ConfigCheckbox("Allow Logarithmic Enchantments",
                         MoreStuffGeneralConfig.allowLogarithmicEnchantments,
-                        v -> { MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.set(v); MoreStuffGeneralConfig.allowLogarithmicEnchantments = v; })
+                        v -> { MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.set(v); MoreStuffGeneralConfig.allowLogarithmicEnchantments = v; }),
+                new ConfigCheckbox("Allow The Voltaic Hollows Biome",
+                        MoreStuffGeneralConfig.allowVoltaicHollows,
+                        v -> { MoreStuffGeneralConfig.ALLOW_VOLTAIC_HOLLOWS.set(v); MoreStuffGeneralConfig.allowVoltaicHollows = v; })
         };
 
         for (int i = 0; i < checkboxes.length; i++) {
@@ -190,6 +193,7 @@ public class MoreStuffGeneralConfigScreen extends Screen {
         MoreStuffGeneralConfig.B.set(MoreStuffGeneralConfig.b);
         MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.set(MoreStuffGeneralConfig.allowLogarithmicArmor);
         MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.set(MoreStuffGeneralConfig.allowLogarithmicEnchantments);
+        MoreStuffGeneralConfig.ALLOW_VOLTAIC_HOLLOWS.set(MoreStuffGeneralConfig.allowVoltaicHollows);
         MoreStuffGeneralConfig.bake();
         MoreStuffGeneralConfig.SPEC.save();
     }
@@ -208,6 +212,7 @@ public class MoreStuffGeneralConfigScreen extends Screen {
         MoreStuffGeneralConfig.b = MoreStuffGeneralConfig.B.get();
         MoreStuffGeneralConfig.allowLogarithmicArmor = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.get();
         MoreStuffGeneralConfig.allowLogarithmicEnchantments = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.get();
+        MoreStuffGeneralConfig.allowVoltaicHollows = MoreStuffGeneralConfig.ALLOW_VOLTAIC_HOLLOWS.get();
         MoreStuffGeneralConfig.bake();
     }
 
@@ -225,6 +230,7 @@ public class MoreStuffGeneralConfigScreen extends Screen {
         MoreStuffGeneralConfig.b = MoreStuffGeneralConfig.B.getDefault();
         MoreStuffGeneralConfig.allowLogarithmicArmor = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ARMOR.getDefault();
         MoreStuffGeneralConfig.allowLogarithmicEnchantments = MoreStuffGeneralConfig.ALLOW_LOGARITHMIC_ENCHANTMENTS.getDefault();
+        MoreStuffGeneralConfig.allowVoltaicHollows = MoreStuffGeneralConfig.ALLOW_VOLTAIC_HOLLOWS.get();
         MoreStuffGeneralConfig.bake();
         ExperimentalUpdatesConfig.SPEC.save();
     }

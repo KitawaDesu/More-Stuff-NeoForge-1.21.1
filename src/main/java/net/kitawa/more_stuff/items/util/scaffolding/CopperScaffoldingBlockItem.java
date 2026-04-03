@@ -2,7 +2,7 @@ package net.kitawa.more_stuff.items.util.scaffolding;
 
 import javax.annotation.Nullable;
 
-import net.kitawa.more_stuff.blocks.custom.metallic_forest_blocks.scaffolding.CopperScaffolding;
+import net.kitawa.more_stuff.blocks.custom.nether.metallic_forest_blocks.scaffolding.CopperScaffolding;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

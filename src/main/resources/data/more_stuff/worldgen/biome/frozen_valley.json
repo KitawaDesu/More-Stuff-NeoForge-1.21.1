@@ -33,11 +33,13 @@
     "water_fog_color": 329011
   },
   "features": [
-    [],
+    [
+      "more_stuff:freezing_magma_replace",
+      "more_stuff:frozen_netherrack_replace"
+	],
     [],
     [
-      "minecraft:basalt_pillar",
-      "more_stuff:freezing_magma_delta"
+      "minecraft:basalt_pillar"
     ],
     [],
     [],

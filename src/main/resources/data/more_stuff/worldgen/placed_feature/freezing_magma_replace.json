@@ -4,19 +4,10 @@
     {
       "type": "minecraft:height_range",
       "height": {
-        "absolute": 31
-      }
-    },
-    {
-      "type": "minecraft:block_predicate_filter",
-      "predicate": {
-        "type": "minecraft:matching_fluids",
-        "offset": [
-          0,
-          0,
-          0
-        ],
-        "fluids": "#minecraft:lava"
+        "type": "minecraft:constant",
+        "value": {
+          "absolute": 31
+        }
       }
     }
   ]

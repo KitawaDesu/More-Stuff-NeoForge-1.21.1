@@ -25,10 +25,13 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-@Mixin(MushroomCow.class)
+@Mixin(value = MushroomCow.class, priority = 500)
 public abstract class MushroomCowMixin extends Cow implements Shearable, VariantHolder<MushroomCow.MushroomType> {
     @Shadow
     private SuspiciousStewEffects stewEffects;
@@ -44,87 +47,24 @@ public abstract class MushroomCowMixin extends Cow implements Shearable, Variant
     }
 
     /**
-     * @author
-     * KitawaDesu
-     * @reason
-     * To Allow My Custom Shears to be Used on Mooshrooms
+     * @author KitawaDesu
+     * @reason Replace Overwrite with Injection to support custom shears without breaking other mods
      */
-    @Overwrite
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    private void moreStuff$customMobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.is(Items.BOWL) && !this.isBaby()) {
-            boolean flag = false;
-            ItemStack itemstack2;
-            if (this.stewEffects != null) {
-                flag = true;
-                itemstack2 = new ItemStack(Items.SUSPICIOUS_STEW);
-                itemstack2.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, this.stewEffects);
-                this.stewEffects = null;
-            } else {
-                itemstack2 = new ItemStack(Items.MUSHROOM_STEW);
-            }
 
-            ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, player, itemstack2, false);
-            player.setItemInHand(hand, itemstack1);
-            SoundEvent soundevent;
-            if (flag) {
-                soundevent = SoundEvents.MOOSHROOM_MILK_SUSPICIOUSLY;
-            } else {
-                soundevent = SoundEvents.MOOSHROOM_MILK;
-            }
-
-            this.playSound(soundevent, 1.0F, 1.0F);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else if (false && itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) { // Neo: Shear logic is handled by IShearable
+        // Custom shear logic first
+        if (itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) {
             this.shear(SoundSource.PLAYERS);
             this.gameEvent(GameEvent.SHEAR, player);
             if (!this.level().isClientSide) {
                 itemstack.hurtAndBreak(1, player, getSlotForHand(hand));
             }
-
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else if (this.getVariant() == MushroomCow.MushroomType.BROWN && itemstack.is(ItemTags.SMALL_FLOWERS)) {
-            if (this.stewEffects != null) {
-                for (int i = 0; i < 2; i++) {
-                    this.level()
-                            .addParticle(
-                                    ParticleTypes.SMOKE,
-                                    this.getX() + this.random.nextDouble() / 2.0,
-                                    this.getY(0.5),
-                                    this.getZ() + this.random.nextDouble() / 2.0,
-                                    0.0,
-                                    this.random.nextDouble() / 5.0,
-                                    0.0
-                            );
-                }
-            } else {
-                Optional<SuspiciousStewEffects> optional = this.getEffectsFromItemStack(itemstack);
-                if (optional.isEmpty()) {
-                    return InteractionResult.PASS;
-                }
-
-                itemstack.consume(1, player);
-
-                for (int j = 0; j < 4; j++) {
-                    this.level()
-                            .addParticle(
-                                    ParticleTypes.EFFECT,
-                                    this.getX() + this.random.nextDouble() / 2.0,
-                                    this.getY(0.5),
-                                    this.getZ() + this.random.nextDouble() / 2.0,
-                                    0.0,
-                                    this.random.nextDouble() / 5.0,
-                                    0.0
-                            );
-                }
-
-                this.stewEffects = optional.get();
-                this.playSound(SoundEvents.MOOSHROOM_EAT, 2.0F, 1.0F);
-            }
-
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else {
-            return super.mobInteract(player, hand);
+            cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide));
+            return;
         }
+
+        // Otherwise, don’t override vanilla – let it fall through
     }
 }

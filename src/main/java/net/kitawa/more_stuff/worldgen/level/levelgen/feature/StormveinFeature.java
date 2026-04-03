@@ -1,11 +1,10 @@
 package net.kitawa.more_stuff.worldgen.level.levelgen.feature;
 
 import com.mojang.serialization.Codec;
-import net.kitawa.more_stuff.blocks.custom.electricity.OmniBlock;
+import net.kitawa.more_stuff.blocks.custom.overworld.electricity.OmniBlock;
 import net.kitawa.more_stuff.worldgen.level.levelgen.feature.configuration.StormveinConfiguration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;

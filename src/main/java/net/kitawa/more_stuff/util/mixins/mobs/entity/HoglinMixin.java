@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff.util.mixins.mobs.entity;
 
 import net.kitawa.more_stuff.compat.create.items.CreateCompatItems;
+import net.kitawa.more_stuff.enchantments.ModEnchantments;
 import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.util.configs.MoreStuffGeneralConfig;
 import net.kitawa.more_stuff.util.tags.ModItemTags;
@@ -25,7 +26,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.hoglin.HoglinBase;
 import net.minecraft.world.entity.monster.piglin.Piglin;
@@ -33,6 +33,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureManager;
@@ -52,13 +53,12 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
         super(entityType, level);
     }
 
-    @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         RandomSource random = level.getRandom();
 
-        // Baby chance
+        // === Decide if this hoglin is a baby ===
         if (random.nextFloat() < 0.2F) {
             this.setBaby(true);
         }
@@ -66,8 +66,8 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
         populateDefaultEquipmentSlots(random, difficulty);
         populateDefaultEquipmentEnchantments(level, random, difficulty);
 
-        // Rare chance to spawn a rider piglin
-        if (random.nextInt(50) == 0) {
+        // === Rare chance to spawn a rider piglin ===
+        if (random.nextInt(20) == 0) { // 5% chance overall
             boolean inBastion = false;
 
             if (this.level() instanceof ServerLevel serverLevel) {
@@ -82,10 +82,11 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
                 }
             }
 
+            // === Spawn Piglin rider ===
             EntityType<? extends Mob> typeToSpawn = EntityType.PIGLIN;
 
-            // Only allow baby piglins on baby hoglins
             if (this.isBaby()) {
+                // Baby Hoglin → Baby Piglin rider
                 Mob piglin = typeToSpawn.create(this.level());
                 if (piglin instanceof Piglin p) {
                     p.setBaby(true);
@@ -94,16 +95,16 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
                     p.startRiding(this);
                 }
             } else {
-                // Adults: Piglin, with Brute chance in Bastions
+                // Adult Hoglin → Adult Piglin or Brute in Bastions
                 if (inBastion && random.nextFloat() < 0.05F) {
                     typeToSpawn = EntityType.PIGLIN_BRUTE;
                 }
-                // (spawn piglin normally, but don’t mount)
+
                 Mob piglin = typeToSpawn.create(this.level());
                 if (piglin != null) {
                     piglin.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                     piglin.finalizeSpawn(level, difficulty, spawnType, null);
-                    // note: no riding if hoglin is adult
+                    piglin.startRiding(this); // adults can ride too
                 }
             }
         }
@@ -113,7 +114,16 @@ public abstract class HoglinMixin extends Animal implements Enemy, HoglinBase {
 
     @Unique
     public boolean canArmorAbsorb(DamageSource damageSource) {
-        return this.getBodyArmorItem().is(ModItemTags.ABSORBS_DAMAGE) && !damageSource.is(DamageTypeTags.BYPASSES_WOLF_ARMOR);
+        ItemStack bodyArmor = this.getBodyArmorItem();
+
+        boolean hasDivineAbsorption = this.level().registryAccess()
+                .lookup(Registries.ENCHANTMENT)
+                .flatMap(reg -> reg.get(ModEnchantments.DIVINE_ABSORPTION))
+                .map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, bodyArmor) > 0)
+                .orElse(false);
+
+        return (bodyArmor.is(ModItemTags.ABSORBS_DAMAGE) && !damageSource.is(DamageTypeTags.BYPASSES_WOLF_ARMOR))
+                || hasDivineAbsorption;
     }
 
     @Override

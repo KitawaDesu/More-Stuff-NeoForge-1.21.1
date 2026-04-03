@@ -1,5 +1,6 @@
 package net.kitawa.more_stuff.util.mob_armor;
 
+import net.kitawa.more_stuff.entities.monster.renderers.models.VeilStalkerModel;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.neoforged.api.distmarker.Dist;
@@ -94,4 +95,7 @@ public class ModLayerDefinitions {
         return LayerDefinition.create(meshdefinition, 128, 64);
     }
 
+    public static LayerDefinition VeilStalker() {
+        return VeilStalkerModel.createBodyLayer();
+    }
 }

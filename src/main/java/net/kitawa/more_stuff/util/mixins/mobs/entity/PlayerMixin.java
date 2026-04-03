@@ -1,9 +1,10 @@
 package net.kitawa.more_stuff.util.mixins.mobs.entity;
 
-import net.kitawa.more_stuff.util.tags.ModEnchantmentTags;
+import net.kitawa.more_stuff.enchantments.ModEnchantments;
 import net.kitawa.more_stuff.util.tags.ModItemTags;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -32,22 +33,14 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
     private void injectActuallyHurt(DamageSource damageSource, float damageAmount, CallbackInfo ci) {
-        if (damageSource.is(DamageTypeTags.BYPASSES_WOLF_ARMOR)) {
-            return; // skip all logic
-        }
+        if (damageSource.is(DamageTypeTags.BYPASSES_WOLF_ARMOR)) return;
 
-        List<EquipmentSlot> armorSlots = List.of(
-                EquipmentSlot.HEAD,
-                EquipmentSlot.CHEST,
-                EquipmentSlot.LEGS,
-                EquipmentSlot.FEET
-        );
-
-        for (EquipmentSlot slot : armorSlots) {
+        for (EquipmentSlot slot : List.of(
+                EquipmentSlot.HEAD, EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS, EquipmentSlot.FEET)) {
             ItemStack stack = this.getItemBySlot(slot);
-
             if (tryAbsorb(this, stack, slot, damageAmount)) {
-                ci.cancel(); // damage absorbed successfully, cancel the hit
+                ci.cancel();
                 return;
             }
         }
@@ -56,37 +49,26 @@ public abstract class PlayerMixin extends LivingEntity {
     private boolean tryAbsorb(LivingEntity entity, ItemStack stack, EquipmentSlot slot, float damageAmount) {
         if (stack.isEmpty()) return false;
 
-        boolean canAbsorb = stack.is(ModItemTags.ABSORBS_DAMAGE) ||
-                EnchantmentHelper.hasTag(stack, ModEnchantmentTags.ALLOWS_ARMOR_ABSORPTION);
-
+        boolean canAbsorb = stack.is(ModItemTags.ABSORBS_DAMAGE) || hasDivineAbsorption(stack, entity);
         if (!canAbsorb) return false;
 
         int maxDamage = stack.getMaxDamage();
         int currentDamage = stack.getDamageValue();
-        int durabilityLeft = maxDamage - currentDamage;
-
-        // Calculate 10% durability threshold (minimum 1)
         int minDurabilityLeft = Math.max(1, Math.round(maxDamage * 0.10f));
         int minDamageValue = maxDamage - minDurabilityLeft;
 
-        // Skip absorption if below 10% durability
-        if (durabilityLeft <= minDurabilityLeft) {
-            return false;
-        }
+        if ((maxDamage - currentDamage) <= minDurabilityLeft) return false;
 
         int oldDamage = currentDamage;
-
         stack.hurtAndBreak(Mth.ceil(damageAmount), entity, slot);
 
-        // Clamp post-damage durability to 10% minimum
         if (stack.getDamageValue() > minDamageValue) {
             stack.setDamageValue(minDamageValue);
         }
 
-        // Play crackiness effect if state changed
-        if (Crackiness.WOLF_ARMOR.byDamage(oldDamage, maxDamage) != Crackiness.WOLF_ARMOR.byDamage(stack)) {
+        int newDamage = stack.getDamageValue();
+        if (Crackiness.WOLF_ARMOR.byDamage(oldDamage, maxDamage) != Crackiness.WOLF_ARMOR.byDamage(newDamage, maxDamage)) {
             entity.playSound(SoundEvents.WOLF_ARMOR_CRACK);
-
             if (entity.level() instanceof ServerLevel serverLevel && !stack.isEmpty()) {
                 serverLevel.sendParticles(
                         new ItemParticleOption(ParticleTypes.ITEM, stack.copy()),
@@ -96,6 +78,14 @@ public abstract class PlayerMixin extends LivingEntity {
             }
         }
 
-        return true; // Absorbed successfully
+        return true;
+    }
+
+    private boolean hasDivineAbsorption(ItemStack stack, LivingEntity entity) {
+        return entity.level().registryAccess()
+                .lookup(Registries.ENCHANTMENT)
+                .flatMap(reg -> reg.get(ModEnchantments.DIVINE_ABSORPTION))
+                .map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack) > 0)
+                .orElse(false);
     }
 }

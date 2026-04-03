@@ -35,4 +35,24 @@ public class ModBiomes {
             ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "voltaic_hollows"));
     public static final ResourceKey<Biome> FUNGAL_CAVES = ResourceKey.create(Registries.BIOME,
             ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "fungal_caves"));
+    public static final ResourceKey<Biome> VOLCANIC_SEAS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "volcanic_seas"));
+    public static final ResourceKey<Biome> PHANTASMIC_HIGHLANDS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "phantasmic_highlands"));
+    public static final ResourceKey<Biome> PHANTASMIC_MIDLANDS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "phantasmic_midlands"));
+    public static final ResourceKey<Biome> PHANTASMIC_BARRENS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "phantasmic_barrens"));
+    public static final ResourceKey<Biome> PHANTASMIC_ISLANDS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "phantasmic_islands"));
+    public static final ResourceKey<Biome> HYBERNATUS_HIGHLANDS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "hybernatus_highlands"));
+    public static final ResourceKey<Biome> HYBERNATUS_MIDLANDS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "hybernatus_midlands"));
+    public static final ResourceKey<Biome> HYBERNATUS_BARRENS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "hybernatus_barrens"));
+    public static final ResourceKey<Biome> HYBERNATUS_ISLANDS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "hybernatus_islands"));
+    public static final ResourceKey<Biome> CRYSTALLINE_CAVERNS = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath(MoreStuff.MOD_ID, "crystalline_caverns"));
 }

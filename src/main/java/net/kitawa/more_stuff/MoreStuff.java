@@ -3,10 +3,15 @@ package net.kitawa.more_stuff;
 import com.mojang.logging.LogUtils;
 import net.kitawa.more_stuff.blocks.ModBlockEntities;
 import net.kitawa.more_stuff.compat.create.blocks.CreateCompatBlocks;
+import net.kitawa.more_stuff.compat.create.blocks.CreateIronworksCompatBlocks;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatTeiredElytraLayer;
 import net.kitawa.more_stuff.blocks.ModBlocks;
 import net.kitawa.more_stuff.compat.create.items.CreateCompatItems;
 import net.kitawa.more_stuff.compat.create.items.util.CreateCompatVexElytraLayer;
+import net.kitawa.more_stuff.entities.ModEntities;
+import net.kitawa.more_stuff.entities.monster.renderers.*;
+import net.kitawa.more_stuff.entities.projectiles.renderer.VeilProjectileRenderer;
+import net.kitawa.more_stuff.entities.util.ModAttributes;
 import net.kitawa.more_stuff.experimentals.entities.ExperimentalCombatEntities;
 import net.kitawa.more_stuff.experimentals.entities.renderers.ThrownJavelinRenderer;
 import net.kitawa.more_stuff.experimentals.items.ExperimentalCombatItems;
@@ -14,28 +19,36 @@ import net.kitawa.more_stuff.items.ModItems;
 import net.kitawa.more_stuff.items.life_tokens.LifeTokenItems;
 import net.kitawa.more_stuff.items.util.TeiredElytraLayer;
 import net.kitawa.more_stuff.items.util.VexElytraLayer;
+import net.kitawa.more_stuff.items.util.weapons.dynamarrow.ArrowDataComponents;
+import net.kitawa.more_stuff.items.util.weapons.dynamarrow.ArrowIngredientDataLoader;
+import net.kitawa.more_stuff.items.util.weapons.dynamarrow.DynamicArrowRenderer;
+import net.kitawa.more_stuff.util.block_colors.HybernaticFoliageColor;
+import net.kitawa.more_stuff.util.block_colors.HybernatusLeavesColor;
 import net.kitawa.more_stuff.util.configs.*;
 import net.kitawa.more_stuff.util.events.MoreStuffClientEvents;
+import net.kitawa.more_stuff.util.helpers.ModDispenserBehaviors;
 import net.kitawa.more_stuff.util.loot.ModLootModifiers;
 import net.kitawa.more_stuff.util.mob_armor.ModLayerDefinitions;
 import net.kitawa.more_stuff.util.mob_armor.ModModelLayers;
 import net.kitawa.more_stuff.util.mob_armor.layers.HoglinArmorLayer;
 import net.kitawa.more_stuff.util.mob_armor.layers.ZoglinArmorLayer;
 import net.kitawa.more_stuff.util.recipes.ExperimentalConditions;
+import net.kitawa.more_stuff.util.recipes.fletching_table.ModRecipeSerializers;
+import net.kitawa.more_stuff.util.recipes.fletching_table.ModRecipeTypes;
+import net.kitawa.more_stuff.util.screen.ModMenus;
 import net.kitawa.more_stuff.worldgen.biome.ModTerrablenderAPI;
 import net.kitawa.more_stuff.worldgen.biome.surface.ModSurfaceRules;
 import net.kitawa.more_stuff.worldgen.ModFeatures;
+import net.kitawa.more_stuff.worldgen.tree.ModTrunkPlacers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,9 +60,10 @@ import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.GrassColor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.SlimeBlock;
+import net.minecraft.world.level.block.TintedGlassBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -63,15 +77,16 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.extensions.common.ClientExtensionsManager;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.slf4j.Logger;
 import terrablender.api.SurfaceRuleManager;
 
 import java.util.List;
+
+import static net.kitawa.more_stuff.util.block_colors.HybernatusLeavesColor.invertBrightness;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(MoreStuff.MOD_ID)
@@ -79,7 +94,7 @@ public class MoreStuff {
 
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "more_stuff";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public MoreStuff(IEventBus modEventBus, ModContainer modContainer) {
@@ -100,6 +115,7 @@ public class MoreStuff {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modEventBus.register(MoreStuffClientEvents.class);
         }
+
         // Register lifecycle listeners
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
@@ -113,27 +129,60 @@ public class MoreStuff {
         ExperimentalConditions.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModEntities.register(modEventBus);
+        modEventBus.addListener(ModEntities::registerEntityAttributes);
+        modEventBus.addListener(ModEntities::onRegisterSpawnPlacements);
         ModItems.register(modEventBus);
+        ArrowDataComponents.REGISTRAR.register(modEventBus);
+        ModMenus.register(modEventBus);
+        ModRecipeSerializers.register(modEventBus);
+        ModRecipeTypes.register(modEventBus);
         LifeTokenItems.register(modEventBus);
         ExperimentalCombatItems.register(modEventBus);
         ExperimentalCombatEntities.register(modEventBus);
         ModDamageSources.register(modEventBus);
+        ModAttributes.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
-
-        if (ModList.get().isLoaded("create")) {
+        ModTrunkPlacers.TRUNKS.register(modEventBus);
+        NeoForge.EVENT_BUS.addListener(ArrowIngredientDataLoader::onReload);
             CreateCompatItems.register(modEventBus);
             CreateCompatBlocks.register(modEventBus);
-        }
+            CreateIronworksCompatBlocks.register(modEventBus);
         // Register this class to listen to global events
         NeoForge.EVENT_BUS.register(this);
     }
+
     private void commonSetup(final FMLCommonSetupEvent event) {
+        ModDispenserBehaviors.register();
         event.enqueueWork(() -> {
-            // Move TerraBlender-related registration here to ensure it's initialized
             ModTerrablenderAPI.registerBiomes();
-            // Surface rules
-            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MoreStuff.MOD_ID, ModSurfaceRules.overworld());
-            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.NETHER, MoreStuff.MOD_ID, ModSurfaceRules.nether());
+
+            // Replace the default (vanilla) surface rules with our 3D-noise versions
+            SurfaceRuleManager.setDefaultSurfaceRules(
+                    SurfaceRuleManager.RuleCategory.OVERWORLD,
+                    ModSurfaceRules.overworld()
+            );
+            SurfaceRuleManager.setDefaultSurfaceRules(
+                    SurfaceRuleManager.RuleCategory.NETHER,
+                    ModSurfaceRules.nether()
+            );
+
+            // Your mod-specific biome rules on top (for your custom biomes)
+            SurfaceRuleManager.addSurfaceRules(
+                    SurfaceRuleManager.RuleCategory.OVERWORLD,
+                    MoreStuff.MOD_ID,
+                    ModSurfaceRules.overworld()
+            );
+            SurfaceRuleManager.addSurfaceRules(
+                    SurfaceRuleManager.RuleCategory.NETHER,
+                    MoreStuff.MOD_ID,
+                    ModSurfaceRules.nether()
+            );
+            SurfaceRuleManager.addSurfaceRules(
+                    SurfaceRuleManager.RuleCategory.END,
+                    MoreStuff.MOD_ID,
+                    ModSurfaceRules.end()
+            );
         });
     }
 
@@ -200,12 +249,144 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.GLOWMOSS_CARPET.asItem().getDefaultInstance(), ModItems.HANGING_GLOWMOSS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Blocks.RED_MUSHROOM.asItem().getDefaultInstance(), ModBlocks.GLOWSHROOM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Blocks.RED_MUSHROOM_BLOCK.asItem().getDefaultInstance(), ModBlocks.GLOWSHROOM_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.COPPER_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.ROSE_GOLDEN_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.COPPER_BAMBOO.get().asItem().getDefaultInstance(), ModItems.ROSE_GOLDEN_BAMBOO.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.END_STONE.asItem().getDefaultInstance(), ModBlocks.PHANTASMIC_ENDSTONE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.PHANTASMIC_ENDSTONE.get().asItem().getDefaultInstance(), ModBlocks.PHANTASMIC_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.PHANTASMIC_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.PHANTASMIC_GRASS.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.PHANTASMIC_GRASS.get().asItem().getDefaultInstance(), ModBlocks.PHANTASMIC_TALL_GRASS.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.PHANTASMIC_TALL_GRASS.get().asItem().getDefaultInstance(), ModBlocks.VEIL_ORCHID.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.VEIL_ORCHID.get().asItem().getDefaultInstance(), ModBlocks.HYBERNATIC_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATIC_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.HYBERNATIC_CRYSTAL_BLOCK.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATIC_CRYSTAL_BLOCK.get().asItem().getDefaultInstance(), ModBlocks.HYBERNATIC_CRYSTAL.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATIC_CRYSTAL.get().asItem().getDefaultInstance(), ModBlocks.HYBERNATIC_GRASS.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATIC_GRASS.get().asItem().getDefaultInstance(), ModBlocks.HYBERNATIC_TALL_GRASS.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CHERRY_SAPLING.getDefaultInstance(), ModBlocks.HYBERNATUS_SAPLING.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CHERRY_LEAVES.getDefaultInstance(), ModBlocks.HYBERNATUS_LEAVES.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CHERRY_LOG.getDefaultInstance(), ModBlocks.AZALEA_LOG.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.AZALEA_LOG.get().asItem().getDefaultInstance(), ModBlocks.AQUANDA_STEM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.AQUANDA_STEM.get().asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_LOG.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            ItemStack anchor = Items.AMETHYST_CLUSTER.getDefaultInstance();
+
+            for (ModBlocks.GemstoneSet set : ModBlocks.GEMSTONE_SETS) {
+
+                // rough block
+                event.insertAfter(anchor,
+                        set.roughBlock().get().asItem().getDefaultInstance(),
+                        CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                anchor = set.roughBlock().get().asItem().getDefaultInstance();
+
+                // budding block
+                event.insertAfter(anchor,
+                        set.buddingBlock().get().asItem().getDefaultInstance(),
+                        CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                anchor = set.buddingBlock().get().asItem().getDefaultInstance();
+
+                // small bud
+                event.insertAfter(anchor,
+                        set.smallBud().get().asItem().getDefaultInstance(),
+                        CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                anchor = set.smallBud().get().asItem().getDefaultInstance();
+
+                // medium bud
+                event.insertAfter(anchor,
+                        set.mediumBud().get().asItem().getDefaultInstance(),
+                        CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                anchor = set.mediumBud().get().asItem().getDefaultInstance();
+
+                // large bud
+                event.insertAfter(anchor,
+                        set.largeBud().get().asItem().getDefaultInstance(),
+                        CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                anchor = set.largeBud().get().asItem().getDefaultInstance();
+
+                // cluster
+                event.insertAfter(anchor,
+                        set.cluster().get().asItem().getDefaultInstance(),
+                        CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                anchor = set.cluster().get().asItem().getDefaultInstance();
+            }
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(ModBlocks.FROZEN_IRON_ORE.get().asItem().getDefaultInstance(), CreateCompatBlocks.NETHER_ZINC_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatBlocks.NETHER_ZINC_ORE.get().asItem().getDefaultInstance(), CreateCompatBlocks.PYROLIZED_ZINC_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatBlocks.PYROLIZED_ZINC_ORE.get().asItem().getDefaultInstance(), CreateCompatBlocks.FROZEN_ZINC_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.IRON_BAMBOO.get().asItem().getDefaultInstance(), ModItems.ZINC_BAMBOO.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.ZINC_BAMBOO.get().asItem().getDefaultInstance(), ModItems.BRASS_BAMBOO.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModBlocks.IRON_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.ZINC_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModBlocks.ZINC_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.BRASS_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                if (ModList.get().isLoaded("create_ironworks")) {
+                    event.insertAfter(CreateCompatBlocks.FROZEN_ZINC_ORE.get().asItem().getDefaultInstance(), CreateIronworksCompatBlocks.NETHER_TIN_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(CreateIronworksCompatBlocks.NETHER_TIN_ORE.get().asItem().getDefaultInstance(), CreateIronworksCompatBlocks.PYROLIZED_TIN_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(CreateIronworksCompatBlocks.PYROLIZED_TIN_ORE.get().asItem().getDefaultInstance(), CreateIronworksCompatBlocks.FROZEN_TIN_ORE.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModItems.IRON_BAMBOO.get().asItem().getDefaultInstance(), ModItems.STEEL_BAMBOO.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModItems.ZINC_BAMBOO.get().asItem().getDefaultInstance(), ModItems.TIN_BAMBOO.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModItems.BRASS_BAMBOO.get().asItem().getDefaultInstance(), ModItems.BRONZE_BAMBOO.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModBlocks.IRON_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.STEEL_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModBlocks.ZINC_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.TIN_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModBlocks.BRASS_NYLIUM.get().asItem().getDefaultInstance(), ModBlocks.BRONZE_NYLIUM.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                }
             }
+            if (ModList.get().isLoaded("betternether")) {
+                if (ModList.get().isLoaded("create")) {
+                    event.insertBefore(ModItems.ZINC_BAMBOO.get().getDefaultInstance(), ModItems.CINCINNASITE_BAMBOO.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                } else {
+                    event.insertAfter(ModItems.COPPER_BAMBOO.get().getDefaultInstance(), ModItems.CINCINNASITE_BAMBOO.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                }
+            }
+            if (ModList.get().isLoaded("galosphere")) {
+                event.insertBefore(ModItems.COPPER_BAMBOO.get().getDefaultInstance(), ModItems.PALLADIUM_BAMBOO.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+        }
+        if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
+
+            // ---- Slime blocks ----
+            ItemStack slimeAnchor = Items.PINK_SHULKER_BOX.getDefaultInstance();
+            event.insertAfter(slimeAnchor, Items.SLIME_BLOCK.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+
+            String[] ORDERED_SLIME_COLORS = {
+                    "white", "light_gray", "gray", "black",
+                    "brown", "red", "orange", "yellow",
+                    "lime", "green", "cyan", "light_blue",
+                    "blue", "purple", "magenta", "pink",
+                    "clear", "tinted"
+            };
+
+            for (String color : ORDERED_SLIME_COLORS) {
+                DeferredBlock<SlimeBlock> block = ModBlocks.SLIME_BLOCKS.get(color);
+                if (block != null) {
+                    ItemStack stack = block.get().asItem().getDefaultInstance();
+                    event.insertAfter(slimeAnchor, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    slimeAnchor = stack; // update anchor for next insert
+                }
+            }
+
+            // ---- Stained tinted glass ----
+            ItemStack glassAnchor = Items.PINK_STAINED_GLASS.getDefaultInstance();
+
+            String[] ORDERED_GLASS_COLORS = {
+                    "white", "light_gray", "gray", "black",
+                    "brown", "red", "orange", "yellow",
+                    "lime", "green", "cyan", "light_blue",
+                    "blue", "purple", "magenta", "pink",
+                    "clear"
+            };
+
+            for (String color : ORDERED_GLASS_COLORS) {
+                DeferredBlock<TintedGlassBlock> block = ModBlocks.STAINED_TINTED_GLASS.get(color);
+                if (block != null) {
+                    ItemStack stack = block.get().asItem().getDefaultInstance();
+                    event.insertAfter(glassAnchor, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    glassAnchor = stack; // update anchor for next insert
+                }
+            }
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            event.insertAfter(Items.ZOMBIE_HORSE_SPAWN_EGG.getDefaultInstance(), ModItems.ZOMBIE_WOLF_SPAWN_EGG.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.AXOLOTL_SPAWN_EGG.getDefaultInstance(), ModItems.AQUANDA_SLIME_SPAWN_EGG.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.VEX_SPAWN_EGG.getDefaultInstance(), ModItems.VEIL_STALKER_SPAWN_EGG.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.VEIL_STALKER_SPAWN_EGG.get().getDefaultInstance(), ModItems.VEIL_WRAITH_SPAWN_EGG.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.insertAfter(Items.IRON_NUGGET.getDefaultInstance(), ModItems.COPPER_NUGGET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -226,6 +407,7 @@ public class MoreStuff {
             event.insertAfter(ModItems.DUNGEON_KEY.get().getDefaultInstance(), ModItems.OMINOUS_DUNGEON_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.OMINOUS_DUNGEON_KEY.get().getDefaultInstance(), ModItems.NETHER_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.NETHER_KEY.get().getDefaultInstance(), ModItems.OMINOUS_NETHER_KEY.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.PINK_DYE.getDefaultInstance(), ModItems.VEIL_PASTE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(Items.RAW_GOLD.getDefaultInstance(), BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "raw_zinc")).getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -238,6 +420,7 @@ public class MoreStuff {
                 event.insertAfter(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "zinc_ingot")).getDefaultInstance(), BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "brass_ingot")).getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(Items.ANCIENT_DEBRIS.getDefaultInstance(), CreateCompatItems.CRUSHED_ANCIENT_DEBRIS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatItems.CRUSHED_ANCIENT_DEBRIS.get().getDefaultInstance(), CreateCompatItems.ANCIENT_DUST.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(CreateCompatItems.COPPER_DUST.get().getDefaultInstance(), CreateCompatItems.ROSE_GOLDEN_DUST.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
@@ -282,6 +465,20 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.AQUANDA_DOOR.asItem().getDefaultInstance(), ModBlocks.AQUANDA_TRAPDOOR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.AQUANDA_TRAPDOOR.asItem().getDefaultInstance(), ModBlocks.AQUANDA_PRESSURE_PLATE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.AQUANDA_PRESSURE_PLATE.asItem().getDefaultInstance(), ModBlocks.AQUANDA_BUTTON.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(ModBlocks.AQUANDA_BUTTON.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_LOG.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_LOG.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_WOOD.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_WOOD.asItem().getDefaultInstance(), ModBlocks.STRIPPED_HYBERNATUS_LOG.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.STRIPPED_HYBERNATUS_LOG.asItem().getDefaultInstance(), ModBlocks.STRIPPED_HYBERNATUS_WOOD.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.STRIPPED_HYBERNATUS_WOOD.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_PLANKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_PLANKS.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_STAIRS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_STAIRS.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_SLAB.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_SLAB.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_FENCE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_FENCE.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_FENCE_GATE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_FENCE_GATE.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_DOOR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_DOOR.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_TRAPDOOR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_TRAPDOOR.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_PRESSURE_PLATE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.HYBERNATUS_PRESSURE_PLATE.asItem().getDefaultInstance(), ModBlocks.HYBERNATUS_BUTTON.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             event.insertAfter(Items.LIGHT_WEIGHTED_PRESSURE_PLATE.getDefaultInstance(), ModBlocks.ROSE_GOLD_BLOCK.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.ROSE_GOLD_BLOCK.asItem().getDefaultInstance(), ModBlocks.CHISELED_ROSE_GOLD.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -384,6 +581,70 @@ public class MoreStuff {
             event.insertAfter(ModBlocks.WAXED_EXPOSED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_EXPOSED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.WAXED_WEATHERED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_WEATHERED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModBlocks.WAXED_OXIDIZED_CUT_COPPER_BRICKS.asItem().getDefaultInstance(), ModBlocks.WAXED_OXIDIZED_COPPER_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.COPPER_BULB.getDefaultInstance(), ModBlocks.COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.EXPOSED_COPPER_BULB.getDefaultInstance(), ModBlocks.EXPOSED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.WEATHERED_COPPER_BULB.getDefaultInstance(), ModBlocks.WEATHERED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.OXIDIZED_COPPER_BULB.getDefaultInstance(), ModBlocks.OXIDIZED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.WAXED_COPPER_BULB.getDefaultInstance(), ModBlocks.WAXED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.WAXED_EXPOSED_COPPER_BULB.getDefaultInstance(), ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.WAXED_WEATHERED_COPPER_BULB.getDefaultInstance(), ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.WAXED_OXIDIZED_COPPER_BULB.getDefaultInstance(), ModBlocks.WAXED_OXIDIZED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.POLISHED_TUFF_WALL.getDefaultInstance(), ModBlocks.CUT_TUFF.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.TUFF_BRICK_WALL.getDefaultInstance(), ModBlocks.TUFF_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.TUFF_TILES.asItem().getDefaultInstance(), ModBlocks.TUFF_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.POLISHED_BASALT.getDefaultInstance(), ModBlocks.CUT_BASALT.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_BASALT.asItem().getDefaultInstance(), ModBlocks.BASALT_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.BASALT_BRICKS.asItem().getDefaultInstance(), ModBlocks.CHISELED_BASALT.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CHISELED_BASALT.asItem().getDefaultInstance(), ModBlocks.BASALT_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.BASALT_TILES.asItem().getDefaultInstance(), ModBlocks.BASALT_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.POLISHED_GRANITE_SLAB.getDefaultInstance(), ModBlocks.CUT_GRANITE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_GRANITE.asItem().getDefaultInstance(), ModBlocks.GRANITE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.GRANITE_BRICKS.asItem().getDefaultInstance(), ModBlocks.GRANITE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.GRANITE_TILES.asItem().getDefaultInstance(), ModBlocks.GRANITE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.POLISHED_ANDESITE_SLAB.getDefaultInstance(), ModBlocks.CUT_ANDESITE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_ANDESITE.asItem().getDefaultInstance(), ModBlocks.ANDESITE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ANDESITE_BRICKS.asItem().getDefaultInstance(), ModBlocks.ANDESITE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ANDESITE_TILES.asItem().getDefaultInstance(), ModBlocks.ANDESITE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.POLISHED_DIORITE_SLAB.getDefaultInstance(), ModBlocks.CUT_DIORITE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_DIORITE.asItem().getDefaultInstance(), ModBlocks.DIORITE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.DIORITE_BRICKS.asItem().getDefaultInstance(), ModBlocks.DIORITE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.DIORITE_TILES.asItem().getDefaultInstance(), ModBlocks.DIORITE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.MOSSY_STONE_BRICK_WALL.getDefaultInstance(), Items.CALCITE.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CALCITE.getDefaultInstance(), ModBlocks.POLISHED_CALCITE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.POLISHED_CALCITE.asItem().getDefaultInstance(), ModBlocks.CUT_CALCITE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_CALCITE.asItem().getDefaultInstance(), ModBlocks.CALCITE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CALCITE_BRICKS.asItem().getDefaultInstance(), ModBlocks.CALCITE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CALCITE_TILES.asItem().getDefaultInstance(), ModBlocks.CALCITE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(ModBlocks.CALCITE_BRICK_PILLAR.asItem().getDefaultInstance(), Items.DRIPSTONE_BLOCK.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.DRIPSTONE_BLOCK.getDefaultInstance(), ModBlocks.POLISHED_DRIPSTONE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.POLISHED_DRIPSTONE.asItem().getDefaultInstance(), ModBlocks.CUT_DRIPSTONE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.CUT_DRIPSTONE.asItem().getDefaultInstance(), ModBlocks.DRIPSTONE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.DRIPSTONE_BRICKS.asItem().getDefaultInstance(), ModBlocks.DRIPSTONE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.DRIPSTONE_TILES.asItem().getDefaultInstance(), ModBlocks.DRIPSTONE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.CHISELED_STONE_BRICKS.getDefaultInstance(), ModBlocks.STONE_BRICK_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.STONE_BRICK_TILES.asItem().getDefaultInstance(), ModBlocks.STONE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertBefore(Items.SANDSTONE.getDefaultInstance(), ModBlocks.COBBLED_SANDSTONE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CUT_STANDSTONE_SLAB.getDefaultInstance(), ModBlocks.SANDSTONE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.SANDSTONE_BRICKS.asItem().getDefaultInstance(), ModBlocks.SANDSTONE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.SANDSTONE_TILES.asItem().getDefaultInstance(), ModBlocks.SANDSTONE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertBefore(Items.RED_SANDSTONE.getDefaultInstance(), ModBlocks.COBBLED_RED_SANDSTONE.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CUT_RED_SANDSTONE_SLAB.getDefaultInstance(), ModBlocks.RED_SANDSTONE_BRICKS.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.RED_SANDSTONE_BRICKS.asItem().getDefaultInstance(), ModBlocks.RED_SANDSTONE_TILES.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.RED_SANDSTONE_TILES.asItem().getDefaultInstance(), ModBlocks.RED_SANDSTONE_BRICK_PILLAR.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(Items.LIGHT_WEIGHTED_PRESSURE_PLATE.getDefaultInstance(), ModBlocks.GOLDEN_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.ROSE_GOLD_TRAPDOOR.asItem().getDefaultInstance(), ModBlocks.ROSE_GOLDEN_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.insertAfter(Items.IRON_HOE.getDefaultInstance(), ModItems.COPPER_SHOVEL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -421,6 +682,16 @@ public class MoreStuff {
             event.insertAfter(ModItems.DIAMOND_SHEARS.get().getDefaultInstance(), ModItems.EMERALD_SHEARS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.EMERALD_SHEARS.get().getDefaultInstance(), ModItems.NETHERITE_SHEARS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.NETHERITE_SHEARS.get().getDefaultInstance(), ModItems.ROSARITE_SHEARS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.BRUSH.getDefaultInstance(), ModItems.IRON_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(ModItems.IRON_BRUSH.get().getDefaultInstance(), ModItems.QUARTZ_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(ModItems.QUARTZ_BRUSH.get().getDefaultInstance(), ModItems.LAPIS_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(ModItems.LAPIS_BRUSH.get().getDefaultInstance(), ModItems.STONE_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.BRUSH.getDefaultInstance(), ModItems.ROSE_GOLDEN_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.ROSE_GOLDEN_BRUSH.get().getDefaultInstance(), ModItems.GOLDEN_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.GOLDEN_BRUSH.get().getDefaultInstance(), ModItems.DIAMOND_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.DIAMOND_BRUSH.get().getDefaultInstance(), ModItems.EMERALD_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.EMERALD_BRUSH.get().getDefaultInstance(), ModItems.NETHERITE_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.NETHERITE_BRUSH.get().getDefaultInstance(), ModItems.ROSARITE_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             if (ModList.get().isLoaded("create")) {
                 event.insertAfter(Items.IRON_HOE.getDefaultInstance(), CreateCompatItems.ZINC_SHOVEL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(CreateCompatItems.ZINC_SHOVEL.get().getDefaultInstance(), CreateCompatItems.ZINC_PICKAXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -432,6 +703,8 @@ public class MoreStuff {
                 event.insertAfter(CreateCompatItems.BRASS_AXE.get().getDefaultInstance(), CreateCompatItems.BRASS_HOE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(Items.SHEARS.getDefaultInstance(), CreateCompatItems.ZINC_SHEARS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(ModItems.COPPER_SHEARS.get().getDefaultInstance(), CreateCompatItems.BRASS_SHEARS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.IRON_BRUSH.get().getDefaultInstance(), CreateCompatItems.ZINC_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(Items.BRUSH.getDefaultInstance(), CreateCompatItems.BRASS_BRUSH.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
@@ -560,6 +833,54 @@ public class MoreStuff {
             event.insertAfter(ModItems.IRON_SCAFFOLDING.get().getDefaultInstance(), ModItems.COPPER_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.COPPER_SCAFFOLDING.get().getDefaultInstance(), ModItems.GOLDEN_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.GOLDEN_SCAFFOLDING.get().getDefaultInstance(), ModItems.ANCIENT_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.SUSPICIOUS_SAND.getDefaultInstance(), ModBlocks.SUSPICIOUS_RED_SAND.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.SUSPICIOUS_GRAVEL.getDefaultInstance(), ModBlocks.SUSPICIOUS_DIRT.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.SUSPICIOUS_DIRT.asItem().getDefaultInstance(), ModBlocks.SUSPICIOUS_COARSE_DIRT.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.SUSPICIOUS_COARSE_DIRT.asItem().getDefaultInstance(), ModBlocks.SUSPICIOUS_SOUL_SAND.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModBlocks.SUSPICIOUS_SOUL_SAND.asItem().getDefaultInstance(), ModBlocks.SUSPICIOUS_SOUL_SOIL.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            ItemStack prev = Items.LANTERN.getDefaultInstance();
+            for (String color : ModBlocks.LANTERN_COLORS) {
+                ItemStack current = ModBlocks.LANTERNS.get(color).asItem().getDefaultInstance();
+                event.insertAfter(prev, current, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                prev = current;
+            }
+
+// Soul lanterns — same pattern, starting after vanilla SOUL_LANTERN
+            ItemStack soulPrev = Items.SOUL_LANTERN.getDefaultInstance();
+            for (String color : ModBlocks.LANTERN_COLORS) {
+                ItemStack current = ModBlocks.SOUL_LANTERNS.get(color).asItem().getDefaultInstance();
+                event.insertAfter(soulPrev, current, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                soulPrev = current;
+            }
+            event.insertAfter(Items.CHAIN.getDefaultInstance(), ModBlocks.GOLDEN_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.GOLDEN_CHAIN.asItem().getDefaultInstance(), ModBlocks.ROSE_GOLDEN_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.ROSE_GOLDEN_CHAIN.asItem().getDefaultInstance(), ModBlocks.COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.EXPOSED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.EXPOSED_COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.WEATHERED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.WEATHERED_COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.OXIDIZED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.OXIDIZED_COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.WAXED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.WAXED_COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            event.insertAfter(ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.asItem().getDefaultInstance(), ModBlocks.WAXED_OXIDIZED_COPPER_CHAIN.asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+            if (ModList.get().isLoaded("create")) {
+                event.insertAfter(ModItems.IRON_SCAFFOLDING.get().getDefaultInstance(), ModItems.ZINC_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(ModItems.COPPER_SCAFFOLDING.get().asItem().getDefaultInstance(), ModItems.BRASS_SCAFFOLDING.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                if (ModList.get().isLoaded("create_ironworks")) {
+                    event.insertAfter(ModItems.IRON_SCAFFOLDING.get().asItem().getDefaultInstance(), ModItems.STEEL_SCAFFOLDING.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModItems.ZINC_SCAFFOLDING.get().asItem().getDefaultInstance(), ModItems.TIN_SCAFFOLDING.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.insertAfter(ModItems.BRASS_SCAFFOLDING.get().asItem().getDefaultInstance(), ModItems.BRONZE_SCAFFOLDING.get().asItem().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                }
+            }
+            if (ModList.get().isLoaded("betternether")) {
+                if (ModList.get().isLoaded("create")) {
+                    event.insertBefore(ModItems.ZINC_SCAFFOLDING.get().getDefaultInstance(), ModItems.CINCINNASITE_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                } else {
+                    event.insertAfter(ModItems.COPPER_SCAFFOLDING.get().getDefaultInstance(), ModItems.CINCINNASITE_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                }
+            }
+            if (ModList.get().isLoaded("galosphere")) {
+                event.insertBefore(ModItems.COPPER_SCAFFOLDING.get().getDefaultInstance(), ModItems.PALLADIUM_SCAFFOLDING.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
         }
     }
 
@@ -573,8 +894,38 @@ public class MoreStuff {
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(ExperimentalCombatEntities.JAVELIN.get(),
-                    ThrownJavelinRenderer::new);
+            event.registerEntityRenderer(
+                    ExperimentalCombatEntities.JAVELIN.get(),
+                    ThrownJavelinRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ExperimentalCombatEntities.DYNAMIC_ARROW.get(),
+                    DynamicArrowRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ModEntities.ZOMBIE_WOLF.get(),
+                    ZombieWolfRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ModEntities.AQUANDA_SLIME.get(),
+                    AquandaSlimeRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ModEntities.COLORED_SLIME.get(),
+                    ColoredSlimeRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ModEntities.VEIL_STALKER.get(),
+                    VeilStalkerRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ModEntities.VEIL_PROJECTILE.get(),
+                    VeilProjectileRenderer::new
+            );
+            event.registerEntityRenderer(
+                    ModEntities.VEIL_WRAITH.get(),
+                    VeilWraithRenderer::new
+            );
         }
 
         @SubscribeEvent
@@ -721,6 +1072,7 @@ public class MoreStuff {
         public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(ModModelLayers.HOGLIN_ARMOR, ModLayerDefinitions::HoglinArmor);
             event.registerLayerDefinition(ModModelLayers.ZOGLIN_ARMOR, ModLayerDefinitions::HoglinArmor);
+            event.registerLayerDefinition(ModModelLayers.VEIL_STALKER, ModLayerDefinitions::VeilStalker);
         }
 
         @SubscribeEvent
@@ -838,7 +1190,14 @@ public class MoreStuff {
                     Blocks.BIG_DRIPLEAF,
                     Blocks.BIG_DRIPLEAF_STEM,
                     Blocks.CAVE_VINES,
-                    Blocks.CAVE_VINES_PLANT
+                    Blocks.CAVE_VINES_PLANT,
+                    ModBlocks.MOSSY_DEEPSLATE.get(),
+                    ModBlocks.MOSSY_COBBLED_DEEPSLATE.get(),
+                    ModBlocks.MOSSY_DEEPSLATE_BRICKS.get(),
+                    ModBlocks.MOSSY_CHISELED_DEEPSLATE.get(),
+                    ModBlocks.MOSSY_DEEPSLATE_TILES.get(),
+                    ModBlocks.MOSSY_STONE.get(),
+                    ModBlocks.MOSSY_CHISELED_STONE_BRICKS.get()
             );
 
             if (ModList.get().isLoaded("everycomp")) {
@@ -905,7 +1264,8 @@ public class MoreStuff {
                     ModBlocks.MOSSY_AQUANDA_STONE_BRICKS.get(),
                     ModBlocks.MOSSY_AQUANDA_STONE_BRICK_SLAB.get(),
                     ModBlocks.MOSSY_AQUANDA_STONE_BRICK_STAIRS.get(),
-                    ModBlocks.MOSSY_AQUANDA_STONE_BRICK_WALL.get()
+                    ModBlocks.MOSSY_AQUANDA_STONE_BRICK_WALL.get(),
+                    ModBlocks.AQUANDA_SLIME_BLOCK.get()
             );
             if (ModList.get().isLoaded("everycomp")) {
                 Minecraft.getInstance().getBlockColors().register(
@@ -977,7 +1337,14 @@ public class MoreStuff {
                     Items.FLOWERING_AZALEA_LEAVES,
                     Items.BIG_DRIPLEAF,
                     Items.SMALL_DRIPLEAF,
-                    Items.KELP
+                    Items.KELP,
+                    ModBlocks.MOSSY_DEEPSLATE.get(),
+                    ModBlocks.MOSSY_COBBLED_DEEPSLATE.get(),
+                    ModBlocks.MOSSY_DEEPSLATE_BRICKS.get(),
+                    ModBlocks.MOSSY_CHISELED_DEEPSLATE.get(),
+                    ModBlocks.MOSSY_DEEPSLATE_TILES.get(),
+                    ModBlocks.MOSSY_STONE.get(),
+                    ModBlocks.MOSSY_CHISELED_STONE_BRICKS.get()
             );
 
             if (ModList.get().isLoaded("everycomp")) {
@@ -1022,8 +1389,63 @@ public class MoreStuff {
                     ModBlocks.MOSSY_AQUANDA_STONE_BRICKS.get(),
                     ModBlocks.MOSSY_AQUANDA_STONE_BRICK_SLAB.get(),
                     ModBlocks.MOSSY_AQUANDA_STONE_BRICK_STAIRS.get(),
-                    ModBlocks.MOSSY_AQUANDA_STONE_BRICK_WALL.get() // Replace with your actual item registry object
+                    ModBlocks.MOSSY_AQUANDA_STONE_BRICK_WALL.get(),
+                    ModItems.AQUANDA_SLIME_BALL,
+                    ModBlocks.AQUANDA_SLIME_BLOCK.get() // Replace with your actual item registry object
             );
+
+            Minecraft.getInstance().getBlockColors().register(
+                    (state, world, pos, tintIndex) -> {
+                        if (world != null && pos != null) {
+                            int color = HybernatusLeavesColor.blendedNoiseColor(
+                                    HybernatusLeavesColor.H_NEBULA_NOISE,
+                                    world,
+                                    pos
+                            );
+                            if (tintIndex == 1) {
+                                return invertBrightness(color);
+                            }
+                            return color;
+                        }
+                        return tintIndex == 1 ? 0x000000 : 0xFFFFFF;
+                    },
+                    ModBlocks.HYBERNATUS_LEAVES.get()
+            );
+
+            Minecraft.getInstance().getBlockColors().register(
+                    (state, world, pos, tintIndex) -> {
+                        if (world != null && pos != null) {
+                            return HybernaticFoliageColor.blendedFoliageColor(
+                                    HybernaticFoliageColor.GRASS_NOISE,
+                                    world,
+                                    pos
+                            );
+                        }
+                        return 0xFFFFFF;
+                    },
+                    ModBlocks.HYBERNATIC_GRASS.get(),
+                    ModBlocks.HYBERNATIC_TALL_GRASS.get(),
+                    ModBlocks.HYBERNATIC_NYLIUM.get()
+            );
+
+            Minecraft.getInstance().getBlockColors().register(
+                    (state, world, pos, tintIndex) -> {
+                        if (world != null && pos != null) {
+                            return HybernaticFoliageColor.blendedFoliageColor(
+                                    HybernaticFoliageColor.CRYSTAL_NOISE,
+                                    world,
+                                    pos
+                            );
+                        }
+                        return 0xFFFFFF;
+                    },
+                    ModBlocks.HYBERNATIC_CRYSTAL_BLOCK.get(),
+                    ModBlocks.HYBERNATIC_CRYSTAL.get(),
+                    ModBlocks.HYBERNATIC_GLASS.get(),
+                    ModBlocks.HYBERNATIC_GLASS_PANE.get(),
+                    ModBlocks.STAINED_TINTED_GLASS.get("hybernatic").get()
+            );
+
 
             event.enqueueWork(() -> {
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.AZALEA_TRAPDOOR.get(), RenderType.cutoutMipped());
@@ -1072,6 +1494,102 @@ public class MoreStuff {
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.IRON_SCAFFOLDING.get(), RenderType.cutoutMipped());
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GOLDEN_SCAFFOLDING.get(), RenderType.cutoutMipped());
                         ItemBlockRenderTypes.setRenderLayer(ModBlocks.ANCIENT_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ZINC_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ZINC_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ROSE_GOLDEN_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ROSE_GOLDEN_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BRASS_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BRASS_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.TIN_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.TIN_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.STEEL_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.STEEL_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BRONZE_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BRONZE_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CINCINNASITE_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CINCINNASITE_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PALLADIUM_BAMBOO_STALK.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PALLADIUM_BAMBOO_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ZINC_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.TIN_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.STEEL_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BRONZE_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BRASS_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CINCINNASITE_SCAFFOLDING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_PYROLIZED_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_IRON_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_ZINC_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_COPPER_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_ROSE_GOLDEN_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_GOLDEN_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_ANCIENT_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_BRASS_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_TIN_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_STEEL_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.POTTED_BRONZE_BAMBOO.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATUS_LEAVES.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.AQUANDA_SLIME_BLOCK.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PHANTASMIC_ENDSTONE.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PHANTASMIC_NYLIUM.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PHANTASMIC_GRASS.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.PHANTASMIC_TALL_GRASS.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.VEIL_ORCHID.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATUS_DOOR.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATUS_TRAPDOOR.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATUS_SAPLING.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_NYLIUM.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_GRASS.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_TALL_GRASS.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_CRYSTAL_BLOCK.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_CRYSTAL.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_GLASS_PANE.get(), RenderType.translucent());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.HYBERNATIC_GLASS.get(), RenderType.translucent());
+
+                        ModBlocks.SLIME_BLOCKS.values().forEach(block ->
+                                ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent())
+                        );
+                        ModBlocks.STAINED_TINTED_GLASS.values().forEach(block ->
+                                ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent())
+                        );
+
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_DEEPSLATE.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_COBBLED_DEEPSLATE.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_DEEPSLATE_BRICKS.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_CHISELED_DEEPSLATE.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_DEEPSLATE_TILES.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_STONE.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOSSY_CHISELED_STONE_BRICKS.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.GOLDEN_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ROSE_GOLDEN_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.OXIDIZED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_OXIDIZED_COPPER_CHAIN.get(), RenderType.cutoutMipped());
+                        ItemBlockRenderTypes.setRenderLayer(ModBlocks.GOLDEN_SPAWNER.get(), RenderType.cutoutMipped());
+                        ModBlocks.LANTERNS.values().forEach(block ->
+                                ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.cutoutMipped())
+                        );
+                        ModBlocks.SOUL_LANTERNS.values().forEach(block ->
+                                ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.cutoutMipped())
+                        );
+                List<ModBlocks.GemstoneSet> GEMSTONE_SETS = List.of(
+                        ModBlocks.DIAMOND,
+                        ModBlocks.EMERALD,
+                        ModBlocks.LAPIS,
+                        ModBlocks.QUARTZ,
+                        ModBlocks.ECHO_SHARD
+                );
+
+                GEMSTONE_SETS.forEach(set -> {
+                    ItemBlockRenderTypes.setRenderLayer(set.cluster().get(), RenderType.cutoutMipped());
+                    ItemBlockRenderTypes.setRenderLayer(set.largeBud().get(), RenderType.cutoutMipped());
+                    ItemBlockRenderTypes.setRenderLayer(set.mediumBud().get(), RenderType.cutoutMipped());
+                    ItemBlockRenderTypes.setRenderLayer(set.smallBud().get(), RenderType.cutoutMipped());
+                });
                     }
             );
         }

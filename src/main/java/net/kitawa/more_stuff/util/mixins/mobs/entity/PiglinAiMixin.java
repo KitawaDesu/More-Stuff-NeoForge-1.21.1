@@ -1,7 +1,7 @@
 package net.kitawa.more_stuff.util.mixins.mobs.entity;
 
 import com.google.common.collect.ImmutableList;
-import net.kitawa.more_stuff.items.util.weapons.JavelinItem;
+import net.kitawa.more_stuff.items.util.weapons.javelin.JavelinItem;
 import net.kitawa.more_stuff.util.helpers.RangedSpearAttack;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

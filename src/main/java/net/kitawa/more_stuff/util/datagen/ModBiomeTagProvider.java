@@ -1,6 +1,7 @@
 package net.kitawa.more_stuff.util.datagen;
 
 import net.kitawa.more_stuff.MoreStuff;
+import net.kitawa.more_stuff.util.tags.ModBiomeTags;
 import net.kitawa.more_stuff.worldgen.biome.ModBiomes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -72,7 +73,17 @@ public class ModBiomeTagProvider extends BiomeTagsProvider{
                 .add(ModBiomes.LUKEWARM_AQUAPURANDA_FOREST)
                 .add(ModBiomes.WARM_AQUAPURANDA_FOREST);
 
+        tag(BiomeTags.HAS_END_CITY)
+                .add(ModBiomes.PHANTASMIC_HIGHLANDS)
+                .add(ModBiomes.PHANTASMIC_MIDLANDS);
+
         tag(BiomeTags.HAS_OCEAN_MONUMENT)
+                .addTag(ModBiomeTags.AQUANDA_BIOMES);
+
+        tag(BiomeTags.ALLOWS_SURFACE_SLIME_SPAWNS)
+                .addTag(ModBiomeTags.AQUANDA_BIOMES);
+
+        tag(ModBiomeTags.AQUANDA_BIOMES)
                 .add(ModBiomes.FROZEN_AQUAPURANDA_FOREST)
                 .add(ModBiomes.COLD_AQUAPURANDA_FOREST)
                 .add(ModBiomes.AQUAPURANDA_FOREST)

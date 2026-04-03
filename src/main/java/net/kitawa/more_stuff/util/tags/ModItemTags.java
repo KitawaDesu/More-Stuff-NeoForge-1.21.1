@@ -36,6 +36,10 @@ public class ModItemTags {
     public static final TagKey<Item> SHULKER_SHELL_CHESTPLATES = create("shulker_shell_chestplates");
     public static final TagKey<Item> SHULKER_SHELL_LEGGINGS = create("shulker_shell_leggings");
     public static final TagKey<Item> SHULKER_SHELL_BOOTS = create("shulker_shell_boots");
+    public static final TagKey<Item> ARROW_TIPS = create("arrow_tips");
+    public static final TagKey<Item> ARROW_SHAFTS = create("arrow_shafts");
+    public static final TagKey<Item> ARROW_FLETCHINGS = create("arrow_fletchings");
+    public static final TagKey<Item> ARROW_MODIFIERS = create("arrow_modifiers");
 
     private ModItemTags() {
     }

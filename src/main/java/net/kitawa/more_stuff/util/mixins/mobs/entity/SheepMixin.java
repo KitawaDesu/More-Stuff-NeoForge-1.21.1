@@ -14,33 +14,31 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Sheep.class)
+@Mixin(value = Sheep.class, priority = 500)
 public abstract class SheepMixin extends Animal implements Shearable {
     protected SheepMixin(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
     }
 
     /**
-     * @author
-     * KitawaDesu
-     * @reason
-     * To Allow My Custom Shears to be Used on Sheep
+     * @author KitawaDesu
+     * @reason Replace overwrite with injection so custom shears work without breaking vanilla/shear mods
      */
-    @Overwrite
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    private void moreStuff$customShearInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (false && itemstack.is(ModItemTags.SHEARS)) { // Neo: Shear logic is handled by IShearable
-            if (!this.level().isClientSide && this.readyForShearing()) {
+
+        if (itemstack.is(ModItemTags.SHEARS) && this.readyForShearing()) {
+            if (!this.level().isClientSide) {
                 this.shear(SoundSource.PLAYERS);
                 this.gameEvent(GameEvent.SHEAR, player);
                 itemstack.hurtAndBreak(1, player, getSlotForHand(hand));
-                return InteractionResult.SUCCESS;
-            } else {
-                return InteractionResult.CONSUME;
             }
-        } else {
-            return super.mobInteract(player, hand);
+            cir.setReturnValue(this.level().isClientSide ? InteractionResult.CONSUME : InteractionResult.SUCCESS);
         }
     }
 }
